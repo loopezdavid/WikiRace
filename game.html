@@ -287,14 +287,14 @@ body{background:var(--bg)}
   transition:all .14s;text-align:left;
   display:flex;align-items:center;gap:6px;
   -webkit-tap-highlight-color:transparent;
-  overflow:hidden;min-width:0;
+  overflow:hidden;
 }
 .sugg:hover{border-color:var(--green);border-left-color:var(--green);background:var(--green-bg)}
 .sugg:active{transform:scale(.98)}
-.sugg-from{font-size:12px;font-weight:700;color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
-.sugg-arr{flex-shrink:0;display:flex;align-items:center;color:var(--ink4)}
-.sugg-arr-svg{flex-shrink:0;display:flex;align-items:center;color:var(--ink4)}
-.sugg-to{font-size:12px;font-weight:700;color:var(--red);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;text-align:right}
+.sugg-from{font-size:12px;font-weight:700;color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;max-width:calc(50% - 16px)}
+.sugg-arr{font-size:10px;color:var(--ink4);flex-shrink:0;display:flex;align-items:center}
+.sugg-arr-svg{flex-shrink:0}
+.sugg-to{font-size:12px;font-weight:700;color:var(--red);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;text-align:right;max-width:calc(50% - 16px)}
 
 /* ── DAILY STRIP (bottom) ── */
 .daily-strip{
@@ -539,132 +539,86 @@ body{background:var(--bg)}
   .win-path-block,.win-achievements,.win-actions{padding-left:14px;padding-right:14px}
   .win-actions{grid-template-columns:1fr auto;gap:6px}
 }
-.win-hdr{width:100%;max-width:440px;padding:14px 0;border-bottom:1px solid var(--border);text-align:center;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:20px;flex-shrink:0}
-.win-card{width:100%;max-width:440px;animation:scaleIn .35s cubic-bezier(.16,1,.3,1) both;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 2px 20px rgba(0,0,0,.07);flex-shrink:0}
-
-.win-result{padding:24px 24px 20px;text-align:center;border-bottom:1px solid var(--surface3)}
-.win-daily-tag{display:inline-flex;align-items:center;gap:5px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:3px 10px;font-size:10px;font-weight:800;color:var(--ink3);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;animation:fadeUp .3s ease .06s both}
-.win-trophy{font-size:38px;animation:popIn .35s ease .1s both;margin-bottom:8px}
-.win-title{font-size:26px;font-weight:900;letter-spacing:-.8px;color:var(--ink);margin-bottom:4px;animation:fadeUp .3s ease .14s both}
-.win-sub{font-size:13px;color:var(--ink3);line-height:1.5;animation:fadeUp .3s ease .18s both}
-
-.win-score{padding:22px 24px;border-bottom:1px solid var(--surface3);text-align:center;animation:fadeUp .3s ease .22s both}
-.ws-num{font-size:68px;font-weight:900;letter-spacing:-4px;line-height:1;font-variant-numeric:tabular-nums}
+/* ── WIN SCREEN — Pro ── */
+.win-nav{
+  width:100%;max-width:480px;display:flex;align-items:center;justify-content:space-between;
+  padding:12px 0 14px;flex-shrink:0;
+}
+.win-nav-logo{font-size:17px;font-weight:900;letter-spacing:-1px;color:var(--ink);text-decoration:none}
+.win-nav-logo em{color:var(--green2);font-style:normal}
+.win-nav-btn{
+  display:flex;align-items:center;gap:5px;padding:6px 12px;
+  background:var(--surface);border:1px solid var(--border);border-radius:6px;
+  font-size:12px;font-weight:600;color:var(--ink2);cursor:pointer;
+  font-family:var(--font);transition:all .13s;text-decoration:none;
+}
+.win-nav-btn:hover{border-color:var(--border2);color:var(--ink)}
+.win-hdr{display:none}
+.win-card{width:100%;max-width:480px;animation:scaleIn .4s cubic-bezier(.16,1,.3,1) both;flex-shrink:0}
+.win-result{border-radius:14px;overflow:hidden;margin-bottom:10px}
+.win-result-inner{padding:32px 24px 22px;text-align:center;position:relative}
+.win-result-inner.hw{background:linear-gradient(155deg,#0a1f0a,#153a15 50%,#0d2810)}
+.win-result-inner.hl{background:linear-gradient(155deg,#1a1612,#2a1e10 60%,#1a1a1a)}
+.win-result-inner::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(106,170,100,.18) 0%,transparent 60%)}
+.win-daily-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
+  border-radius:3px;padding:3px 10px;font-size:9.5px;font-weight:800;
+  color:rgba(255,255,255,.5);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;
+  animation:fadeUp .3s ease both;
+}
+.win-trophy{font-size:0;margin-bottom:12px;display:flex;justify-content:center}
+.win-trophy-anim{animation:trophyBounce .7s cubic-bezier(.16,1,.3,1) .1s both;display:inline-block}
+@keyframes trophyBounce{
+  0%{opacity:0;transform:translateY(-30px) scale(.4) rotate(-12deg)}
+  60%{transform:translateY(5px) scale(1.06) rotate(3deg)}
+  80%{transform:translateY(-2px) scale(.98)}
+  100%{opacity:1;transform:translateY(0) scale(1) rotate(0)}
+}
+.win-title{font-size:clamp(36px,8vw,52px);font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:5px;animation:titleSlam .45s cubic-bezier(.16,1,.3,1) .12s both}
+@keyframes titleSlam{from{opacity:0;transform:scale(.65) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.tw{color:#6aaa64;text-shadow:0 0 40px rgba(106,170,100,.3)}
+.tl{color:rgba(255,255,255,.85)}
+.win-sub{font-size:12.5px;color:rgba(255,255,255,.4);animation:fadeUp .3s ease .18s both;margin-top:4px}
+.win-score-area{padding:16px 24px 14px;text-align:center;border-top:1px solid rgba(255,255,255,.07)}
+.ws-num{
+  font-size:clamp(64px,14vw,88px);font-weight:900;letter-spacing:-5px;line-height:1;
+  font-variant-numeric:tabular-nums;
+  background:linear-gradient(135deg,#6aaa64 0%,#c9b458 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:scoreUp .6s cubic-bezier(.16,1,.3,1) .25s both;
+}
+@keyframes scoreUp{from{opacity:0;transform:translateY(20px) scale(.8)}to{opacity:1;transform:none}}
 .ws-good{color:var(--green)}.ws-ok{color:var(--yellow)}.ws-bad{color:var(--red)}
-.ws-lbl{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-top:5px}
-.ws-bar{height:6px;background:var(--surface3);border-radius:3px;margin-top:12px;overflow:hidden;max-width:200px;margin-left:auto;margin-right:auto}
-.ws-fill{height:6px;border-radius:3px;transition:width .8s cubic-bezier(.16,1,.3,1)}
-
-.win-stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--surface3);animation:fadeUp .3s ease .28s both}
-.wst{padding:14px 8px;text-align:center;border-right:1px solid var(--surface3)}
+.ws-lbl{font-size:9.5px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:3px}
+.ws-bar{height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;margin:10px 0 0}
+.ws-fill{height:5px;border-radius:3px;transition:width .9s cubic-bezier(.16,1,.3,1) .4s}
+.win-stats{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px;animation:fadeUp .4s ease .3s both;flex-shrink:0;width:100%;max-width:480px}
+.wst{padding:14px 6px;text-align:center;border-right:1px solid var(--border)}
 .wst:last-child{border-right:none}
-.wst-v{font-size:24px;font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums}
-.wst-l{font-size:9.5px;font-weight:700;color:var(--ink4);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;line-height:1.3}
-
-.win-achs{display:flex;flex-wrap:wrap;gap:5px;padding:14px 18px;border-bottom:1px solid var(--surface3);justify-content:center;animation:fadeUp .3s ease .34s both}
-.wa{display:inline-flex;align-items:center;gap:4px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:4px 9px;font-size:11px;font-weight:600;color:var(--ink2)}
-
-.win-path-block{animation:fadeUp .3s ease .4s both}
-.win-path-hdr{padding:10px 18px;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);border-bottom:1px solid var(--surface3);background:var(--surface2)}
-.win-path-scroll{max-height:130px;overflow-y:auto;padding:6px 0}
-.wpr{display:flex;align-items:center;gap:7px;padding:4px 18px;font-size:12.5px;animation:fadeUp .2s ease both}
-.wpr-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--border)}
-.wpr-dot.s{background:var(--green)}.wpr-dot.e{background:var(--red)}.wpr-dot.m{background:#60a5fa}
-.wpr-n{font-size:9px;color:var(--ink4);min-width:16px;font-weight:700;flex-shrink:0}
-.wpr-name{color:var(--ink2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
-.wpr.wf .wpr-name{color:var(--green);font-weight:700}
-.wpr.wl .wpr-name{color:var(--red);font-weight:700}
-.wpr-arr{color:var(--border2);font-size:9px;margin:0 1px}
-
-.win-actions{padding:16px 18px;display:grid;grid-template-columns:1fr auto;gap:8px;animation:fadeUp .3s ease .46s both}
-.btn-again{padding:13px 20px;background:var(--ink);border:none;border-radius:6px;color:var(--bg);font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .13s;letter-spacing:.1px}
-.btn-again:hover{background:var(--ink2)}
-.btn-again:active{transform:scale(.98)}
-.btn-share{padding:13px 16px;background:var(--surface);border:2px solid var(--border);border-radius:6px;color:var(--ink2);font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .13s;display:flex;align-items:center;gap:5px}
+.wst-v{font-size:20px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1}
+.wst-l{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-top:4px}
+.win-achs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:8px 0;animation:fadeUp .4s ease .38s both;width:100%;max-width:480px;flex-shrink:0}
+.win-ach{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:6px;background:var(--surface);border:1px solid var(--border);font-size:11px;font-weight:600;color:var(--ink2)}
+.win-path-block,.win-replay-block{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:10px;animation:fadeUp .4s ease .42s both;flex-shrink:0;width:100%;max-width:480px}
+.win-path-hdr{padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink4)}
+.win-replay-hdr{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink4)}
+.win-path-scroll{padding:10px 16px}
+.win-rrow{display:grid;grid-template-columns:20px 1fr auto;align-items:center;gap:8px;padding:8px 16px;border-bottom:1px solid var(--surface3);font-size:12px}
+.win-rrow:last-child{border-bottom:none}
+.win-rn{font-weight:700;color:var(--ink4);font-size:11px}
+.win-rart{font-weight:600;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.win-rart.rs{color:var(--green)}.win-rart.re{color:var(--red)}
+.win-rt{font-size:10px;color:var(--ink4);font-variant-numeric:tabular-nums;white-space:nowrap}
+.win-actions{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:480px;margin-bottom:14px;animation:fadeUp .4s ease .48s both;flex-shrink:0}
+.btn-again{flex:2;min-width:120px;padding:14px;background:var(--green);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font);transition:all .15s;box-shadow:0 4px 14px rgba(83,141,78,.25)}
+.btn-again:hover{background:var(--green2);transform:translateY(-1px)}
+.btn-share{flex:1;min-width:90px;padding:14px;background:var(--surface);color:var(--ink2);border:1px solid var(--border);border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
 .btn-share:hover{border-color:var(--border2);color:var(--ink)}
+.win-extra-links{display:flex;gap:10px;justify-content:center;width:100%;max-width:480px;padding-bottom:16px;animation:fadeUp .4s ease .52s both;flex-shrink:0}
+.win-ext-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink3);text-decoration:none;font-size:12px;font-weight:600;padding:7px 14px;border-radius:6px;border:1px solid var(--border);transition:all .13s;background:var(--surface)}
+.win-ext-link:hover{color:var(--ink);border-color:var(--border2)}
 
-/* UTILS */
-.bump{animation:bump .22s ease}
-.shake{animation:shake .3s ease}
-.sf{animation:bump .22s ease}
-
-/* ════════ DARK MODE ════════ */
-body.dark{
-  --bg:#121213;--surface:#1a1a1b;--surface2:#121213;--surface3:#1e1e1f;
-  --border:#3a3a3c;--border2:#48484a;
-  --ink:#ffffff;--ink2:#d7dadc;--ink3:#818384;--ink4:#565758;
-  --green:#538d4e;--green2:#6aaa64;--green-bg:#1a2b1a;
-  --yellow:#b59f3b;--yellow-bg:#1f1d0e;
-  --red:#c0392b;--red-bg:#1f0d0d;
-}
-body.dark .wiki-scroll,body.dark .wiki-scroll #wc,body.dark .wload{background:#1a1a1b!important;color:#e8e8e8!important}
-body.dark #wc h1,body.dark #wc h2,body.dark #wc h3{color:#e0e0e0!important}
-body.dark #wc{color:#d0d0d0!important}
-body.dark #wc a.wl{color:#6aaa64!important}
-body.dark #wc .infobox,body.dark #wc table.infobox,body.dark #wc .toc,body.dark #wc div#toc{background:#252525!important;border-color:#3a3a3a!important}
-body.dark #wc .wikitable th{background:#2a2a2a!important}
-body.dark #wc .wikitable tr:nth-child(even) td{background:#1e1e1e!important}
-body.dark #wc .thumbinner{background:#252525!important;border-color:#3a3a3a!important}
-body.dark .wtopbar{background:var(--surface);border-bottom-color:var(--border)}
-body.dark .pbar-wrap{background:var(--border)}
-body.dark .dm-toggle{opacity:1}
-
-/* ════════ LANG PICKER ════════ */
-.lang-picker{position:relative}
-.lang-pick-dd{
-  position:absolute;top:calc(100% + 6px);right:0;
-  background:var(--surface);border:1px solid var(--border);border-radius:8px;
-  min-width:150px;overflow:hidden;z-index:500;
-  display:none;
-  box-shadow:0 8px 24px rgba(0,0,0,.12);
-  animation:fadeDown .15s ease;
-}
-@keyframes fadeDown{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
-.lang-pick-dd.open{display:block}
-.lang-pick-dd button{
-  display:flex;width:100%;padding:10px 14px;
-  font-size:13px;font-weight:600;text-align:left;
-  background:none;border:none;border-bottom:1px solid var(--surface3);
-  color:var(--ink2);cursor:pointer;font-family:var(--font);
-  transition:background .1s;
-}
-.lang-pick-dd button:last-child{border-bottom:none}
-.lang-pick-dd button:hover{background:var(--green-bg);color:var(--ink)}
-.lang-pick-dd button.active{font-weight:800;color:var(--green)}
-
-/* ════════ HINT BUTTON ════════ */
-.btn-hint{
-  background:rgba(181,159,59,.08);border:1px solid rgba(181,159,59,.22);
-  color:#b59f3b;border-radius:4px;padding:9px 11px;
-  font-size:12px;font-weight:600;cursor:pointer;
-  transition:all .13s;display:flex;align-items:center;gap:7px;font-family:var(--font);
-}
-.btn-hint:hover{background:rgba(181,159,59,.15)}
-.btn-hint[disabled]{opacity:.2;cursor:default}
-body.dark .btn-hint{color:var(--yellow2)}
-
-/* hint-glow removed: using floating panel instead */
-
-/* ════════ WIN EXTRA LINKS ════════ */
-.win-extra-links{
-  display:flex;justify-content:center;gap:16px;
-  padding:12px 18px 16px;border-top:1px solid var(--surface3);
-  flex-wrap:wrap;
-}
-.win-ext-link{
-  font-size:13px;font-weight:600;color:var(--ink3);
-  text-decoration:none;padding:6px 12px;border-radius:6px;
-  transition:all .12s;border:1px solid transparent;
-}
-.win-ext-link:hover{background:var(--surface2);color:var(--ink);border-color:var(--border)}
-
-/* ════════ CONFETTI & VICTORY ════════ */
-@keyframes victoryFlash{
-  0%{opacity:0}
-  15%{opacity:.35;background:rgba(106,170,100,.4)}
-  50%{opacity:.15}
-  100%{opacity:0}
-}
 #victory-flash.show{display:block!important;animation:victoryFlash .8s ease forwards}
 
 /* ════════ THERMOMETER HOT/COLD ════════ */
@@ -1000,7 +954,7 @@ body.dark .hint-item:hover{background:var(--green-bg)}
       <div class="path-map" id="path-map"></div>
     </div>
     <div class="sb-acts">
-      <button class="btn-bk" id="btn-bk" onclick="goBack()" disabled>← Volver atrás<span class="bk-pts">−80</span></button>
+      <button class="btn-bk" id="btn-bk" onclick="goBack()" disabled>← Artículo anterior<span class="bk-pts">−80</span></button>
       <button class="btn-hint" id="btn-hint" onclick="useHint()"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M9 21h6M12 3a6 6 0 016 6c0 2.2-1.2 4.2-3 5.4V17H9v-2.6A6 6 0 0112 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".5"/><circle cx="12" cy="9" r="1.5" fill="currentColor" opacity=".4"/></svg></span>Pista<span class="bk-pts">−120</span></button>
       <button class="btn-gv" onclick="giveUp()">Rendirse</button>
     </div>
@@ -1027,19 +981,32 @@ body.dark .hint-item:hover{background:var(--green-bg)}
 
 <!-- ═══════════════════════ WIN ═══════════════════════ -->
 <div id="win" class="screen">
-  <div class="win-hdr">WikiRace — Resultado</div>
+  <div class="win-nav">
+    <button class="win-nav-btn" onclick="resetGame()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Jugar de nuevo
+    </button>
+    <a href="index.html" class="win-nav-logo">Wiki<em>Race</em></a>
+    <a href="leaderboard.html" class="win-nav-btn" style="text-decoration:none">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="12" width="4" height="9" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="4" height="14" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="4" height="18" rx="1" fill="currentColor"/></svg>
+      Rankings
+    </a>
+  </div>
   <div class="win-card" style="margin-bottom:32px">
     <div class="win-result">
+      <div class="win-result-inner" id="win-result-inner">
       <div class="win-daily-tag" id="daily-badge" style="display:none"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="4" width="13" height="13" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="8" y="14" width="2.5" height="2.5" rx=".5" fill="currentColor" opacity=".7"/><rect x="12.75" y="14" width="2.5" height="2.5" rx=".5" fill="currentColor" opacity=".5"/></svg></span><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:5px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="4" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="8" y="14" width="2.5" height="2.5" rx=".5" fill="currentColor" opacity=".7"/><rect x="12.75" y="14" width="2.5" height="2.5" rx=".5" fill="currentColor" opacity=".5"/></svg></span>Palabras del día</div>
       <div class="win-trophy" id="wtrophy"></div>
       <div class="win-title" id="wtit">¡Lo lograste!</div>
       <div class="win-sub" id="wsub"></div>
     </div>
-    <div class="win-score">
+      </div><!-- /win-result-inner -->
+      <div class="win-score-area">
       <div class="ws-num" id="sr-score">1000</div>
       <div class="ws-lbl">puntos finales</div>
       <div class="ws-bar"><div class="ws-fill" id="ws-fill"></div></div>
-    </div>
+      </div><!-- /win-score-area -->
+    </div><!-- /win-result -->
     <div class="win-stats">
       <div class="wst"><div class="wst-v" id="wh">0</div><div class="wst-l">Saltos</div></div>
       <div class="wst"><div class="wst-v" id="wt2">0:00</div><div class="wst-l">Tiempo</div></div>
@@ -1433,11 +1400,9 @@ function giveUp(){if(!confirm('¿Seguro que te rindes?'))return;endGame(false);}
 function checkWin(t){
   if(G.done)return;
   var n=function(s){return s.toLowerCase().trim().replace(/_/g,' ').replace(/[(),.]/g,'');};
-  var nt=n(t), ne=n(G.end);
-  var hit = nt===ne
-    || (ne.length>4 && nt.indexOf(ne)!==-1)
-    || (nt.length>4 && ne.indexOf(nt)!==-1);
-  if(hit) endGame(true);
+  var nt=n(t),ne=n(G.end);
+  var hit=nt===ne||(ne.length>4&&nt.indexOf(ne)!==-1)||(nt.length>4&&ne.indexOf(nt)!==-1);
+  if(hit)endGame(true);
 }
 
 /* ─── ACHIEVEMENTS ─── */
@@ -1634,8 +1599,16 @@ function endGame(won){
     }
   }catch(e){}
   var sc=G.score;
+  /* Set hero bg class */
+  var winInner=$('win-result-inner');
+  if(winInner) winInner.className='win-result-inner '+(won?'hw':'hl');
+  /* Wrap trophy in animation div */
   $('wtrophy').innerHTML=won?'<span style="display:inline-flex;align-items:center;flex-shrink:0;color:#c9b458;"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M10 3h20v10a10 10 0 01-20 0V3z" stroke="#c9b458" stroke-width="2.2" stroke-linejoin="round"/><path d="M10 8H5a4 4 0 000 8h5M30 8h5a4 4 0 010 8h-5" stroke="#c9b458" stroke-width="2.2" stroke-linecap="round"/><path d="M20 23v8M13 35h14M16 27h8" stroke="#c9b458" stroke-width="2.2" stroke-linecap="round"/><circle cx="20" cy="12" r="3.5" fill="#c9b458" opacity=".6"/><path d="M16 10l1.5 3 3.5.5-2.5 2.5.6 3.5L20 18l-3.1 1.5.6-3.5L15 13.5l3.5-.5z" fill="#c9b458"/></svg></span>':'<span style="display:inline-flex;align-items:center;flex-shrink:0;color:var(--red);"><svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="40" opacity=".3"/><path d="M14 14l12 12M26 14L14 26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span>';
-  $('wtit').textContent=won?(sc>=900?'¡Perfecto!':sc>=700?'¡Brillante!':sc>=500?'¡Lo lograste!':'¡Sobreviviste!'):'Te has rendido';
+  var titleEl=$('wtit');
+  if(titleEl){
+    titleEl.textContent=won?(sc>=900?'¡Perfecto!':sc>=700?'¡Brillante!':sc>=500?'¡Lo lograste!':'¡Sobreviviste!'):'Te has rendido';
+    titleEl.className='win-title '+(won?'tw':'tl');
+  }
   $('wsub').textContent=won?'Llegaste a "'+G.end+'" en '+(G.path.length-1)+' saltos · '+fmt(G.sec):'Tu última entrada: "'+G.cur+'"';
   $('sr-score').textContent=sc;
   var scEl=$('sr-score');
