@@ -137,12 +137,7 @@
 }
 
 /* ── EXAMPLES ── */
-.examples-section{background:var(--surface);border-top:1px solid var(--border);padding:60px 20px}
-.examples-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);
-  gap:10px;max-width:680px;margin:0 auto;
-}
-@media(max-width:440px){.examples-grid{grid-template-columns:1fr}}
+@media(max-width:440px){}
 
 /* ── CTA BAND ── */
 .cta-band{background:var(--ink);padding:64px 20px;text-align:center}
@@ -152,6 +147,37 @@
 .cta-btn{background:#fff;color:var(--ink);padding:15px 36px;border-radius:10px;font-size:15px;font-weight:800;border:none;cursor:pointer;font-family:var(--font);transition:all .14s;-webkit-appearance:none}
 .cta-btn:hover{background:var(--bg);transform:translateY(-1px)}
 .cta-btn:active{transform:scale(.98)}
+.examples-section{background:var(--surface);border-top:1px solid var(--border);padding:60px 20px}
+.examples-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:12px;max-width:680px;margin:0 auto;
+}
+@media(max-width:500px){.examples-grid{grid-template-columns:1fr}}
+.ex-card{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:18px 20px;
+  cursor:pointer;
+  transition:all .15s;
+  display:flex;flex-direction:column;gap:10px;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  position:relative;
+}
+.ex-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  border-radius:12px 0 0 12px;background:var(--border2);
+  transition:background .15s;
+}
+.ex-card:hover{border-color:var(--green2);background:var(--green-bg);transform:translateY(-2px);box-shadow:0 4px 16px rgba(83,141,78,.1)}
+.ex-card:hover::before{background:var(--green2)}
+.ex-card:active{transform:scale(.98)}
+.ex-card-route{display:flex;align-items:center;gap:8px;flex-wrap:nowrap;overflow:hidden}
+.ex-card-from{font-size:14px;font-weight:700;color:var(--green);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ex-card-to{font-size:14px;font-weight:700;color:var(--red);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}
+.ex-card-arr{color:var(--ink4);flex-shrink:0;display:flex;align-items:center}
+
 </style>
 </head>
 <body>
@@ -175,19 +201,32 @@
   </div>
   <button class="nav-hamburger" aria-label="Menú"></button>
 </nav>
+<nav class="site-nav nav-centered">
+  <div class="nav-left">
+    <a href="index.html" class="nav-link active" data-i18n="nav.home">Inicio</a><a href="howtoplay.html" class="nav-link" data-i18n="nav.howto">C&oacute;mo jugar</a>
+  </div>
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-icon" data-size="26"></span>WikiRace
+  </a>
+  <div class="nav-right nav-desktop-cta">
+    <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Clasificaci&oacute;n</a><a href="stats.html" class="nav-link" data-i18n="nav.stats">Stats</a><a href="multi.html" class="nav-link" data-i18n="nav.multi">VS Multi</a>
+    <a href="game.html" class="nav-cta" data-i18n="nav.play">Jugar &#x2192;</a>
+    <div class="lang-dd-wrap"><button class="lang-toggle" onclick="toggleLangDD(this)"><span class="lang-toggle-lbl">ES</span><span class="lang-toggle-caret">&#9662;</span></button><div class="lang-dd"><button onclick="setLang('es')" data-lang="es"><span class="lang-dd-code es">ES</span>Espa&ntilde;ol</button><button onclick="setLang('en')" data-lang="en"><span class="lang-dd-code en">EN</span>English</button><button onclick="setLang('eu')" data-lang="eu"><span class="lang-dd-code eu">EU</span>Euskera</button><button onclick="setLang('ca')" data-lang="ca"><span class="lang-dd-code ca">CA</span>Catal&agrave;</button></div></div>
+    <button class="nav-dark-toggle" title="Modo oscuro"></button>
+  </div>
+  <button class="nav-hamburger" aria-label="Men&uacute;"></button>
+</nav>
 <div class="nav-overlay"></div>
 <div class="nav-drawer">
-  <a href="index.html" class="nav-link active">Inicio</a>
-  <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
-  <a href="leaderboard.html" class="nav-link">Clasificación</a>
-  <a href="stats.html" class="nav-link"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="13" height="13" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="13" height="13" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="13" height="13" rx="1" fill="currentColor"/></svg></span>Stats</a>
-  <a href="multi.html" class="nav-link">VS Multijugador</a>
-  <a href="about.html" class="nav-link">Acerca de</a>
-  <button class="nav-cta btn-block" onclick="location.href='game.html'">Jugar ahora &rarr;</button>
-  <button class="nav-drawer-dm">
-    <span class="dm-label">Modo oscuro</span>
-    <span class="dm-icon"></span>
-  </button>
+  <a href="index.html" class="nav-link active" data-i18n="nav.home">Inicio</a>
+  <a href="howtoplay.html" class="nav-link" data-i18n="nav.howto">Cómo jugar</a>
+  <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Clasificación</a>
+  <a href="stats.html" class="nav-link" data-i18n="nav.stats">Stats</a>
+  <a href="multi.html" class="nav-link" data-i18n="nav.multi">VS Multi</a>
+  <a href="about.html" class="nav-link" data-i18n="nav.about">Acerca de</a>
+  <a href="game.html" class="nav-cta btn-block" data-i18n="nav.play">Jugar &#x2192;</a>
+  <button class="nav-drawer-dm"><span class="dm-label">Modo oscuro</span><span class="dm-icon"></span></button>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--border)"><button onclick="setLang('es')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--red)">ES</button><button onclick="setLang('en')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:#1d4ed8">EN</button><button onclick="setLang('eu')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--green)">EU</button><button onclick="setLang('ca')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--yellow)">CA</button></div>
 </div>
 <!-- HERO -->
 <section class="hero">
@@ -223,9 +262,9 @@
 <!-- HOW -->
 <section class="how-section">
   <div class="container">
-    <div class="sec-label">El juego</div>
-    <h2 class="sec-title">Simple como adictivo</h2>
-    <p class="sec-desc">Tres pasos para empezar</p>
+    <div class="sec-label" data-i18n="how.label">El juego</div>
+    <h2 class="sec-title" data-i18n="how.title">Simple como adictivo</h2>
+    <p class="sec-desc" data-i18n="how.desc">Tres pasos para empezar</p>
     <div class="steps-grid">
       <div class="step">
         <div class="step-n">01</div>
@@ -258,8 +297,8 @@
 <!-- SCORING -->
 <section class="scoring-section">
   <div class="container">
-    <div class="sec-label">Puntuación</div>
-    <h2 class="sec-title">Empiezas con 1.000 pts</h2>
+    <div class="sec-label" data-i18n="score.label">Puntuación</div>
+    <h2 class="sec-title" data-i18n="score.title">Empiezas con 1.000 pts</h2>
     <p class="sec-desc">Cada acción resta puntos. El objetivo: perder los mínimos.</p>
     <div class="score-cards">
       <div class="sc-card">
@@ -284,9 +323,9 @@
 <!-- EXAMPLES -->
 <section class="examples-section">
   <div class="container">
-    <div class="sec-label">Partidas populares</div>
-    <h2 class="sec-title">¿Puedes llegar?</h2>
-    <p class="sec-desc">Prueba estas rutas desafiantes</p>
+    <div class="sec-label" data-i18n="ex.label">Partidas populares</div>
+    <h2 class="sec-title" data-i18n="ex.title">¿Puedes llegar?</h2>
+    <p class="sec-desc" data-i18n="ex.desc">Prueba estas rutas desafiantes</p>
     <div class="examples-grid" id="ex-grid"></div>
     <div style="text-align:center;margin-top:20px">
       <button class="hl-btn" onclick="location.href='game.html'" style="font-size:14px;padding:11px 24px">Crear mi propia ruta →</button>
@@ -331,10 +370,16 @@ var EX=[
   {s:'Sangría',e:'Universo',d:'Media',dc:'badge-yellow'},
   {s:'Don Quijote',e:'Big Bang',d:'Difícil',dc:'badge-red'},
 ];
+var _exArr='<svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M15 8l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 document.getElementById('ex-grid').innerHTML=EX.map(function(e){
-  return '<div class="ex" onclick="location.href=\'game.html\'">'
-    +'<div class="ex-f">'+e.s+'</div><div class="ex-a">↓</div><div class="ex-t">'+e.e+'</div>'
-    +'<div class="ex-d"><span class="badge '+e.dc+'">'+e.d+'</span></div></div>';
+  return '<div class="ex-card" onclick="location.href=\'game.html\'">'
+    +'<div class="ex-card-route">'
+    +'<span class="ex-card-from">'+e.s+'</span>'
+    +'<span class="ex-card-arr">'+_exArr+'</span>'
+    +'<span class="ex-card-to">'+e.e+'</span>'
+    +'</div>'
+    +'<div><span class="badge '+e.dc+'">'+e.d+'</span></div>'
+    +'</div>';
 }).join('');
 </script>
 </body>

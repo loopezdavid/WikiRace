@@ -228,7 +228,7 @@ body{background:var(--bg)}
   border-bottom:1px solid var(--surface3);
   text-align:center;
 }
-.mgc-icon{font-size:28px;margin-bottom:8px}
+.mgc-icon{width:44px;height:44px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;background:var(--green-bg);border-radius:10px;color:var(--green)}
 .mgc-title{font-size:20px;font-weight:800;letter-spacing:-.5px;color:var(--ink);margin-bottom:4px}
 .mgc-desc{font-size:13px;color:var(--ink3);line-height:1.5}
 .mgc-body{padding:20px}
@@ -279,7 +279,7 @@ body{background:var(--bg)}
 .btn-reshuffle .ico{display:inline-block;transition:transform .35s}
 .btn-reshuffle:hover .ico{transform:rotate(180deg)}
 .suggestions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
-@media(max-width:380px){.suggestions{grid-template-columns:1fr}}
+@media(max-width:440px){.suggestions{grid-template-columns:1fr}}
 .sugg{
   background:var(--surface);border:1px solid var(--border);
   border-radius:8px;padding:11px 13px;cursor:pointer;
@@ -290,10 +290,10 @@ body{background:var(--bg)}
 }
 .sugg:hover{border-color:var(--green);border-left-color:var(--green);background:var(--green-bg)}
 .sugg:active{transform:scale(.98)}
-.sugg-from{font-size:12px;font-weight:700;color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
-.sugg-arr{font-size:10px;color:var(--ink4);flex-shrink:0}
+.sugg-from{font-size:12px;font-weight:700;color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;max-width:calc(50% - 16px)}
+.sugg-arr{font-size:10px;color:var(--ink4);flex-shrink:0;display:flex;align-items:center}
 .sugg-arr-svg{flex-shrink:0}
-.sugg-to{font-size:12px;font-weight:700;color:var(--red);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;text-align:right}
+.sugg-to{font-size:12px;font-weight:700;color:var(--red);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;text-align:right;max-width:calc(50% - 16px)}
 
 /* ── DAILY STRIP (bottom) ── */
 .daily-strip{
@@ -879,7 +879,7 @@ body.dark .hint-item:hover{background:var(--green-bg)}
     <!-- MAIN CARD: Custom game -->
     <div class="main-game-card">
       <div class="mgc-header">
-        <div class="mgc-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;color:var(--green);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+        <div class="mgc-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <div class="mgc-title">Partida personalizada</div>
         <div class="mgc-desc">Elige tu entrada inicial y tu destino en Wikipedia</div>
       </div>

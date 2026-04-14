@@ -169,7 +169,145 @@ function xIcon(){
   return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
 }
 
+/* ── i18n: full-page language system ── */
+var LANG_KEY = 'wikirace_lang';
+var CURRENT_LANG = 'es';
+
+var TRANSLATIONS = {
+  es:{
+    'nav.howto':'Cómo jugar','nav.leaderboard':'Clasificación',
+    'nav.stats':'Stats','nav.about':'Acerca de','nav.play':'Jugar →',
+    'nav.multi':'VS Multi',
+    'hero.tagline':'Navega de una entrada de Wikipedia a otra usando solo los enlaces. Simple. Adictivo.',
+    'hero.play':'Jugar ahora','hero.howto':'Cómo jugar','hero.lb':'Clasificación',
+    'how.label':'El juego','how.title':'Simple como adictivo','how.desc':'Tres pasos para empezar',
+    'step1.title':'Empieza en una entrada','step1.desc':'Lee el artículo de Wikipedia asignado como punto de partida.',
+    'step2.title':'Sigue los enlaces azules','step2.desc':'Cada enlace te lleva a una nueva entrada. Cada clic cuenta.',
+    'step3.title':'Llega al destino','step3.desc':'Menos saltos y menos tiempo = mayor puntuación final.',
+    'score.label':'Puntuación','score.title':'Empiezas con 1.000 pts','score.desc':'Cada acción resta puntos. El objetivo: perder los mínimos.',
+    'sc1.title':'Por enlace','sc1.desc':'La acción principal. Planifica tu ruta.',
+    'sc2.title':'Cada 30 segundos','sc2.desc':'Presión de tiempo suave pero constante.',
+    'sc3.title':'Volver atrás','sc3.desc':'El doble que avanzar. Úsalo con cabeza.',
+    'ex.label':'Partidas populares','ex.title':'¿Puedes llegar?','ex.desc':'Prueba estas rutas desafiantes',
+    'ex.cta':'Crear mi propia ruta →',
+    'cta.title':'¿Listo para tu primera carrera?','cta.sub':'Sin registro. Sin descargas. Solo abre y juega.',
+    'cta.btn':'Jugar ahora →',
+    'diff.easy':'Fácil','diff.med':'Media','diff.hard':'Difícil',
+    'footer.made':'Hecho con'
+  },
+  en:{
+    'nav.howto':'How to play','nav.leaderboard':'Leaderboard',
+    'nav.stats':'Stats','nav.about':'About','nav.play':'Play →',
+    'nav.multi':'VS Multi',
+    'hero.tagline':'Navigate from one Wikipedia article to another using only links. Simple. Addictive.',
+    'hero.play':'Play now','hero.howto':'How to play','hero.lb':'Leaderboard',
+    'how.label':'The game','how.title':'Simple yet addictive','how.desc':'Three steps to start',
+    'step1.title':'Start at an article','step1.desc':'Read the Wikipedia article assigned as your starting point.',
+    'step2.title':'Follow the blue links','step2.desc':'Each link takes you to a new article. Every click counts.',
+    'step3.title':'Reach the destination','step3.desc':'Fewer hops and less time = higher final score.',
+    'score.label':'Scoring','score.title':'You start with 1,000 pts','score.desc':'Each action costs points. The goal: lose as few as possible.',
+    'sc1.title':'Per link','sc1.desc':'The main action. Plan your route.',
+    'sc2.title':'Every 30 seconds','sc2.desc':'Gentle time pressure that builds up.',
+    'sc3.title':'Going back','sc3.desc':'Double the cost of moving forward. Use it wisely.',
+    'ex.label':'Popular routes','ex.title':'Can you make it?','ex.desc':'Try these challenging routes',
+    'ex.cta':'Create my own route →',
+    'cta.title':'Ready for your first race?','cta.sub':'No sign-up. No download. Just open and play.',
+    'cta.btn':'Play now →',
+    'diff.easy':'Easy','diff.med':'Medium','diff.hard':'Hard',
+    'footer.made':'Made with'
+  },
+  eu:{
+    'nav.howto':'Nola jokatu','nav.leaderboard':'Sailkapena',
+    'nav.stats':'Stats','nav.about':'Honi buruz','nav.play':'Jokatu →',
+    'nav.multi':'VS Multi',
+    'hero.tagline':'Wikipedia-ko sarrera batetik bestera nabigatu, estekak erabiliz soilik. Sinplea. Menperatzailea.',
+    'hero.play':'Orain jokatu','hero.howto':'Nola jokatu','hero.lb':'Sailkapena',
+    'how.label':'Jolasa','how.title':'Sinplea baina menperatzailea','how.desc':'Hasi hiru pausotan',
+    'step1.title':'Hasi sarrera batean','step1.desc':'Abiapuntu gisa esleitu zaizun Wikipedia artikulua irakurri.',
+    'step2.title':'Jarraitu esteka urdinen','step2.desc':'Esteka bakoitzak sarrera berri batera eramaten zaitu.',
+    'step3.title':'Iritsi helburura','step3.desc':'Salto gutxiago eta denbora gutxiago = puntuazio altuagoa.',
+    'score.label':'Puntuazioa','score.title':'1.000 pt-ekin hasten zara','score.desc':'Ekintza bakoitzak puntuak kendu. Helburua: ahalik eta gutxien galtzea.',
+    'sc1.title':'Esteka bakoitzeko','sc1.desc':'Ekintza nagusia. Planifikatu zure bidea.',
+    'sc2.title':'30 segundoro','sc2.desc':'Denbora-presioa pixkanaka.',
+    'sc3.title':'Atzera joatea','sc3.desc':'Aurrera joatearen kostu bikoitza.',
+    'ex.label':'Partida ezagunak','ex.title':'Iritsi al zaitezke?','ex.desc':'Proba itzazu erronka hauek',
+    'ex.cta':'Nire bidea sortu →',
+    'cta.title':'Prest zure lehen lasterketa?','cta.sub':'Ez du erregistrorik behar.',
+    'cta.btn':'Orain jokatu →',
+    'diff.easy':'Erraza','diff.med':'Ertaina','diff.hard':'Zaila',
+    'footer.made':'Eginda'
+  },
+  ca:{
+    'nav.howto':'Com jugar','nav.leaderboard':'Classificació',
+    'nav.stats':'Stats','nav.about':'Sobre WikiRace','nav.play':'Jugar →',
+    'nav.multi':'VS Multi',
+    'hero.tagline':"Navega d'una entrada de Wikipedia a una altra usant només els enllaços. Simple. Addictiu.",
+    'hero.play':'Jugar ara','hero.howto':'Com jugar','hero.lb':'Classificació',
+    'how.label':'El joc','how.title':'Simple com addictu','how.desc':'Tres passos per començar',
+    'step1.title':'Comença en una entrada','step1.desc':"Llegeix l'article de Wikipedia assignat com a punt de partida.",
+    'step2.title':'Segueix els enllaços blaus','step2.desc':'Cada enllaç porta a una nova entrada. Cada clic compta.',
+    'step3.title':'Arriba a la destinació','step3.desc':'Menys salts i menys temps = puntuació final més alta.',
+    'score.label':'Puntuació','score.title':'Comences amb 1.000 pts','score.desc':"Cada acció resta punts. L'objectiu: perdre'n el mínim.",
+    'sc1.title':'Per enllaç','sc1.desc':'Planifica la teva ruta.',
+    'sc2.title':'Cada 30 segons','sc2.desc':'Pressió de temps suau però constant.',
+    'sc3.title':'Tornar enrere','sc3.desc':'El doble que avançar. Fes-ho servir amb cap.',
+    'ex.label':'Partides populars','ex.title':'Pots arribar?','ex.desc':'Prova aquestes rutes desafiants',
+    'ex.cta':'Crear la meva ruta →',
+    'cta.title':'A punt per la teva primera cursa?','cta.sub':'Sense registre. Sense descàrregues.',
+    'cta.btn':'Jugar ara →',
+    'diff.easy':'Fàcil','diff.med':'Mitjana','diff.hard':'Difícil',
+    'footer.made':'Fet amb'
+  }
+};
+
+function t(key){ return (TRANSLATIONS[CURRENT_LANG]||TRANSLATIONS.es)[key] || (TRANSLATIONS.es[key]||key); }
+
+function setLang(code){
+  CURRENT_LANG = code;
+  try{ localStorage.setItem(LANG_KEY, code); }catch(e){}
+  // update all [data-i18n] elements
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var k = el.getAttribute('data-i18n');
+    var v = t(k);
+    if(el.tagName === 'INPUT'||el.tagName==='TEXTAREA') el.placeholder = v;
+    else el.textContent = v;
+  });
+  // update lang toggle label
+  document.querySelectorAll('.lang-toggle-lbl').forEach(function(el){ el.textContent = code.toUpperCase(); });
+  // update <html lang>
+  document.documentElement.lang = code;
+  // close any lang dropdown
+  document.querySelectorAll('.lang-dd').forEach(function(d){ d.classList.remove('open'); });
+}
+
+function initLang(){
+  var saved = null;
+  try{ saved = localStorage.getItem(LANG_KEY); }catch(e){}
+  CURRENT_LANG = saved || 'es';
+  setLang(CURRENT_LANG);
+}
+
+/* Run on load */
+function toggleLangDD(btn){
+  var dd = btn.nextElementSibling;
+  if(!dd) return;
+  var isOpen = dd.classList.contains('open');
+  document.querySelectorAll('.lang-dd').forEach(function(d){ d.classList.remove('open'); });
+  if(!isOpen){
+    dd.classList.add('open');
+    dd.querySelectorAll('button[data-lang]').forEach(function(b){
+      b.classList.toggle('lang-active', b.getAttribute('data-lang')===CURRENT_LANG);
+    });
+  }
+}
+document.addEventListener('click', function(e){
+  if(!e.target.closest || !e.target.closest('.lang-dd-wrap')){
+    document.querySelectorAll('.lang-dd').forEach(function(d){ d.classList.remove('open'); });
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function(){
   initDarkMode();
   initNav();
+  initLang();
 });
