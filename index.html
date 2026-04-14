@@ -88,7 +88,7 @@
 .ticker-wrap{overflow:hidden;background:var(--green);padding:8px 0}
 .ticker-inner{display:flex;gap:40px;animation:tickerScroll 26s linear infinite;white-space:nowrap;width:max-content}
 .tick{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.3px;display:inline-flex;align-items:center;gap:8px}
-.tick::before{content:'✦';opacity:.4;font-size:8px}
+.tick::before{content:'·';opacity:.4;font-size:8px}
 @keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
 /* ── HOW ── */
@@ -136,12 +136,6 @@
   display:grid;grid-template-columns:repeat(2,1fr);
   gap:8px;max-width:640px;margin:0 auto;
 }
-.ex{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;cursor:pointer;transition:all .12s;border-left:3px solid var(--border);touch-action:manipulation}
-.ex:hover,.ex:active{border-left-color:var(--green2);background:var(--green-bg)}
-.ex-f{font-size:13px;font-weight:700;color:var(--green)}
-.ex-a{font-size:10px;color:var(--ink4);margin:2px 0}
-.ex-t{font-size:13px;font-weight:700;color:var(--red)}
-.ex-d{margin-top:6px}
 @media(max-width:440px){.examples-grid{grid-template-columns:1fr}}
 
 /* ── CTA BAND ── */
@@ -159,27 +153,36 @@
 <!-- NAV -->
 <nav class="site-nav nav-centered">
   <div class="nav-left">
+    <a href="index.html" class="nav-link active">Inicio</a>
     <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
-    <a href="leaderboard.html" class="nav-link">Clasificación</a>
   </div>
   <a href="index.html" class="nav-logo">
-    <span id="nav-logo"></span>Wiki<em>Race</em>
+    <span class="nav-logo-icon" data-size="26"></span>WikiRace
   </a>
-  <div class="nav-right nav-desktop-cta">
-    <a href="about.html" class="nav-link">Sobre WikiRace</a>
-    <button class="nav-cta" onclick="location.href='game.html'">Jugar →</button>
+  <div class="nav-right">
+    <a href="leaderboard.html" class="nav-link">Clasificación</a>
+    <a href="stats.html" class="nav-link"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="13" height="13" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="13" height="13" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="13" height="13" rx="1" fill="currentColor"/></svg></span>Stats</a>
+    <a href="multi.html" class="nav-link">VS Multijugador</a>
+  <a href="about.html" class="nav-link">Acerca de</a>
+    <button class="nav-cta nav-desktop-cta" onclick="location.href='game.html'">Jugar &rarr;</button>
+    <button class="nav-dark-toggle" title="Modo oscuro"></button>
   </div>
-  <button class="nav-hamburger" aria-label="Menú">☰</button>
+  <button class="nav-hamburger" aria-label="Menú"></button>
 </nav>
 <div class="nav-overlay"></div>
 <div class="nav-drawer">
   <a href="index.html" class="nav-link active">Inicio</a>
   <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
   <a href="leaderboard.html" class="nav-link">Clasificación</a>
-  <a href="about.html" class="nav-link">Sobre WikiRace</a>
-  <button class="nav-cta btn-block" onclick="location.href='game.html'">Jugar ahora →</button>
+  <a href="stats.html" class="nav-link"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="13" height="13" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="13" height="13" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="13" height="13" rx="1" fill="currentColor"/></svg></span>Stats</a>
+  <a href="multi.html" class="nav-link">VS Multijugador</a>
+  <a href="about.html" class="nav-link">Acerca de</a>
+  <button class="nav-cta btn-block" onclick="location.href='game.html'">Jugar ahora &rarr;</button>
+  <button class="nav-drawer-dm">
+    <span class="dm-label">Modo oscuro</span>
+    <span class="dm-icon"></span>
+  </button>
 </div>
-
 <!-- HERO -->
 <section class="hero">
   <div class="hero-logo" id="hero-logo"></div>
@@ -192,8 +195,9 @@
     </button>
 
   <div class="hero-links">
+    <a href="multi.html" class="hl-btn" style="background:var(--ink);color:var(--bg);border-color:var(--ink)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="margin-right:5px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Multijugador</a>
     <a href="howtoplay.html" class="hl-btn">Cómo jugar</a>
-    <a href="leaderboard.html" class="hl-btn">🏆 Clasificación</a>
+    <a href="leaderboard.html" class="hl-btn"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:5px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M8 2h8v8a4 4 0 01-8 0V2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 6H5a2 2 0 000 4h3M16 6h3a2 2 0 010 4h-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 14v4M8 22h8M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="2" fill="currentColor" opacity=".5"/></svg></span>Clasificación</a>
   </div>
 
   <div class="hero-stats">
@@ -219,7 +223,7 @@
     <div class="steps-grid">
       <div class="step">
         <div class="step-n">01</div>
-        <span class="step-ico">📖</span>
+        <span class="step-ico"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="currentColor" stroke-width="1.8"/><path d="M8 7h8M8 11h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></span>
         <div class="step-text">
           <div class="step-h">Empieza en una entrada</div>
           <p class="step-p">Lee el artículo de Wikipedia asignado como punto de partida.</p>
@@ -227,7 +231,7 @@
       </div>
       <div class="step">
         <div class="step-n">02</div>
-        <span class="step-ico">🔗</span>
+        <span class="step-ico"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         <div class="step-text">
           <div class="step-h">Sigue los enlaces azules</div>
           <p class="step-p">Cada enlace te lleva a una nueva entrada. Cada clic cuenta.</p>
@@ -235,7 +239,7 @@
       </div>
       <div class="step">
         <div class="step-n">03</div>
-        <span class="step-ico">🎯</span>
+        <span class="step-ico"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 3V1M12 23v-2M3 12H1M23 12h-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></span>
         <div class="step-text">
           <div class="step-h">Llega al destino</div>
           <p class="step-p">Menos saltos y menos tiempo = mayor puntuación final.</p>
@@ -294,13 +298,12 @@
 </section>
 
 <footer class="site-footer">
-  <strong>WikiRace</strong> · Hecho con ❤️ y Wikipedia ·
+  <strong>WikiRace</strong> · Hecho con <span style="display:inline-flex;align-items:center;flex-shrink:0;color:#c0392b;margin:0 2px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1.1a5.5 5.5 0 000-7.7z" stroke="currentColor" stroke-width="1.6" fill="currentColor" opacity=".15"/><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1.1a5.5 5.5 0 000-7.7z" stroke="currentColor" stroke-width="1.6"/></svg></span> y Wikipedia ·
   <a href="howtoplay.html">Cómo jugar</a> · <a href="leaderboard.html">Clasificación</a> · <a href="about.html">Sobre WikiRace</a>
 </footer>
 
 <script src="shared.js"></script>
 <script>
-document.getElementById('nav-logo').innerHTML = logoSVG(24);
 document.getElementById('hero-logo').innerHTML = logoSVG(72);
 
 var scores = getScores();

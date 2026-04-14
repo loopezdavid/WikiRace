@@ -66,27 +66,35 @@ body{background:var(--bg)}
 <body>
 <nav class="site-nav nav-centered">
   <div class="nav-left">
+    <a href="index.html" class="nav-link">Inicio</a>
     <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
-    <a href="leaderboard.html" class="nav-link">Clasificación</a>
   </div>
   <a href="index.html" class="nav-logo">
-    <span id="nav-logo"></span>Wiki<em>Race</em>
+    <span class="nav-logo-icon" data-size="26"></span>WikiRace
   </a>
-  <div class="nav-right nav-desktop-cta">
-    <a href="stats.html" class="nav-link">📊 Estadísticas</a>
-  <a href="about.html" class="nav-link active">Sobre WikiRace</a>
-    <button class="nav-cta" onclick="location.href='game.html'">Jugar &rarr;</button>
+  <div class="nav-right">
+    <a href="leaderboard.html" class="nav-link">Clasificación</a>
+    <a href="stats.html" class="nav-link"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="13" height="13" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="13" height="13" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="13" height="13" rx="1" fill="currentColor"/></svg></span>Stats</a>
+    <a href="multi.html" class="nav-link">VS Multijugador</a>
+  <a href="about.html" class="nav-link active">Acerca de</a>
+    <button class="nav-cta nav-desktop-cta" onclick="location.href='game.html'">Jugar &rarr;</button>
+    <button class="nav-dark-toggle" title="Modo oscuro"></button>
   </div>
-  <button class="nav-hamburger" aria-label="Menu">&#9776;</button>
+  <button class="nav-hamburger" aria-label="Menú"></button>
 </nav>
 <div class="nav-overlay"></div>
 <div class="nav-drawer">
   <a href="index.html" class="nav-link">Inicio</a>
   <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
   <a href="leaderboard.html" class="nav-link">Clasificación</a>
-  <a href="stats.html" class="nav-link">📊 Estadísticas</a>
-  <a href="about.html" class="nav-link active">Sobre WikiRace</a>
+  <a href="stats.html" class="nav-link"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="13" height="13" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="13" height="13" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="13" height="13" rx="1" fill="currentColor"/></svg></span>Stats</a>
+  <a href="multi.html" class="nav-link">VS Multijugador</a>
+  <a href="about.html" class="nav-link active">Acerca de</a>
   <button class="nav-cta btn-block" onclick="location.href='game.html'">Jugar ahora &rarr;</button>
+  <button class="nav-drawer-dm">
+    <span class="dm-label">Modo oscuro</span>
+    <span class="dm-icon"></span>
+  </button>
 </div>
 <div class="page-hero">
   <div class="hero-logo" id="hero-logo"></div>
@@ -116,17 +124,17 @@ body{background:var(--bg)}
     </div>
     <div class="values-grid">
       <div class="value-card">
-        <span class="value-icon">🧠</span>
+        <span class="value-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M9.5 2A5.5 5.5 0 004 7.5c0 1.5.6 2.9 1.5 3.9C4.5 12.6 4 13.8 4 15a5 5 0 006 4.9A5 5 0 0015 22a5 5 0 005-5c0-1.2-.4-2.4-1.2-3.3.6-.8 1.2-2 1.2-3.2A4.5 4.5 0 0015.5 6c-.3 0-.6 0-.9.1A5.5 5.5 0 009.5 2z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 6v4M10 10c0 1 .9 2 2 2s2-1 2-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span></span>
         <div class="value-title">Aprender sin darte cuenta</div>
         <p class="value-desc">Cada partida te lleva por artículos que no habrías leído nunca. Eso es lo mejor de WikiRace: aprendes mientras juegas, sin esfuerzo.</p>
       </div>
       <div class="value-card">
-        <span class="value-icon">⚡</span>
+        <span class="value-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M13 2L4 14h7l-1 8 9-12h-7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="currentColor" opacity=".12"/><path d="M13 2L4 14h7l-1 8 9-12h-7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span></span>
         <div class="value-title">Simple de entender, difícil de dominar</div>
         <p class="value-desc">Las reglas caben en dos líneas. Pero conseguir puntuaciones perfectas requiere conocimiento, estrategia y práctica. Como los mejores juegos.</p>
       </div>
       <div class="value-card">
-        <span class="value-icon">🌐</span>
+        <span class="value-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><ellipse cx="12" cy="12" rx="4" ry="9" stroke="currentColor" stroke-width="1.5"/><path d="M3 12h18M5 7h14M5 17h14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity=".6"/><circle cx="12" cy="12" r="2" fill="currentColor" opacity=".2"/></svg></span></span>
         <div class="value-title">El conocimiento como mapa</div>
         <p class="value-desc">Wikipedia es el mayor grafo de conocimiento humano jamás creado. WikiRace te permite navegarlo con propósito y descubrir conexiones sorprendentes.</p>
       </div>
@@ -210,7 +218,7 @@ body{background:var(--bg)}
 </section>
 
 <footer class="site-footer">
-  <strong>WikiRace</strong> · Hecho con ❤️ y Wikipedia ·
+  <strong>WikiRace</strong> · Hecho con <span style="display:inline-flex;align-items:center;flex-shrink:0;color:#c0392b;margin:0 2px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1.1a5.5 5.5 0 000-7.7z" stroke="currentColor" stroke-width="1.6" fill="currentColor" opacity=".15"/><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1.1a5.5 5.5 0 000-7.7z" stroke="currentColor" stroke-width="1.6"/></svg></span> y Wikipedia ·
   <a href="howtoplay.html">Cómo jugar</a> ·
   <a href="leaderboard.html">Clasificación</a> ·
   <a href="about.html">Sobre WikiRace</a>
@@ -218,7 +226,6 @@ body{background:var(--bg)}
 
 <script src="shared.js"></script>
 <script>
-document.getElementById('nav-logo').innerHTML = logoSVG(26);
 document.getElementById('hero-logo').innerHTML = logoSVG(80);
 </script>
 </body>

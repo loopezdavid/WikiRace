@@ -74,32 +74,39 @@ body{background:var(--bg)}
 <body>
 <nav class="site-nav nav-centered">
   <div class="nav-left">
+    <a href="index.html" class="nav-link">Inicio</a>
     <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
-    <a href="leaderboard.html" class="nav-link">Clasificación</a>
   </div>
   <a href="index.html" class="nav-logo">
-    <span id="nav-logo"></span>Wiki<em>Race</em>
+    <span class="nav-logo-icon" data-size="26"></span>WikiRace
   </a>
-  <div class="nav-right nav-desktop-cta">
-    <a href="stats.html" class="nav-link">📊 Estadísticas</a>
-  <a href="about.html" class="nav-link">Sobre WikiRace</a>
-    <button class="nav-cta" onclick="location.href='game.html'">Jugar →</button>
+  <div class="nav-right">
+    <a href="leaderboard.html" class="nav-link">Clasificación</a>
+    <a href="stats.html" class="nav-link active"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="13" height="13" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="13" height="13" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="13" height="13" rx="1" fill="currentColor"/></svg></span>Stats</a>
+    <a href="multi.html" class="nav-link">VS Multijugador</a>
+  <a href="about.html" class="nav-link">Acerca de</a>
+    <button class="nav-cta nav-desktop-cta" onclick="location.href='game.html'">Jugar &rarr;</button>
+    <button class="nav-dark-toggle" title="Modo oscuro"></button>
   </div>
-  <button class="nav-hamburger" aria-label="Menú">☰</button>
+  <button class="nav-hamburger" aria-label="Menú"></button>
 </nav>
 <div class="nav-overlay"></div>
 <div class="nav-drawer">
   <a href="index.html" class="nav-link">Inicio</a>
   <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
   <a href="leaderboard.html" class="nav-link">Clasificación</a>
-  <a href="stats.html" class="nav-link">📊 Estadísticas</a>
-  <a href="about.html" class="nav-link">Sobre WikiRace</a>
-  <button class="nav-cta btn-block" onclick="location.href='game.html'">Jugar ahora →</button>
+  <a href="stats.html" class="nav-link active"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="13" height="13" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="13" height="13" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="13" height="13" rx="1" fill="currentColor"/></svg></span>Stats</a>
+  <a href="multi.html" class="nav-link">VS Multijugador</a>
+  <a href="about.html" class="nav-link">Acerca de</a>
+  <button class="nav-cta btn-block" onclick="location.href='game.html'">Jugar ahora &rarr;</button>
+  <button class="nav-drawer-dm">
+    <span class="dm-label">Modo oscuro</span>
+    <span class="dm-icon"></span>
+  </button>
 </div>
-
 <div class="page-hero">
   <div class="page-eyebrow">Perfil</div>
-  <h1 class="page-title">📊 Mis estadísticas</h1>
+  <h1 class="page-title" style="display:flex;align-items:center;gap:10px;justify-content:center"><span style="display:inline-flex;align-items:center;flex-shrink:0;color:var(--green);"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="34" height="34" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="34" height="34" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="34" height="34" rx="1" fill="currentColor"/></svg></span>Mis estadísticas</h1>
   <p class="page-sub">Toda tu actividad en WikiRace en este dispositivo</p>
 </div>
 
@@ -108,7 +115,7 @@ body{background:var(--bg)}
 
     <div id="empty-state" style="display:none">
       <div class="empty">
-        <div class="empty-ico">🎮</div>
+        <div class="empty-ico"><span style="display:inline-flex;align-items:center;flex-shrink:0;opacity:.3"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="2" y="6" width="40" height="40" rx="5" stroke="currentColor" stroke-width="1.8"/><path d="M6 12h4M8 10v4" stroke="currentColor" stroke-width="40" stroke-linecap="round"/><circle cx="16" cy="11" r="1" fill="currentColor"/><circle cx="14" cy="13" r="1" fill="currentColor"/></svg></span></div>
         <div class="empty-t">Aún no has jugado</div>
         <div class="empty-d">Juega tu primera partida para ver tus estadísticas aquí.</div>
         <button class="btn btn-primary btn-md" onclick="location.href='game.html'">Jugar ahora →</button>
@@ -168,7 +175,6 @@ body{background:var(--bg)}
 
 <script src="shared.js"></script>
 <script>
-document.getElementById('nav-logo').innerHTML = logoSVG(24);
 
 var scores = getScores();
 
@@ -213,21 +219,21 @@ if(!scores.length){
     var a1=last20.slice(0,half).reduce(function(a,s){return a+s.score;},0)/half;
     var a2=last20.slice(half).reduce(function(a,s){return a+s.score;},0)/(last20.length-half);
     var trend=document.getElementById('chart-trend');
-    if(a2>a1+20){trend.textContent='📈 Mejorando';trend.style.color='#538d4e';}
-    else if(a2<a1-20){trend.textContent='📉 Bajando';trend.style.color='#c0392b';}
+    if(a2>a1+20){trend.innerHTML='<span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M22 7l-8.5 8.5-5-5L2 17" stroke="currentColor" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7h6v6" stroke="currentColor" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Mejorando';trend.style.color='#538d4e';}
+    else if(a2<a1-20){trend.innerHTML='<span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M22 17l-8.5-8.5-5 5L2 7" stroke="currentColor" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 17h6v-6" stroke="currentColor" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Bajando';trend.style.color='#c0392b';}
     else{trend.textContent='→ Estable';}
   }
 
   // ── BEST GAMES ──
   var top5 = scores.slice().sort(function(a,b){return b.score-a.score;}).slice(0,5);
-  var medals=['🥇','🥈','🥉','4️⃣','5️⃣'];
+  var medals=['<span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="12" cy="8" r="6" stroke="#c9b458" stroke-width="20" fill="rgba(201,180,88,.1)"/><path d="M9 14l-2 7 5-3 5 3-2-7" stroke="#c9b458" stroke-width="1.5" stroke-linejoin="round" fill="rgba(201,180,88,.08)"/><path d="M12 5v6M10 7l2-2 2 2" stroke="#c9b458" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>','<span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="12" cy="8" r="6" stroke="#9ca3af" stroke-width="20" fill="rgba(156,163,175,.1)"/><path d="M9 14l-2 7 5-3 5 3-2-7" stroke="#9ca3af" stroke-width="1.5" stroke-linejoin="round" fill="rgba(156,163,175,.08)"/><path d="M10.5 6.5c0-1 .7-1.5 1.5-1.5s1.5.5 1.5 1.5c0 .8-.5 1.3-1.5 2H13.5" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/></svg></span>','<span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="12" cy="8" r="6" stroke="#b87333" stroke-width="20" fill="rgba(184,115,51,.1)"/><path d="M9 14l-2 7 5-3 5 3-2-7" stroke="#b87333" stroke-width="1.5" stroke-linejoin="round" fill="rgba(184,115,51,.08)"/><path d="M10.5 6c1.5 0 2.5.5 2.5 1.5 0 .7-.5 1.2-1.2 1.3.9.1 1.7.7 1.7 1.7S12.8 12 11 12H10" stroke="#b87333" stroke-width="1.5" stroke-linecap="round"/></svg></span>','4','5'];
   document.getElementById('best-list').innerHTML = top5.map(function(s,i){
     var d = new Date(s.date).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'});
     return '<div class="best-row">'
       +'<div class="best-rank">'+medals[i]+'</div>'
       +'<div class="best-info">'
         +'<div class="best-pair">'+s.start+' → '+s.end+'</div>'
-        +'<div class="best-meta">'+s.hops+' saltos · '+s.time+' · '+d+(s.daily?' · 📅':'')+'</div>'
+        +'<div class="best-meta">'+s.hops+' saltos · '+s.time+' · '+d+(s.daily?' · <span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="4" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="8" y="14" width="2.5" height="2.5" rx=".5" fill="currentColor" opacity=".7"/><rect x="12.75" y="14" width="2.5" height="2.5" rx=".5" fill="currentColor" opacity=".5"/></svg></span>':'')+'</div>'
       +'</div>'
       +'<div class="best-score">'+s.score+'</div>'
       +'</div>';
