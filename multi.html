@@ -15,11 +15,12 @@
    MULTI.HTML — WikiRace Multiplayer
    Screens: #lobby → #waiting → #countdown → #mgame → #results
 ════════════════════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overflow:hidden}
-body{background:var(--bg)}
+body{background:var(--bg);font-family:var(--font,-apple-system,sans-serif)}
 #mroot{height:100dvh;height:100vh;display:flex;flex-direction:column}
 
-.mscreen{display:none;height:100%;flex-direction:column;overflow:hidden}
+.mscreen{display:none;height:100%;flex-direction:column;overflow:hidden;width:100%}
 .mscreen.active{display:flex}
 #mgame.active{flex-direction:row}
 
@@ -85,7 +86,7 @@ body{background:var(--bg)}
 /* ════════════════════════════════════════════════════════
    LOBBY SCREEN
 ════════════════════════════════════════════════════════ */
-#lobby{background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:stretch}
+#lobby{background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:stretch;flex-direction:column}
 
 .lobby-inner{
   width:100%;max-width:420px;
@@ -495,16 +496,16 @@ body{background:var(--bg)}
 /* ════════════════════════════════════════════════════════
    RESULTS SCREEN
 ════════════════════════════════════════════════════════ */
-#results{background:var(--bg);overflow-y:auto;align-items:stretch;-webkit-overflow-scrolling:touch}
+#results{background:var(--bg);overflow-y:auto;align-items:stretch;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column}
 
 /* ════════════════════════════════════════════════════════
    RESULTS SCREEN — Pro redesign
 ════════════════════════════════════════════════════════ */
-#results{background:var(--bg);overflow-y:auto;align-items:stretch;-webkit-overflow-scrolling:touch}
+#results{background:var(--bg);overflow-y:auto;align-items:stretch;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column}
 
 .results-scroll{
   flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;min-height:0;
 }
 
 /* ── HERO SECTION ── */
@@ -684,6 +685,58 @@ body{background:var(--bg)}
   transition:all .15s;
 }
 .res-act-sec:hover{border-color:var(--border2);color:var(--ink)}
+
+
+/* ── WIN OVERLAY ── */
+.win-overlay{
+  position:absolute;inset:0;z-index:40;
+  background:rgba(0,0,0,.7);backdrop-filter:blur(6px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.win-overlay.show{display:flex;animation:fadeIn .3s ease}
+.win-overlay-card{
+  background:var(--surface,#fff);border-radius:16px;
+  padding:24px 20px;max-width:320px;width:100%;
+  text-align:center;margin:auto 0;
+  box-shadow:0 24px 64px rgba(0,0,0,.4);
+  animation:popIn .35s cubic-bezier(.16,1,.3,1);
+}
+body.dark .win-overlay-card{background:#1a1a1b;border:1px solid #3a3a3c}
+.wo-icon{margin-bottom:10px;display:flex;justify-content:center}
+.wo-title{font-size:20px;font-weight:900;letter-spacing:-.5px;color:var(--ink,#1a1612);margin-bottom:6px}
+.wo-score{font-size:52px;font-weight:900;letter-spacing:-3px;color:#6aaa64;line-height:1;font-variant-numeric:tabular-nums}
+.wo-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink4,#aba49b);margin-bottom:14px}
+.wo-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-bottom:12px}
+.wo-stat{background:var(--surface2,#f7f3ee);border-radius:7px;padding:7px 4px;text-align:center}
+body.dark .wo-stat{background:#121213}
+.wo-stat-v{font-size:17px;font-weight:800;color:var(--ink,#1a1612);font-variant-numeric:tabular-nums}
+.wo-stat-l{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4,#aba49b);margin-top:1px}
+.wo-rivals{margin-bottom:14px;text-align:left;background:var(--surface2,#f7f3ee);border-radius:8px;overflow:hidden}
+body.dark .wo-rivals{background:#121213}
+.wo-rival-row{display:flex;align-items:center;gap:7px;padding:6px 11px;border-bottom:1px solid var(--border,#d6cfc5);font-size:11px}
+body.dark .wo-rival-row{border-color:#3a3a3c}
+.wo-rival-row:last-child{border-bottom:none}
+.wo-rival-av{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff;flex-shrink:0}
+.wo-rival-name{flex:1;font-weight:600;color:var(--ink2,#3d3830);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wo-rival-score{font-weight:800;color:#6aaa64;font-size:12px;font-variant-numeric:tabular-nums}
+.wo-rival-done{font-size:9px;color:var(--ink4,#aba49b);margin-left:3px}
+.wo-rival-rank{font-size:10px;font-weight:800;width:14px;text-align:center;color:var(--ink3,#7a7268)}
+.wo-actions{display:flex;flex-direction:column;gap:7px}
+.wo-btn-primary{
+  width:100%;padding:12px;background:#6aaa64;color:#fff;border:none;
+  border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;
+  font-family:var(--font);transition:background .13s;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.wo-btn-primary:hover{background:#538d4e}
+.wo-btn-secondary{
+  width:100%;padding:9px;background:none;
+  border:1px solid var(--border,#d6cfc5);border-radius:7px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  color:var(--ink3,#7a7268);font-family:var(--font);transition:all .13s;
+}
+.wo-btn-secondary:hover{border-color:var(--border2);color:var(--ink)}
 
 </style>
 </head>
