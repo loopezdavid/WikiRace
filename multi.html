@@ -1424,6 +1424,14 @@ function listenRoom(){
     RIVALS = players;
     if(document.getElementById('mgame').classList.contains('active')){
       renderRivals(players);
+      // Host: whenever players update, check if all finished
+      if(ME.isHost && ROOM.data && ROOM.data.status === 'playing'){
+        var allDone = Object.keys(players).length > 0 &&
+          Object.values(players).every(function(p){ return p.finished; });
+        if(allDone){
+          ROOM.ref.update({status:'finished'});
+        }
+      }
     }
   });
   ROOM.unsubscribers.push(function(){ playersRef.off('value', unsub2); });
@@ -1710,6 +1718,7 @@ function startCountdown(start, end){
 ════════════════════════════════════════════════════════ */
 function wikiLang(l){ l=l||M_LANG; return({eu:'eu',ca:'ca',en:'en'})[l]||'es'; }
 
+_resultsShown = false;
 function beginGame(start, end, lang){
   if(G.started) return;
   G = {
@@ -1996,29 +2005,33 @@ function mGiveUp(){
 
 function mCheckWin(title){
   if(G.done) return;
-  var n = function(s){return s.toLowerCase().trim().replace(/_/g,' ');};
-  if(n(title)===n(G.end)){
+  var n = function(s){return s.toLowerCase().trim().replace(/_/g,' ').replace(/[(),.]/g,'');};
+  var nt=n(title), ne=n(G.end);
+  var hit = nt===ne
+    || (ne.length>4 && nt.indexOf(ne)!==-1)
+    || (nt.length>4 && ne.indexOf(nt)!==-1);
+  if(hit){
     G.done = true;
     clearInterval(G.timer);
-    pushMyState();
-    // Victory celebration
+    pushMyState(); // push finished:true to Firebase
     mConfetti();
     mToast('¡Lo lograste! '+G.score+' pts','hop',3000);
-    // Show winner banner to others (Firebase will propagate)
-    checkAllFinished();
+    setTimeout(function(){ showWinOverlay(); }, 600);
+    // Host: check after Firebase propagates (give it 2s)
+    if(ME.isHost){
+      setTimeout(checkAllFinished, 2000);
+    }
   }
 }
 
 function checkAllFinished(){
-  // Host checks if everyone is done
+  // Only host sets room to finished
   if(!ME.isHost) return;
   var players = RIVALS;
-  if(!players) return;
+  if(!players || !Object.keys(players).length) return;
   var allDone = Object.values(players).every(function(p){ return p.finished; });
   if(allDone){
-    setTimeout(function(){
-      ROOM.ref.update({status:'finished'});
-    }, 1500);
+    ROOM.ref.update({status:'finished'});
   } else {
     // Show winner banner if this player finished first
     var me = players[ME.id];
@@ -2100,8 +2113,14 @@ function closeMSB(){ msc('m-sidebar').classList.remove('open'); msc('m-sb-overla
 /* ════════════════════════════════════════════════════════
    RESULTS
 ════════════════════════════════════════════════════════ */
+var _resultsShown = false;
 function showResults(players){
+  if(_resultsShown) return;
+  _resultsShown = true;
   clearInterval(G.timer);
+  // Close win overlay if open
+  var ov = document.getElementById('win-overlay');
+  if(ov) ov.classList.remove('show');
   showMScreen('results');
 
   var pArr = Object.entries(players).sort(function(a,b){
