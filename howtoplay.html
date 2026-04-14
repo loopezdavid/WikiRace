@@ -92,33 +92,18 @@ body{background:var(--bg)}
 <body>
 <nav class="site-nav nav-centered">
   <div class="nav-left">
-    <a href="index.html" class="nav-link">Inicio</a>
-    <a href="howtoplay.html" class="nav-link active">Cómo jugar</a>
-  </div>
-  <a href="index.html" class="nav-logo">
-    <span class="nav-logo-icon" data-size="26"></span>WikiRace
-  </a>
-  <div class="nav-right">
-    <a href="leaderboard.html" class="nav-link">Clasificación</a>
-    <a href="stats.html" class="nav-link"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:4px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="13" height="13" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="13" height="13" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="13" height="13" rx="1" fill="currentColor"/></svg></span>Stats</a>
-    <a href="multi.html" class="nav-link">VS Multijugador</a>
-  <a href="about.html" class="nav-link">Acerca de</a>
-    <button class="nav-cta nav-desktop-cta" onclick="location.href='game.html'">Jugar &rarr;</button>
-    <button class="nav-dark-toggle" title="Modo oscuro"></button>
-  </div>
-  <button class="nav-hamburger" aria-label="Menú"></button>
-</nav>
-<nav class="site-nav nav-centered">
-  <div class="nav-left">
-    <a href="index.html" class="nav-link" data-i18n="nav.home">Inicio</a><a href="howtoplay.html" class="nav-link active" data-i18n="nav.howto">C&oacute;mo jugar</a>
-  </div>
+    <a href="index.html" class="nav-link" data-i18n="nav.home">Inicio</a>
+    <a href="howtoplay.html" class="nav-link active" data-i18n="nav.howto">C&oacute;mo jugar</a>
+    </div>
   <a href="index.html" class="nav-logo">
     <span class="nav-logo-icon" data-size="26"></span>WikiRace
   </a>
   <div class="nav-right nav-desktop-cta">
-    <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Clasificaci&oacute;n</a><a href="stats.html" class="nav-link" data-i18n="nav.stats">Stats</a><a href="multi.html" class="nav-link" data-i18n="nav.multi">VS Multi</a>
+    <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Clasificaci&oacute;n</a>
+    <a href="stats.html" class="nav-link" data-i18n="nav.stats">Stats</a>
+    <a href="multi.html" class="nav-link" data-i18n="nav.multi">VS Multi</a>
     <a href="game.html" class="nav-cta" data-i18n="nav.play">Jugar &#x2192;</a>
-    <div class="lang-dd-wrap"><button class="lang-toggle" onclick="toggleLangDD(this)"><span class="lang-toggle-lbl">ES</span><span class="lang-toggle-caret">&#9662;</span></button><div class="lang-dd"><button onclick="setLang('es')" data-lang="es"><span class="lang-dd-code es">ES</span>Espa&ntilde;ol</button><button onclick="setLang('en')" data-lang="en"><span class="lang-dd-code en">EN</span>English</button><button onclick="setLang('eu')" data-lang="eu"><span class="lang-dd-code eu">EU</span>Euskera</button><button onclick="setLang('ca')" data-lang="ca"><span class="lang-dd-code ca">CA</span>Catal&agrave;</button></div></div>
+    <div class="lang-dd-wrap"><button class="lang-toggle" onclick="toggleLangDD(this)"><span class="lang-toggle-lbl">ES</span><svg width="10" height="10" viewBox="0 0 12 12" fill="none" style="opacity:.5"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="lang-dd"><button onclick="setLang('es')" data-lang="es"><span class="lang-dd-code es">ES</span>Espa&ntilde;ol</button><button onclick="setLang('en')" data-lang="en"><span class="lang-dd-code en">EN</span>English</button><button onclick="setLang('eu')" data-lang="eu"><span class="lang-dd-code eu">EU</span>Euskera</button><button onclick="setLang('ca')" data-lang="ca"><span class="lang-dd-code ca">Catal&agrave;</button></div></div>
     <button class="nav-dark-toggle" title="Modo oscuro"></button>
   </div>
   <button class="nav-hamburger" aria-label="Men&uacute;"></button>
@@ -134,6 +119,7 @@ body{background:var(--bg)}
   <a href="game.html" class="nav-cta btn-block" data-i18n="nav.play">Jugar &#x2192;</a>
   <button class="nav-drawer-dm"><span class="dm-label">Modo oscuro</span><span class="dm-icon"></span></button>
   <div style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--border)"><button onclick="setLang('es')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--red)">ES</button><button onclick="setLang('en')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:#1d4ed8">EN</button><button onclick="setLang('eu')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--green)">EU</button><button onclick="setLang('ca')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--yellow)">CA</button></div>
+</div>
 </div>
 <div class="page-hero">
   <div class="page-eyebrow">Aprende a jugar</div>
