@@ -509,39 +509,49 @@ body{min-height:0!important;background:var(--bg)}
 
 /* PODIUM */
 .podium{
-  width:100%;display:flex;align-items:flex-end;justify-content:center;
-  gap:8px;margin-bottom:28px;
-  height:160px;
+  width:100%;display:flex;align-items:stretch;justify-content:center;
+  gap:12px;margin-bottom:28px;
 }
 .podium-place{
-  flex:1;max-width:140px;
+  flex:1;min-width:0;
   display:flex;flex-direction:column;align-items:center;
   animation:fadeUp .4s ease both;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden;padding:18px 12px 0;
+  box-shadow:0 8px 24px rgba(0,0,0,.04);
 }
+.pp-1{border-color:rgba(201,180,88,.45);box-shadow:0 10px 26px rgba(201,180,88,.12)}
 .pp-2{animation-delay:.06s}
 .pp-3{animation-delay:.12s}
-.podium-avatar-wrap{position:relative;margin-bottom:6px}
+.podium-avatar-wrap{position:relative;margin:8px 0 8px}
 .podium-avatar{
-  width:44px;height:44px;border-radius:50%;
+  width:48px;height:48px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-size:16px;font-weight:800;color:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.12);
 }
 .podium-crown{
-  position:absolute;top:-14px;left:50%;transform:translateX(-50%);
+  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
   font-size:0;color:#c9b458;
 }
 .podium-name{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 4px}
-.podium-score{font-size:16px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums;margin-bottom:5px}
+.podium-score{font-size:18px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums;margin-bottom:5px}
 .podium-bar{
-  width:100%;border-radius:4px 4px 0 0;
+  width:100%;margin-top:12px;border-radius:12px 12px 0 0;
   min-height:20px;transition:height .6s ease;
-  display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;
+  display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;
 }
-.pb-1{background:linear-gradient(180deg,rgba(201,180,88,.5),rgba(201,180,88,.2));border:1px solid rgba(201,180,88,.4);height:90px}
-.pb-2{background:linear-gradient(180deg,rgba(83,141,78,.4),rgba(83,141,78,.15));border:1px solid rgba(83,141,78,.3);height:65px}
-.pb-3{background:linear-gradient(180deg,rgba(92,92,92,.3),rgba(92,92,92,.1));border:1px solid rgba(92,92,92,.2);height:45px}
-.podium-rank{font-size:11px;font-weight:800;color:rgba(255,255,255,.6)}
-.podium-hops{font-size:9.5px;color:var(--ink4);text-align:center}
+.pb-1{background:linear-gradient(180deg,rgba(201,180,88,.55),rgba(201,180,88,.22));border-top:1px solid rgba(201,180,88,.45);height:88px}
+.pb-2{background:linear-gradient(180deg,rgba(83,141,78,.42),rgba(83,141,78,.16));border-top:1px solid rgba(83,141,78,.35);height:68px}
+.pb-3{background:linear-gradient(180deg,rgba(92,92,92,.3),rgba(92,92,92,.1));border-top:1px solid rgba(92,92,92,.22);height:52px}
+.podium-rank{font-size:11px;font-weight:800;color:rgba(255,255,255,.72)}
+.podium-hops{font-size:10px;color:var(--ink4);text-align:center}
+@media(max-width:560px){
+  .podium{gap:10px}
+  .podium-place{padding:16px 10px 0}
+  .podium-avatar{width:42px;height:42px;font-size:14px}
+  .podium-score{font-size:16px}
+}
 
 /* FULL RESULTS TABLE */
 .res-table{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px}
@@ -2140,7 +2150,7 @@ function showResults(players){
 
   // PODIUM (top 3)
   var podium = msc('podium');
-  var podiumOrder = [1, 0, 2]; // 2nd, 1st, 3rd visually
+  var podiumOrder = [0, 1, 2]; // winner first, then 2nd and 3rd
   var podiumHTML = '';
   podiumOrder.forEach(function(rank){
     var entry = pArr[rank];
