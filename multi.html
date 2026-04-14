@@ -496,56 +496,211 @@ body{min-height:0!important;background:var(--bg)}
 /* ════════════════════════════════════════════════════════
    RESULTS SCREEN
 ════════════════════════════════════════════════════════ */
-#results{background:var(--bg);overflow-y:auto;align-items:stretch;-webkit-overflow-scrolling:touch}
+#results{
+  background:var(--bg);
+  overflow-y:auto;
+  align-items:stretch;
+  -webkit-overflow-scrolling:touch;
+}
 
 .results-inner{
-  width:100%;max-width:520px;padding:28px 16px 60px;
-  display:flex;flex-direction:column;align-items:center;
+  width:100%;
+  max-width:720px;
+  padding:34px 16px 72px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
   animation:fadeUp .4s ease;
   margin:0 auto;
 }
-.res-title{font-size:clamp(28px,7vw,44px);font-weight:900;letter-spacing:-2px;color:var(--ink);text-align:center;margin-bottom:6px}
-.res-sub{font-size:14px;color:var(--ink3);text-align:center;margin-bottom:28px}
 
-/* PODIUM */
+.res-title{
+  font-size:clamp(28px,7vw,44px);
+  font-weight:900;
+  letter-spacing:-2px;
+  color:var(--ink);
+  text-align:center;
+  margin-bottom:8px;
+  line-height:1.05;
+}
+
+.res-sub{
+  font-size:14px;
+  color:var(--ink3);
+  text-align:center;
+  margin-bottom:34px;
+}
+
+/* PODIUM NUEVO */
 .podium{
-  width:100%;display:flex;align-items:stretch;justify-content:center;
-  gap:12px;margin-bottom:28px;
+  width:100%;
+  display:grid;
+  grid-template-columns:1.2fr 1fr 1fr;
+  gap:14px;
+  margin-top:10px;
+  margin-bottom:30px;
+  align-items:stretch;
 }
+
 .podium-place{
-  flex:1;min-width:0;
-  display:flex;flex-direction:column;align-items:center;
+  min-height:190px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px 14px 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
   animation:fadeUp .4s ease both;
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:16px;overflow:hidden;padding:18px 12px 0;
-  box-shadow:0 8px 24px rgba(0,0,0,.04);
+  box-shadow:0 8px 24px rgba(0,0,0,.05);
 }
-.pp-1{border-color:rgba(201,180,88,.45);box-shadow:0 10px 26px rgba(201,180,88,.12)}
-.pp-2{animation-delay:.06s}
-.pp-3{animation-delay:.12s}
-.podium-avatar-wrap{position:relative;margin:8px 0 8px}
+
+.podium-place.empty{
+  visibility:hidden;
+}
+
+.pp-1{
+  border:2px solid rgba(201,180,88,.42);
+  background:linear-gradient(180deg,rgba(201,180,88,.10),rgba(201,180,88,.04));
+  transform:translateY(-6px);
+}
+
+.pp-2{
+  background:linear-gradient(180deg,rgba(83,141,78,.08),rgba(83,141,78,.03));
+}
+
+.pp-3{
+  background:linear-gradient(180deg,rgba(92,92,92,.06),rgba(92,92,92,.02));
+}
+
+.podium-topline{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:10px;
+}
+
+.podium-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:34px;
+  height:24px;
+  padding:0 10px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.4px;
+  background:var(--surface2);
+  border:1px solid var(--border);
+  color:var(--ink2);
+}
+
+.pp-1 .podium-badge{
+  background:rgba(201,180,88,.16);
+  border-color:rgba(201,180,88,.35);
+  color:#8d7721;
+}
+
+.podium-avatar-wrap{
+  position:relative;
+  margin-bottom:10px;
+}
+
 .podium-avatar{
-  width:48px;height:48px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:800;color:#fff;
-  box-shadow:0 6px 16px rgba(0,0,0,.12);
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:18px;
+  font-weight:800;
+  color:#fff;
+  box-shadow:0 8px 18px rgba(0,0,0,.14);
 }
+
+.pp-1 .podium-avatar{
+  width:60px;
+  height:60px;
+  font-size:20px;
+}
+
 .podium-crown{
-  position:absolute;top:-18px;left:50%;transform:translateX(-50%);
-  font-size:0;color:#c9b458;
+  position:absolute;
+  top:-16px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:0;
+  color:#c9b458;
 }
-.podium-name{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px;text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 4px}
-.podium-score{font-size:18px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums;margin-bottom:5px}
-.podium-bar{
-  width:100%;margin-top:12px;border-radius:12px 12px 0 0;
-  min-height:20px;transition:height .6s ease;
-  display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;
+
+.podium-name{
+  font-size:14px;
+  font-weight:800;
+  color:var(--ink);
+  margin-bottom:6px;
+  text-align:center;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  padding:0 4px;
 }
-.pb-1{background:linear-gradient(180deg,rgba(201,180,88,.55),rgba(201,180,88,.22));border-top:1px solid rgba(201,180,88,.45);height:88px}
-.pb-2{background:linear-gradient(180deg,rgba(83,141,78,.42),rgba(83,141,78,.16));border-top:1px solid rgba(83,141,78,.35);height:68px}
-.pb-3{background:linear-gradient(180deg,rgba(92,92,92,.3),rgba(92,92,92,.1));border-top:1px solid rgba(92,92,92,.22);height:52px}
-.podium-rank{font-size:11px;font-weight:800;color:rgba(255,255,255,.72)}
-.podium-hops{font-size:10px;color:var(--ink4);text-align:center}
+
+.podium-score{
+  font-size:24px;
+  font-weight:900;
+  color:var(--green);
+  font-variant-numeric:tabular-nums;
+  line-height:1;
+  margin-bottom:6px;
+}
+
+.pp-1 .podium-score{
+  font-size:30px;
+}
+
+.podium-hops{
+  font-size:11px;
+  color:var(--ink4);
+  text-align:center;
+  margin-bottom:12px;
+}
+
+.podium-meta{
+  margin-top:auto;
+  width:100%;
+  text-align:center;
+  padding-top:10px;
+  border-top:1px solid var(--surface3);
+  font-size:11px;
+  font-weight:700;
+  color:var(--ink3);
+}
+
+@media (max-width:640px){
+  .results-inner{
+    max-width:520px;
+    padding:30px 16px 64px;
+  }
+
+  .podium{
+    grid-template-columns:1fr;
+    gap:12px;
+    margin-top:12px;
+  }
+
+  .podium-place{
+    min-height:auto;
+  }
+
+  .pp-1{
+    transform:none;
+  }
+}
 @media(max-width:560px){
   .podium{gap:10px}
   .podium-place{padding:16px 10px 0}
@@ -2148,30 +2303,46 @@ function showResults(players){
 
   if(amIWinner) mConfetti();
 
-  // PODIUM (top 3)
-  var podium = msc('podium');
-  var podiumOrder = [0, 1, 2]; // winner first, then 2nd and 3rd
-  var podiumHTML = '';
-  podiumOrder.forEach(function(rank){
-    var entry = pArr[rank];
-    if(!entry){ podiumHTML += '<div class="podium-place pp-'+(rank+1)+'"></div>'; return; }
-    var id = entry[0], p = entry[1];
-    var initials = (p.name||'?').slice(0,2).toUpperCase();
-    var isMe = id === ME.id;
-    var barClass = 'pb-'+(rank+1);
-    var delay = (rank===0?'.08':(rank===1?'0':'.16'))+'s';
-    podiumHTML += '<div class="podium-place pp-'+(rank+1)+'" style="animation-delay:'+delay+'">'
-      +'<div class="podium-avatar-wrap">'
-        +(rank===0?'<div class="podium-crown">'+crownSVG()+'</div>':'')
-        +'<div class="podium-avatar" style="background:'+(p.color||'#538d4e')+'">'+initials+'</div>'
-      +'</div>'
-      +'<div class="podium-name">'+(isMe?'<strong>Tú</strong>':mEsc(p.name||'—'))+'</div>'
-      +'<div class="podium-score">'+(p.score||0)+'</div>'
-      +'<div class="podium-hops">'+((p.path||[]).length>1?(p.path||[]).length-1:p.hops||0)+' saltos</div>'
-      +'<div class="podium-bar '+barClass+'"><span class="podium-rank">'+(rank+1)+'</span></div>'
-      +'</div>';
-  });
-  podium.innerHTML = podiumHTML;
+// PODIUM (top 3) - izquierda a derecha: 1º, 2º, 3º
+var podium = msc('podium');
+var podiumOrder = [0, 1, 2];
+var podiumHTML = '';
+
+podiumOrder.forEach(function(rank){
+  var entry = pArr[rank];
+
+  if(!entry){
+    podiumHTML += '<div class="podium-place empty"></div>';
+    return;
+  }
+
+  var id = entry[0];
+  var p = entry[1];
+  var initials = (p.name || '?').slice(0,2).toUpperCase();
+  var isMe = id === ME.id;
+  var hops = ((p.path || []).length > 1 ? (p.path || []).length - 1 : (p.hops || 0));
+  var placeClass = 'pp-' + (rank + 1);
+  var placeLabel = (rank + 1) + 'º lugar';
+
+  podiumHTML += ''
+    + '<div class="podium-place ' + placeClass + '">'
+      + '<div class="podium-topline">'
+        + '<div class="podium-badge">' + placeLabel + '</div>'
+      + '</div>'
+
+      + '<div class="podium-avatar-wrap">'
+        + (rank === 0 ? '<div class="podium-crown">' + crownSVG() + '</div>' : '')
+        + '<div class="podium-avatar" style="background:' + (p.color || '#538d4e') + '">' + initials + '</div>'
+      + '</div>'
+
+      + '<div class="podium-name">' + (isMe ? '<strong>Tú</strong>' : mEsc(p.name || '—')) + '</div>'
+      + '<div class="podium-score">' + (p.score || 0) + '</div>'
+      + '<div class="podium-hops">' + hops + ' saltos</div>'
+      + '<div class="podium-meta">' + (rank === 0 ? 'Ganador' : 'Finalizó la partida') + '</div>'
+    + '</div>';
+});
+
+podium.innerHTML = podiumHTML;
 
   // FULL TABLE
   var rankIcons = ['', '', '', '4', '5', '6', '7', '8'];
