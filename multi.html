@@ -624,13 +624,13 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 <div id="lobby" class="mscreen active">
   <div class="m-bar">
     <div class="m-bar-left">
-      <button class="m-bar-btn" onclick="location.href='game.html'" data-i18n="ml.solo">Modo solo</button>
+      <button class="m-bar-btn" onclick="location.href='game.html'">Modo solo</button>
     </div>
     <div class="m-bar-center">
       <a href="index.html" class="m-bar-logo" style="pointer-events:auto">
         <span id="mb-logo"></span>Wiki<em>Race</em>
       </a>
-      <span class="m-bar-badge" data-i18n="ml.badge">Multijugador</span>
+      <span class="m-bar-badge">Multijugador</span>
     </div>
     <div class="m-bar-right">
       <button class="m-bar-dm nav-dark-toggle" id="lobby-dm" title="Modo oscuro"></button>
@@ -640,31 +640,31 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
   <div class="lobby-inner">
     <div style="margin-bottom:20px;animation:popIn .5s ease both" id="lobby-logo"></div>
     <h1 class="lobby-title">Wiki<em>Race</em></h1>
-    <p class="lobby-sub" data-i18n="ml.tagline1">Reta a tus amigos en tiempo real.<br data-i18n="ml.tagline2">Mismas palabras, a ver quién llega antes.</p>
+    <p class="lobby-sub">Reta a tus amigos en tiempo real.<br>Mismas palabras, a ver quién llega antes.</p>
 
     <div class="name-field">
-      <label class="name-label" data-i18n="ml.name.label">Tu nombre en la sala</label>
-      <input class="name-in" id="player-name" placeholder="¿Cómo te llamas?" data-i18n-ph="ml.name.ph" maxlength="20" autocomplete="off" spellcheck="false"/>
+      <label class="name-label">Tu nombre en la sala</label>
+      <input class="name-in" id="player-name" placeholder="¿Cómo te llamas?" maxlength="20" autocomplete="off" spellcheck="false"/>
     </div>
 
     <div class="action-grid">
       <div class="action-card ac-create" onclick="handleCreate()">
         <div class="ac-icon" id="ac-create-icon"></div>
-        <div class="ac-title" data-i18n="ml.create.title">Crear sala</div>
-        <div class="ac-desc" data-i18n="ml.create.desc">Genera un código y compártelo con tus amigos</div>
+        <div class="ac-title">Crear sala</div>
+        <div class="ac-desc">Genera un código y compártelo con tus amigos</div>
       </div>
       <div class="action-card ac-join" onclick="handleJoin()">
         <div class="ac-icon" id="ac-join-icon"></div>
-        <div class="ac-title" data-i18n="ml.join.title">Unirse</div>
-        <div class="ac-desc" data-i18n="ml.join.desc">Introduce el código de sala de un amigo</div>
+        <div class="ac-title">Unirse</div>
+        <div class="ac-desc">Introduce el código de sala de un amigo</div>
       </div>
     </div>
 
     <div class="join-expand" id="join-expand">
-      <div class="name-label" data-i18n="ml.code.label">Código de sala</div>
+      <div class="name-label">Código de sala</div>
       <div class="join-row">
         <input class="code-in" id="room-code-in" placeholder="Ej: WKRC" maxlength="6" autocomplete="off" spellcheck="false" oninput="this.value=this.value.toUpperCase()"/>
-        <button class="btn-join-go" onclick="joinRoom()" data-i18n="ml.join.btn">Unirse →</button>
+        <button class="btn-join-go" onclick="joinRoom()">Unirse →</button>
       </div>
     </div>
 
@@ -678,7 +678,7 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 <div id="waiting" class="mscreen">
   <div class="m-bar">
     <div class="m-bar-left">
-      <button class="m-bar-btn" onclick="leaveRoom()" data-i18n="ml.leave">Salir</button>
+      <button class="m-bar-btn" onclick="leaveRoom()">Salir</button>
     </div>
     <div class="m-bar-center">
       <a href="#" class="m-bar-logo" onclick="leaveRoom();return false" style="pointer-events:auto">
@@ -706,27 +706,27 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
   <div class="waiting-inner">
 
     <div class="room-code-block">
-      <div class="rcb-label" data-i18n="ml.room.code.label">Código de sala</div>
+      <div class="rcb-label">Código de sala</div>
       <div class="rcb-code" id="wr-code">——</div>
-      <button class="rcb-copy" onclick="copyRoomCode()" id="rcb-copy-btn" data-i18n="ml.copy.btn">
+      <button class="rcb-copy" onclick="copyRoomCode()" id="rcb-copy-btn">
         <span id="rcb-copy-icon"></span> Copiar código
       </button>
-      <button class="rcb-share" onclick="shareRoomLink()" id="rcb-share-btn" data-i18n="ml.share.btn">
+      <button class="rcb-share" onclick="shareRoomLink()" id="rcb-share-btn">
         <span id="rcb-share-icon"></span> Compartir enlace
       </button>
     </div>
 
     <div class="room-setup" id="room-setup-block">
       <div class="rs-header">
-        <div class="rs-title" data-i18n="ml.game.title">Partida</div>
-        <div class="rs-host-badge" id="rs-host-label" data-i18n="ml.host.badge">ANFITRIÓN</div>
+        <div class="rs-title">Partida</div>
+        <div class="rs-host-badge" id="rs-host-label">ANFITRIÓN</div>
       </div>
       <div class="rs-body" id="rs-body">
         <!-- HOST: editable inputs -->
         <div id="rs-edit-mode" style="display:none;flex-direction:column;gap:8px">
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <div style="flex:1;min-width:100px">
-              <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:4px" data-i18n="ml.start.label">Inicio</div>
+              <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:4px">Inicio</div>
               <div class="rs-ac-wrap">
               <input id="rs-input-from" class="rs-word-input" placeholder="Ej: Pulpo Paul" autocomplete="off" spellcheck="false"/>
               <div class="rs-spin" id="rs-spin-from"></div>
@@ -735,7 +735,7 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
             </div>
             <div id="rs-input-arr" style="flex-shrink:0;color:var(--ink4);padding-top:18px"></div>
             <div style="flex:1;min-width:100px">
-              <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:4px" data-i18n="ml.end.label">Destino</div>
+              <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:4px">Destino</div>
               <div class="rs-ac-wrap">
               <input id="rs-input-to" class="rs-word-input" placeholder="Ej: Adolf Hitler" autocomplete="off" spellcheck="false"/>
               <div class="rs-spin" id="rs-spin-to"></div>
@@ -745,13 +745,13 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap">
             <button class="btn-rs primary" onclick="applyCustomPair()">
-              <span id="rs-check-icon"></span> <span data-i18n="ml.apply.btn">Aplicar</span>
+              <span id="rs-check-icon"></span> Aplicar
             </button>
             <button class="btn-rs" onclick="randomizePair()">
-              <span id="rs-shuffle-icon"></span> <span data-i18n="ml.rand.btn">Aleatoria</span>
+              <span id="rs-shuffle-icon"></span> Aleatoria
             </button>
             <button class="btn-rs" onclick="setDailyPair()">
-              <span id="rs-cal-icon"></span> <span data-i18n="ml.daily.btn">Del día</span>
+              <span id="rs-cal-icon"></span> Del día
             </button>
           </div>
         </div>
@@ -769,18 +769,18 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 
     <div class="players-block">
       <div class="pb-header">
-        <span data-i18n="ml.players.label">Jugadores</span>
+        Jugadores
         <span class="pb-count" id="pb-count">0 / 8</span>
       </div>
       <div id="pb-list">
-        <div class="pb-empty" data-i18n="ml.waiting.guest">Esperando jugadores…</div>
+        <div class="pb-empty">Esperando jugadores…</div>
       </div>
     </div>
 
     <button class="btn-start-game" id="btn-start-game" onclick="hostStartGame()" disabled>
       Empezar partida
     </button>
-    <div class="waiting-msg" id="waiting-msg" data-i18n="ml.waiting.guest">Esperando al anfitrión…</div>
+    <div class="waiting-msg" id="waiting-msg">Esperando al anfitrión…</div>
 
   </div>
 </div>
@@ -788,7 +788,7 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 <!-- ════════════ COUNTDOWN ════════════ -->
 <div id="countdown" class="mscreen">
   <div class="cd-pair">
-    <div class="cd-label" data-i18n="ml.cd.label">De aquí…</div>
+    <div class="cd-label">De aquí…</div>
     <div class="cd-pair-display">
       <span class="cd-from" id="cd-from">—</span>
       <span class="cd-arrow-wrap" id="cd-arr"></span>
@@ -796,8 +796,8 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
     </div>
   </div>
   <div class="cd-num" id="cd-num">3</div>
-  <div class="cd-go" id="cd-go" data-i18n="ml.cd.go">¡YA!</div>
-  <div class="cd-sub" id="cd-sub" data-i18n="ml.cd.sub">Prepárate…</div>
+  <div class="cd-go" id="cd-go">¡YA!</div>
+  <div class="cd-sub" id="cd-sub">Prepárate…</div>
 </div>
 
 <!-- ════════════ GAME ════════════ -->
@@ -815,7 +815,7 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 
     <div class="msb-score">
       <div class="msb-pts" id="m-score-num">1000</div>
-      <div class="msb-pts-lbl" data-i18n="ml.sb.pts.lbl">Mis puntos</div>
+      <div class="msb-pts-lbl">Mis puntos</div>
       <div class="msb-bar-bg"><div class="msb-bar" id="m-score-bar" style="width:100%"></div></div>
     </div>
 
@@ -825,29 +825,29 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
     </div>
 
     <div class="msb-stats">
-      <div class="msb-s"><div class="msb-sv sv-t" id="m-s-t">0:00</div><div class="msb-sl" data-i18n="ml.sb.time">Tiempo</div></div>
-      <div class="msb-s"><div class="msb-sv sv-h" id="m-s-h">0</div><div class="msb-sl" data-i18n="ml.sb.hops">Saltos</div></div>
-      <div class="msb-s"><div class="msb-sv sv-b" id="m-s-b">0</div><div class="msb-sl" data-i18n="ml.sb.backs">Atrás</div></div>
+      <div class="msb-s"><div class="msb-sv sv-t" id="m-s-t">0:00</div><div class="msb-sl">Tiempo</div></div>
+      <div class="msb-s"><div class="msb-sv sv-h" id="m-s-h">0</div><div class="msb-sl">Saltos</div></div>
+      <div class="msb-s"><div class="msb-sv sv-b" id="m-s-b">0</div><div class="msb-sl">Atrás</div></div>
     </div>
 
     <div class="msb-tgts">
-      <div class="msb-sec" data-i18n="ml.sb.target">Objetivo</div>
-      <div class="msb-tr msbt-s"><div class="msbt-dot dg"></div><div class="msbt-name" id="m-trf">—</div><span class="msbt-tag tag-s" data-i18n="ml.sb.start.tag">INICIO</span></div>
+      <div class="msb-sec">Objetivo</div>
+      <div class="msb-tr msbt-s"><div class="msbt-dot dg"></div><div class="msbt-name" id="m-trf">—</div><span class="msbt-tag tag-s">INICIO</span></div>
       <div class="msbt-sep">↓</div>
-      <div class="msb-tr msbt-e"><div class="msbt-dot dr"></div><div class="msbt-name" id="m-trt">—</div><span class="msbt-tag tag-e" data-i18n="ml.sb.end.tag">META</span></div>
+      <div class="msb-tr msbt-e"><div class="msbt-dot dr"></div><div class="msbt-name" id="m-trt">—</div><span class="msbt-tag tag-e">META</span></div>
     </div>
 
     <!-- RIVALS — live updates -->
     <div class="msb-rivals">
       <div class="rivals-header">
-        <span class="rivals-title" data-i18n="ml.sb.rivals">Rivales</span>
-        <span class="rivals-live"><span class="live-dot"></span data-i18n="ml.sb.live">EN VIVO</span>
+        <span class="rivals-title">Rivales</span>
+        <span class="rivals-live"><span class="live-dot"></span>EN VIVO</span>
       </div>
       <div id="rivals-list"></div>
     </div>
 
     <div class="msb-path">
-      <div class="msb-sec" data-i18n="ml.sb.path">Mi ruta</div>
+      <div class="msb-sec">Mi ruta</div>
       <div id="m-path-map"></div>
     </div>
 
@@ -855,7 +855,7 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
       <button class="btn-bk-m" id="m-btn-bk" onclick="mGoBack()" disabled>
         ← Volver atrás<span class="bk-pts-m">−80</span>
       </button>
-      <button class="btn-give-m" onclick="mGiveUp()" data-i18n="ml.sb.give">Rendirse</button>
+      <button class="btn-give-m" onclick="mGiveUp()">Rendirse</button>
     </div>
   </div>
 
@@ -876,14 +876,14 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
       <div class="winner-banner" id="winner-banner">
         <div class="wb-icon" id="wb-icon"></div>
         <div class="wb-text">
-          <div class="wb-title" id="wb-title" data-i18n="ml.winner.title">¡Alguien llegó primero!</div>
-          <div class="wb-sub" id="wb-sub" data-i18n="ml.winner.sub">Sigue intentando llegar</div>
+          <div class="wb-title" id="wb-title">¡Alguien llegó primero!</div>
+          <div class="wb-sub" id="wb-sub">Sigue intentando llegar</div>
         </div>
         <button class="wb-close" onclick="document.getElementById('winner-banner').classList.remove('show')">×</button>
       </div>
       <div class="m-wload" id="m-wload">
         <div class="m-ld-ring"></div>
-        <div class="m-ld-txt" id="m-wload-t" data-i18n="ml.sb.loading">Cargando…</div>
+        <div class="m-ld-txt" id="m-wload-t">Cargando…</div>
       </div>
       <div id="mwc"></div>
     </div>
@@ -894,11 +894,11 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 <div id="results" class="mscreen">
   <div class="m-bar">
     <div class="m-bar-left">
-      <button class="m-bar-btn" onclick="playAgain()" data-i18n="ml.res.rematch">Revancha</button>
+      <button class="m-bar-btn" onclick="playAgain()">Revancha</button>
     </div>
     <div class="m-bar-center">
       <a href="index.html" class="m-bar-logo" style="pointer-events:auto"><span id="rb-logo"></span>Wiki<em>Race</em></a>
-      <span class="m-bar-badge" data-i18n="ml.res.badge">Resultados</span>
+      <span class="m-bar-badge">Resultados</span>
     </div>
     <div class="m-bar-right">
       <button class="m-bar-dm nav-dark-toggle" id="results-dm" title="Modo oscuro"></button>
@@ -906,17 +906,17 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
   </div>
 
   <div class="results-inner">
-    <h1 class="res-title" id="res-title" data-i18n="ml.res.end">Fin de la partida</h1>
+    <h1 class="res-title" id="res-title">Fin de la partida</h1>
     <p class="res-sub" id="res-sub">—</p>
     <div class="podium" id="podium"></div>
     <div class="res-table" id="res-table"></div>
     <div class="res-paths" id="res-paths">
-      <div class="rp-header" data-i18n="ml.res.paths">Rutas comparadas</div>
+      <div class="rp-header">Rutas comparadas</div>
       <div id="res-paths-list"></div>
     </div>
     <div class="res-actions">
-      <button class="btn-play-again-m" onclick="playAgain()" data-i18n="ml.res.rematch">Revancha</button>
-      <button class="btn-solo" onclick="location.href='game.html'" data-i18n="ml.res.solo">Jugar solo</button>
+      <button class="btn-play-again-m" onclick="playAgain()">Revancha</button>
+      <button class="btn-solo" onclick="location.href='game.html'">Jugar solo</button>
       <button class="btn-solo" onclick="location.href='index.html'">Inicio</button>
     </div>
   </div>
@@ -1139,10 +1139,6 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   }
   bindDarkToggles();
-  // Apply saved language on load
-  var savedLang = null;
-  try{ savedLang = localStorage.getItem('wikirace_lang'); }catch(e){}
-  if(savedLang && savedLang !== 'es') setTimeout(function(){ setMLang(savedLang); }, 100);
 
   // Action card icons
   if(msc('ac-create-icon')) msc('ac-create-icon').innerHTML = plusSVG();
@@ -1397,14 +1393,14 @@ function renderPlayersList(players){
       : 'Esperando más jugadores… (' + count + '/2 mín.)';
   }
 
-  if(!pArr.length){ list.innerHTML='<div class="pb-empty" data-i18n="ml.waiting.guest">Esperando jugadores…</div>'; return; }
+  if(!pArr.length){ list.innerHTML='<div class="pb-empty">Esperando jugadores…</div>'; return; }
 
   list.innerHTML = pArr.map(function(entry){
     var id = entry[0], p = entry[1];
     var isMe = id === ME.id;
     var initials = (p.name||'?').slice(0,2).toUpperCase();
     var badges = '';
-    if(isMe) badges += '<span class="pb-you">'+(typeof t==='function'?t('ml.you'):'TÚ')+'</span>';
+    if(isMe) badges += '<span class="pb-you">TÚ</span>';
     if(p.isHost) badges += '<span class="pb-host">HOST</span>';
     return '<div class="pb-player">'
       +'<div class="pb-avatar" style="background:'+p.color+'">'+initials+'</div>'
@@ -1564,30 +1560,6 @@ function setMLang(l){
   document.querySelectorAll('.lang-toggle-lbl').forEach(function(el){ el.textContent = l.toUpperCase(); });
   var dd = document.getElementById('m-lang-dd');
   if(dd){ dd.classList.remove('open'); }
-  // Apply all data-i18n translations using shared.js setLang
-  if(typeof setLang === 'function'){
-    setLang(l);
-  } else {
-    // Fallback: apply translations manually
-    document.querySelectorAll('[data-i18n]').forEach(function(el){
-      var key = el.getAttribute('data-i18n');
-      if(typeof TRANSLATIONS !== 'undefined'){
-        var tr = (TRANSLATIONS[l]||TRANSLATIONS.es||{})[key];
-        if(tr !== undefined){
-          if(tr.indexOf('<') !== -1) el.innerHTML = tr;
-          else el.textContent = tr;
-        }
-      }
-    });
-    // Update placeholders
-    document.querySelectorAll('[data-i18n-ph]').forEach(function(el){
-      var key = el.getAttribute('data-i18n-ph');
-      if(typeof TRANSLATIONS !== 'undefined'){
-        var tr = (TRANSLATIONS[l]||TRANSLATIONS.es||{})[key];
-        if(tr) el.placeholder = tr;
-      }
-    });
-  }
   // Update room lang in Firebase if host
   if(ME.isHost && ROOM.ref){
     ROOM.ref.update({lang: l});
@@ -1641,13 +1613,10 @@ function startCountdown(start, end){
   var num = msc('cd-num');
   var go  = msc('cd-go');
   var sub = msc('cd-sub');
-  var lang = M_LANG || 'es';
-  var cdSubs = (typeof TRANSLATIONS !== 'undefined' && TRANSLATIONS[lang] && TRANSLATIONS[lang]['ml.cd.subs']) 
-    ? ['Prepárate…','¡Casi!','¡Ya casi!'] : ['Prepárate…','¡Casi!','¡Ya casi!'];
   var ticks = [
-    {n:'3', s:cdSubs[0]||'Prepárate…'},
-    {n:'2', s:cdSubs[1]||'¡Casi!'},
-    {n:'1', s:cdSubs[2]||'¡Ya casi!'}
+    {n:'3', s:'Prepárate…'},
+    {n:'2', s:'¡Casi!'},
+    {n:'1', s:'¡Ya casi!'}
   ];
   var i = 0;
   function tick(){
@@ -1667,7 +1636,7 @@ function startCountdown(start, end){
       go.style.animation='none';
       void go.offsetWidth;
       go.style.animation='cdGo .5s cubic-bezier(.16,1,.3,1) both';
-      sub.textContent=typeof t==='function'?t('ml.cd.go'):'¡AHORA!';
+      sub.textContent='¡AHORA!';
       // Tell Firebase game is playing (only host does this)
       if(ME.isHost){
         ROOM.ref.update({
@@ -1892,7 +1861,7 @@ function mGoBack(){
 }
 
 function mGiveUp(){
-  if(!confirm(typeof t==='function'?t('ml.sb.give')+'?':'¿Seguro que te rindes?')) return;
+  if(!confirm('¿Seguro que te rindes?')) return;
   G.done = true;
   clearInterval(G.timer);
   pushMyState();
@@ -1955,7 +1924,7 @@ function listenForWinner(){
         var banner = msc('winner-banner');
         if(banner && !G.done){
           msc('wb-icon').innerHTML = trophySVG(28);
-          msc('wb-title').textContent = (ns.val()||'Alguien') + (typeof t==='function'?' '+t('ml.winner.title').replace('Alguien llegó primero','llegó primero'):'llegó primero');
+          msc('wb-title').textContent = (ns.val()||'Alguien') + ' llegó primero';
           msc('wb-sub').textContent = 'Sigue intentando — ¡aún puedes completarla!';
           banner.classList.add('show');
           mToast((ns.val()||'Un rival')+' llegó a la meta','rival',3000);
