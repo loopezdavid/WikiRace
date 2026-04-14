@@ -285,15 +285,16 @@ body{background:var(--bg)}
   border-radius:8px;padding:11px 13px;cursor:pointer;
   border-left:3px solid var(--border);
   transition:all .14s;text-align:left;
-  display:flex;align-items:center;gap:7px;
+  display:flex;align-items:center;gap:6px;
   -webkit-tap-highlight-color:transparent;
+  overflow:hidden;min-width:0;
 }
 .sugg:hover{border-color:var(--green);border-left-color:var(--green);background:var(--green-bg)}
 .sugg:active{transform:scale(.98)}
-.sugg-from{font-size:12px;font-weight:700;color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;max-width:calc(50% - 16px)}
-.sugg-arr{font-size:10px;color:var(--ink4);flex-shrink:0;display:flex;align-items:center}
-.sugg-arr-svg{flex-shrink:0}
-.sugg-to{font-size:12px;font-weight:700;color:var(--red);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;text-align:right;max-width:calc(50% - 16px)}
+.sugg-from{font-size:12px;font-weight:700;color:var(--green);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.sugg-arr{flex-shrink:0;display:flex;align-items:center;color:var(--ink4)}
+.sugg-arr-svg{flex-shrink:0;display:flex;align-items:center;color:var(--ink4)}
+.sugg-to{font-size:12px;font-weight:700;color:var(--red);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;text-align:right}
 
 /* ── DAILY STRIP (bottom) ── */
 .daily-strip{
