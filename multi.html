@@ -25,9 +25,16 @@ body{background:var(--bg)}
 
 /* ── SHARED TOPBAR ── */
 .m-bar{
-  height:52px;background:var(--surface);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0;
+  height:52px;background:var(--ink);border-bottom:none;
+  display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;
 }
+.m-bar-logo{color:#fff!important}
+.m-bar-logo em{color:var(--green2)!important}
+.m-bar-badge{background:rgba(255,255,255,.12)!important;color:rgba(255,255,255,.7)!important;border:1px solid rgba(255,255,255,.15)!important}
+.m-bar-btn{border-color:rgba(255,255,255,.18)!important;color:rgba(255,255,255,.65)!important;background:none!important;font-size:12px!important}
+.m-bar-btn:hover{border-color:rgba(255,255,255,.4)!important;color:#fff!important;background:rgba(255,255,255,.06)!important}
+.m-bar-dm{border-color:rgba(255,255,255,.18)!important;color:rgba(255,255,255,.65)!important;background:none!important}
+.m-bar-dm:hover{border-color:rgba(255,255,255,.4)!important;color:#fff!important;background:rgba(255,255,255,.06)!important}
 .m-bar-logo{font-size:18px;font-weight:900;letter-spacing:-1px;color:var(--ink);display:flex;align-items:center;gap:7px;text-decoration:none}
 .m-bar-logo em{color:var(--green2);font-style:normal}
 .m-bar-badge{background:var(--ink);color:var(--bg);font-size:9px;font-weight:800;padding:3px 8px;border-radius:3px;letter-spacing:1.5px;text-transform:uppercase}
@@ -43,7 +50,7 @@ body{background:var(--bg)}
 
 .lobby-inner{
   width:100%;max-width:420px;
-  padding:32px 16px 60px;
+  padding:28px 16px 60px;
   display:flex;flex-direction:column;align-items:center;
   gap:0;animation:fadeUp .4s ease both;
 }
@@ -68,8 +75,8 @@ body{background:var(--bg)}
 .name-in::placeholder{color:var(--ink4);font-weight:400}
 
 /* ACTION CARDS */
-.action-grid{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
-@media(max-width:380px){.action-grid{grid-template-columns:1fr}}
+.action-grid{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+@media(max-width:340px){.action-grid{grid-template-columns:1fr}}
 
 .action-card{
   background:var(--surface);border:1px solid var(--border);border-radius:12px;
@@ -89,17 +96,17 @@ body{background:var(--bg)}
 
 /* JOIN CODE INPUT */
 .join-expand{
-  width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:20px;display:none;flex-direction:column;gap:12px;
-  animation:fadeUp .2s ease;margin-bottom:10px;
+  width:100%;max-width:100%;background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:16px;display:none;flex-direction:column;gap:10px;
+  animation:fadeUp .2s ease;margin-bottom:10px;box-sizing:border-box;
 }
 .join-expand.open{display:flex}
-.join-row{display:flex;gap:8px}
+.join-row{display:flex;gap:8px;width:100%}
 .code-in{
-  flex:1;background:var(--surface2);border:2px solid var(--border);border-radius:8px;
-  padding:12px 14px;font-size:20px;font-weight:800;letter-spacing:4px;
+  flex:1;min-width:0;background:var(--surface2);border:2px solid var(--border);border-radius:8px;
+  padding:12px 10px;font-size:18px;font-weight:800;letter-spacing:3px;
   text-transform:uppercase;color:var(--ink);outline:none;font-family:var(--font);
-  text-align:center;-webkit-appearance:none;transition:border-color .15s;
+  text-align:center;-webkit-appearance:none;transition:border-color .15s;width:0;
 }
 .code-in:focus{border-color:var(--green2);background:var(--surface)}
 .code-in::placeholder{font-size:14px;letter-spacing:1px;font-weight:400;color:var(--ink4)}
@@ -157,7 +164,15 @@ body{background:var(--bg)}
 .rs-title{font-size:13px;font-weight:700;color:var(--ink);flex:1}
 .rs-host-badge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(181,159,59,.2)}
 .rs-body{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
-.rs-pair{display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:12px 14px}
+.rs-pair{display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:12px 14px;transition:background .12s}
+.rs-pair:hover{background:var(--surface3)}
+.rs-word-input{
+  width:100%;background:var(--surface2);border:2px solid var(--border);border-radius:6px;
+  padding:9px 11px;font-size:14px;font-weight:600;color:var(--ink);
+  outline:none;font-family:var(--font);-webkit-appearance:none;transition:border-color .15s;
+}
+.rs-word-input:focus{border-color:var(--green2);background:var(--surface)}
+.rs-word-input::placeholder{color:var(--ink4);font-weight:400;font-size:13px}
 .rs-pair-from{font-size:14px;font-weight:700;color:var(--green);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rs-pair-to{font-size:14px;font-weight:700;color:var(--red);flex:1;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rs-pair-arr{color:var(--ink4);flex-shrink:0}
@@ -594,7 +609,7 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
     </a>
     <span class="m-bar-badge" id="wr-room-id">—</span>
     <div class="m-bar-spacer"></div>
-    <button class="m-bar-btn" onclick="leaveRoom()">← Salir</button>
+    <button class="m-bar-btn" onclick="leaveRoom()">Salir</button>
     <button class="m-bar-dm nav-dark-toggle" id="waiting-dm" title="Modo oscuro"></button>
   </div>
 
@@ -616,19 +631,40 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
         <div class="rs-title">Partida</div>
         <div class="rs-host-badge" id="rs-host-label">ANFITRIÓN</div>
       </div>
-      <div class="rs-body">
-        <div class="rs-pair" id="rs-pair-display">
+      <div class="rs-body" id="rs-body">
+        <!-- HOST: editable inputs -->
+        <div id="rs-edit-mode" style="display:none;flex-direction:column;gap:8px">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <div style="flex:1;min-width:100px">
+              <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:4px">Inicio</div>
+              <input id="rs-input-from" class="rs-word-input" placeholder="Ej: Pulpo Paul" autocomplete="off" spellcheck="false"/>
+            </div>
+            <div id="rs-input-arr" style="flex-shrink:0;color:var(--ink4);padding-top:18px"></div>
+            <div style="flex:1;min-width:100px">
+              <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:4px">Destino</div>
+              <input id="rs-input-to" class="rs-word-input" placeholder="Ej: Adolf Hitler" autocomplete="off" spellcheck="false"/>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn-rs primary" onclick="applyCustomPair()">
+              <span id="rs-check-icon"></span> Aplicar
+            </button>
+            <button class="btn-rs" onclick="randomizePair()">
+              <span id="rs-shuffle-icon"></span> Aleatoria
+            </button>
+            <button class="btn-rs" onclick="setDailyPair()">
+              <span id="rs-cal-icon"></span> Del día
+            </button>
+          </div>
+        </div>
+        <!-- DISPLAY (read-only for guests, clickable for host) -->
+        <div class="rs-pair" id="rs-pair-display" onclick="hostOpenEdit()" style="cursor:pointer">
           <span class="rs-pair-from" id="rs-from">—</span>
           <span class="rs-pair-arr" id="rs-arr"></span>
           <span class="rs-pair-to" id="rs-to">—</span>
+          <span id="rs-edit-hint" style="font-size:10px;color:var(--ink4);margin-left:auto;display:none">✎ editar</span>
         </div>
-        <div class="rs-actions" id="rs-actions">
-          <button class="btn-rs" onclick="randomizePair()">
-            <span id="rs-shuffle-icon"></span> Nueva aleatoria
-          </button>
-          <button class="btn-rs" onclick="setDailyPair()">
-            <span id="rs-cal-icon"></span> Palabras del día
-          </button>
+        <div class="rs-actions" id="rs-actions" style="display:none">
         </div>
       </div>
     </div>
@@ -874,6 +910,27 @@ function genPlayerId(){
 }
 function colorForIndex(i){return COLORS[i%COLORS.length];}
 
+function bigArrowSVG(){
+  /* Custom racing arrow — double chevron with speed lines */
+  return '<svg width="32" height="20" viewBox="0 0 48 28" fill="none">'
+    +'<path d="M6 14H38" stroke="var(--ink4)" stroke-width="2" stroke-linecap="round" stroke-dasharray="3 3" opacity=".4"/>'
+    +'<path d="M28 6l10 8-10 8" stroke="var(--green2)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>'
+    +'<path d="M20 9l8 5-8 5" stroke="var(--green2)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/>'
+    +'</svg>';
+}
+function checkSVGSmall(){
+  return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+/* Nicer arrow for pair displays everywhere */
+function niceArrowSVG(size){
+  size = size || 20;
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="none">'
+    +'<path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
+    +'<path d="M14 7l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+    +'<line x1="5" y1="9" x2="10" y2="9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".35"/>'
+    +'<line x1="5" y1="15" x2="10" y2="15" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".35"/>'
+    +'</svg>';
+}
 function arrowSVGSmall(){
   return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none">'
     +'<path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
@@ -944,11 +1001,27 @@ document.addEventListener('DOMContentLoaded', function(){
   ['mb-logo','wb-logo','rb-logo'].forEach(function(id){ if(msc(id)) msc(id).innerHTML=logoSVG(22); });
   if(msc('lobby-logo')) msc('lobby-logo').innerHTML = logoSVG(64);
 
-  // DM toggles
-  document.querySelectorAll('.nav-dark-toggle').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      if(typeof toggleDark==='function') toggleDark();
+  // ── DARK MODE (self-contained) ──
+  var DM_KEY_M = 'wikirace_dark';
+  function moonSVG(){ return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
+  function sunSVG(){  return '<svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'; }
+  function applyDarkM(on){
+    document.body.classList.toggle('dark', on);
+    document.querySelectorAll('.nav-dark-toggle, .m-bar-dm').forEach(function(btn){
+      btn.innerHTML = on ? sunSVG() : moonSVG();
+      btn.title = on ? 'Modo claro' : 'Modo oscuro';
     });
+    try{ localStorage.setItem(DM_KEY_M, on?'1':'0'); }catch(e){}
+  }
+  function initDarkM(){
+    var saved=null; try{ saved=localStorage.getItem(DM_KEY_M); }catch(e){}
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches;
+    applyDarkM(saved==='1'||(saved===null&&prefersDark));
+  }
+  initDarkM();
+  document.querySelectorAll('.nav-dark-toggle, .m-bar-dm').forEach(function(btn){
+    btn.innerHTML = document.body.classList.contains('dark') ? sunSVG() : moonSVG();
+    btn.addEventListener('click', function(){ applyDarkM(!document.body.classList.contains('dark')); });
   });
 
   // Action card icons
@@ -958,10 +1031,10 @@ document.addEventListener('DOMContentLoaded', function(){
   // Waiting room icons
   if(msc('rcb-copy-icon'))    msc('rcb-copy-icon').innerHTML = copySVG();
   if(msc('rcb-share-icon'))   msc('rcb-share-icon').innerHTML = shareSVG();
-  if(msc('rs-arr'))           msc('rs-arr').innerHTML = arrowSVGSmall();
+  if(msc('rs-arr'))           msc('rs-arr').innerHTML = niceArrowSVG(18);
   if(msc('rs-shuffle-icon'))  msc('rs-shuffle-icon').innerHTML = shuffleSVG();
   if(msc('rs-cal-icon'))      msc('rs-cal-icon').innerHTML = calSVG();
-  if(msc('cd-arr'))           msc('cd-arr').innerHTML = arrowSVGSmall();
+  if(msc('cd-arr'))           msc('cd-arr').innerHTML = niceArrowSVG(28);
 
   // Player name from localStorage
   var saved = null;
@@ -1103,10 +1176,17 @@ function enterWaitingRoom(roomId, playerId){
 
   // Show/hide host controls
   var isHost = ME.isHost;
-  msc('rs-actions').style.display = isHost ? 'flex' : 'none';
   msc('btn-start-game').style.display = isHost ? 'block' : 'none';
   msc('waiting-msg').style.display = isHost ? 'none' : 'block';
   msc('rs-host-label').textContent = isHost ? 'ANFITRIÓN' : 'INVITADO';
+  // Host can edit words, guest sees read-only
+  var editHint = msc('rs-edit-hint');
+  if(editHint) editHint.style.display = isHost ? 'inline' : 'none';
+  // Init icon for rs-input-arr
+  setTimeout(function(){
+    if(msc('rs-input-arr')) msc('rs-input-arr').innerHTML = bigArrowSVG();
+    if(msc('rs-check-icon')) msc('rs-check-icon').innerHTML = checkSVGSmall();
+  }, 50);
 
   // Listen to room
   listenRoom();
@@ -1212,6 +1292,35 @@ var ALL_PAIRS_MULTI = [
   {s:'Jamón ibérico',e:'Napoleón Bonaparte'},{s:'Sagrada Familia',e:'Revolución industrial'},
   {s:'Córdoba',e:'Homo sapiens'},{s:'Toledo',e:'Primera Guerra Mundial'}
 ];
+
+function hostOpenEdit(){
+  if(!ME.isHost) return;
+  var edit = msc('rs-edit-mode');
+  if(!edit) return;
+  if(edit.style.display === 'flex'){
+    edit.style.display = 'none';
+    msc('rs-pair-display').style.display = 'flex';
+  } else {
+    edit.style.display = 'flex';
+    msc('rs-pair-display').style.display = 'none';
+    // Pre-fill with current values
+    if(ROOM.data){ 
+      msc('rs-input-from').value = ROOM.data.start || '';
+      msc('rs-input-to').value   = ROOM.data.end   || '';
+    }
+    msc('rs-input-from').focus();
+  }
+}
+function applyCustomPair(){
+  var from = (msc('rs-input-from').value||'').trim();
+  var to   = (msc('rs-input-to').value||'').trim();
+  if(!from||!to){ mToast('Escribe las dos entradas','pen'); return; }
+  ROOM.ref.update({start:from, end:to}).then(function(){
+    msc('rs-edit-mode').style.display='none';
+    msc('rs-pair-display').style.display='flex';
+    mToast('Palabras actualizadas','hop');
+  });
+}
 
 function randomizePair(){
   if(!ME.isHost) return;
