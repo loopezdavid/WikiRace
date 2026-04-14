@@ -175,7 +175,7 @@ var CURRENT_LANG = 'es';
 
 var TRANSLATIONS = {
   es:{
-    'nav.howto':'Cómo jugar','nav.leaderboard':'Clasificación',
+    'nav.home':'Inicio','nav.howto':'Cómo jugar','nav.leaderboard':'Clasificación',
     'nav.stats':'Stats','nav.about':'Acerca de','nav.play':'Jugar →',
     'nav.multi':'VS Multi',
     'hero.tagline':'Navega de una entrada de Wikipedia a otra usando solo los enlaces. Simple. Adictivo.',
@@ -193,10 +193,19 @@ var TRANSLATIONS = {
     'cta.title':'¿Listo para tu primera carrera?','cta.sub':'Sin registro. Sin descargas. Solo abre y juega.',
     'cta.btn':'Jugar ahora →',
     'diff.easy':'Fácil','diff.med':'Media','diff.hard':'Difícil',
-    'footer.made':'Hecho con'
+    'hero.tagline2':'usando <strong>solo los enlaces</strong>. Simple. Adictivo.',
+    'hero.prepared':'¿Preparado?','hero.play.main':'Jugar ahora',
+    'hero.multi':'Multijugador','hero.howto.btn':'Cómo jugar','hero.lb.btn':'Clasificación',
+    'stats.played':'Partidas jugadas','stats.best':'Tu mejor score','stats.day':'Partida #',
+    'step1.num':'01','step2.num':'02','step3.num':'03',
+    'sc1.pts':'-40','sc2.pts':'-30','sc3.pts':'-80',
+    'ex.cta.btn':'Crear mi propia ruta →',
+    'cta.btn.text':'Jugar ahora →',
+    'footer.made':'Hecho con','footer.wiki':'Wikipedia',
+    'foot.howto':'Cómo jugar','foot.lb':'Clasificación','foot.about':'Acerca de',
   },
   en:{
-    'nav.howto':'How to play','nav.leaderboard':'Leaderboard',
+    'nav.home':'Home','nav.howto':'How to play','nav.leaderboard':'Leaderboard',
     'nav.stats':'Stats','nav.about':'About','nav.play':'Play →',
     'nav.multi':'VS Multi',
     'hero.tagline':'Navigate from one Wikipedia article to another using only links. Simple. Addictive.',
@@ -214,10 +223,19 @@ var TRANSLATIONS = {
     'cta.title':'Ready for your first race?','cta.sub':'No sign-up. No download. Just open and play.',
     'cta.btn':'Play now →',
     'diff.easy':'Easy','diff.med':'Medium','diff.hard':'Hard',
-    'footer.made':'Made with'
+    'hero.tagline2':'using <strong>only links</strong>. Simple. Addictive.',
+    'hero.prepared':'Ready?','hero.play.main':'Play now',
+    'hero.multi':'Multiplayer','hero.howto.btn':'How to play','hero.lb.btn':'Leaderboard',
+    'stats.played':'Games played','stats.best':'Your best score','stats.day':'Game #',
+    'step1.num':'01','step2.num':'02','step3.num':'03',
+    'sc1.pts':'-40','sc2.pts':'-30','sc3.pts':'-80',
+    'ex.cta.btn':'Create my own route →',
+    'cta.btn.text':'Play now →',
+    'footer.made':'Made with','footer.wiki':'Wikipedia',
+    'foot.howto':'How to play','foot.lb':'Leaderboard','foot.about':'About',
   },
   eu:{
-    'nav.howto':'Nola jokatu','nav.leaderboard':'Sailkapena',
+    'nav.home':'Hasiera','nav.howto':'Nola jokatu','nav.leaderboard':'Sailkapena',
     'nav.stats':'Stats','nav.about':'Honi buruz','nav.play':'Jokatu →',
     'nav.multi':'VS Multi',
     'hero.tagline':'Wikipedia-ko sarrera batetik bestera nabigatu, estekak erabiliz soilik. Sinplea. Menperatzailea.',
@@ -235,10 +253,19 @@ var TRANSLATIONS = {
     'cta.title':'Prest zure lehen lasterketa?','cta.sub':'Ez du erregistrorik behar.',
     'cta.btn':'Orain jokatu →',
     'diff.easy':'Erraza','diff.med':'Ertaina','diff.hard':'Zaila',
-    'footer.made':'Eginda'
+    'hero.tagline2':'<strong>estekak soilik</strong> erabiliz. Sinplea. Menperatzailea.',
+    'hero.prepared':'Prest?','hero.play.main':'Orain jokatu',
+    'hero.multi':'Anitz-jokalari','hero.howto.btn':'Nola jokatu','hero.lb.btn':'Sailkapena',
+    'stats.played':'Jokatutako partidak','stats.best':'Zure puntuaziorik onena','stats.day':'Partida #',
+    'step1.num':'01','step2.num':'02','step3.num':'03',
+    'sc1.pts':'-40','sc2.pts':'-30','sc3.pts':'-80',
+    'ex.cta.btn':'Nire bidea sortu →',
+    'cta.btn.text':'Orain jokatu →',
+    'footer.made':'Eginda','footer.wiki':'Wikipedia',
+    'foot.howto':'Nola jokatu','foot.lb':'Sailkapena','foot.about':'Honi buruz',
   },
   ca:{
-    'nav.howto':'Com jugar','nav.leaderboard':'Classificació',
+    'nav.home':'Inici','nav.howto':'Com jugar','nav.leaderboard':'Classificació',
     'nav.stats':'Stats','nav.about':'Sobre WikiRace','nav.play':'Jugar →',
     'nav.multi':'VS Multi',
     'hero.tagline':"Navega d'una entrada de Wikipedia a una altra usant només els enllaços. Simple. Addictiu.",
@@ -256,7 +283,16 @@ var TRANSLATIONS = {
     'cta.title':'A punt per la teva primera cursa?','cta.sub':'Sense registre. Sense descàrregues.',
     'cta.btn':'Jugar ara →',
     'diff.easy':'Fàcil','diff.med':'Mitjana','diff.hard':'Difícil',
-    'footer.made':'Fet amb'
+    'hero.tagline2':'usant <strong>només els enllaços</strong>. Simple. Addictiu.',
+    'hero.prepared':'A punt?','hero.play.main':'Jugar ara',
+    'hero.multi':'Multijugador','hero.howto.btn':'Com jugar','hero.lb.btn':'Classificació',
+    'stats.played':'Partides jugades','stats.best':'La teva millor puntuació','stats.day':'Partida #',
+    'step1.num':'01','step2.num':'02','step3.num':'03',
+    'sc1.pts':'-40','sc2.pts':'-30','sc3.pts':'-80',
+    'ex.cta.btn':'Crear la meva ruta →',
+    'cta.btn.text':'Jugar ara →',
+    'footer.made':'Fet amb','footer.wiki':'Wikipedia',
+    'foot.howto':'Com jugar','foot.lb':'Classificació','foot.about':'Sobre WikiRace',
   }
 };
 
@@ -269,8 +305,16 @@ function setLang(code){
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     var k = el.getAttribute('data-i18n');
     var v = t(k);
+    if(!v) return;
     if(el.tagName === 'INPUT'||el.tagName==='TEXTAREA') el.placeholder = v;
+    else if(v.indexOf('<') !== -1) el.innerHTML = v;
     else el.textContent = v;
+  });
+  // update lang toggle labels
+  document.querySelectorAll('.lang-toggle-lbl').forEach(function(el){ el.textContent = code.toUpperCase(); });
+  // mark active in dropdowns
+  document.querySelectorAll('.lang-dd button[data-lang]').forEach(function(b){
+    b.classList.toggle('lang-active', b.getAttribute('data-lang')===code);
   });
   // update lang toggle label
   document.querySelectorAll('.lang-toggle-lbl').forEach(function(el){ el.textContent = code.toUpperCase(); });

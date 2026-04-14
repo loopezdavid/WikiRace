@@ -189,7 +189,7 @@
     <a href="howtoplay.html" class="nav-link" data-i18n="nav.howto">C&oacute;mo jugar</a>
     </div>
   <a href="index.html" class="nav-logo">
-    <span class="nav-logo-icon" data-size="26"></span>WikiRace
+    <span class="nav-logo-icon" data-size="26"></span>Wiki<em>Race</em>
   </a>
   <div class="nav-right nav-desktop-cta">
     <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Clasificaci&oacute;n</a>
@@ -218,25 +218,25 @@
 <section class="hero">
   <div class="hero-logo" id="hero-logo"></div>
   <h1 class="hero-wordmark">Wiki<em>Race</em></h1>
-  <p class="hero-tagline">Navega de una entrada de Wikipedia a otra usando <strong>solo los enlaces</strong>. Simple. Adictivo.</p>
+  <p class="hero-tagline" data-i18n="hero.tagline">Navega de una entrada de Wikipedia a otra usando <strong>solo los enlaces</strong>. Simple. Adictivo.</p>
 
   <button class="play-btn" onclick="location.href='game.html'">
-    <span class="pb-eye">¿Preparado?</span>
-    <span class="pb-main">Jugar ahora</span>
+    <span class="pb-eye" data-i18n="hero.prepared">¿Preparado?</span>
+    <span class="pb-main" data-i18n="hero.play.main">Jugar ahora</span>
     </button>
 
   <div class="hero-links">
     <a href="multi.html" class="hl-btn" style="background:var(--ink);color:var(--bg);border-color:var(--ink)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="margin-right:5px"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Multijugador</a>
-    <a href="howtoplay.html" class="hl-btn">Cómo jugar</a>
+    <a href="howtoplay.html" class="hl-btn"><span data-i18n="hero.howto.btn">Cómo jugar</span></a>
     <a href="leaderboard.html" class="hl-btn"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:5px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M8 2h8v8a4 4 0 01-8 0V2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 6H5a2 2 0 000 4h3M16 6h3a2 2 0 010 4h-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 14v4M8 22h8M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="2" fill="currentColor" opacity=".5"/></svg></span>Clasificación</a>
   </div>
 
   <div class="hero-stats">
-    <div class="hs"><div class="hs-n g" id="st-played">0</div><div class="hs-l">Partidas jugadas</div></div>
+    <div class="hs"><div class="hs-n g" id="st-played">0</div><div class="hs-l"><span data-i18n="stats.played">Partidas jugadas</span></div></div>
     <div class="hs-sep"></div>
-    <div class="hs"><div class="hs-n" id="st-best">—</div><div class="hs-l">Tu mejor score</div></div>
+    <div class="hs"><div class="hs-n" id="st-best">—</div><div class="hs-l"><span data-i18n="stats.best">Tu mejor score</span></div></div>
     <div class="hs-sep"></div>
-    <div class="hs"><div class="hs-n" id="st-day">1</div><div class="hs-l">Partida #</div></div>
+    <div class="hs"><div class="hs-n" id="st-day">1</div><div class="hs-l"><span data-i18n="stats.day">Partida #</span></div></div>
   </div>
 </section>
 
@@ -256,24 +256,24 @@
         <div class="step-n">01</div>
         <span class="step-ico"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="currentColor" stroke-width="1.8"/><path d="M8 7h8M8 11h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></span>
         <div class="step-text">
-          <div class="step-h">Empieza en una entrada</div>
-          <p class="step-p">Lee el artículo de Wikipedia asignado como punto de partida.</p>
+          <div class="step-h" data-i18n="step1.title">Empieza en una entrada</div>
+          <p class="step-p" data-i18n="step1.desc">Lee el artículo de Wikipedia asignado como punto de partida.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-n">02</div>
         <span class="step-ico"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         <div class="step-text">
-          <div class="step-h">Sigue los enlaces azules</div>
-          <p class="step-p">Cada enlace te lleva a una nueva entrada. Cada clic cuenta.</p>
+          <div class="step-h" data-i18n="step2.title">Sigue los enlaces azules</div>
+          <p class="step-p" data-i18n="step2.desc">Cada enlace te lleva a una nueva entrada. Cada clic cuenta.</p>
         </div>
       </div>
       <div class="step">
         <div class="step-n">03</div>
         <span class="step-ico"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 3V1M12 23v-2M3 12H1M23 12h-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></span>
         <div class="step-text">
-          <div class="step-h">Llega al destino</div>
-          <p class="step-p">Menos saltos y menos tiempo = mayor puntuación final.</p>
+          <div class="step-h" data-i18n="step3.title">Llega al destino</div>
+          <p class="step-p" data-i18n="step3.desc">Menos saltos y menos tiempo = mayor puntuación final.</p>
         </div>
       </div>
     </div>
@@ -285,22 +285,22 @@
   <div class="container">
     <div class="sec-label" data-i18n="score.label">Puntuación</div>
     <h2 class="sec-title" data-i18n="score.title">Empiezas con 1.000 pts</h2>
-    <p class="sec-desc">Cada acción resta puntos. El objetivo: perder los mínimos.</p>
+    <p class="sec-desc" data-i18n="score.desc">Cada acción resta puntos. El objetivo: perder los mínimos.</p>
     <div class="score-cards">
       <div class="sc-card">
         <div class="scp r">−40</div>
-        <div class="sc-title">Por enlace</div>
-        <p class="sc-desc">La acción principal. Planifica tu ruta.</p>
+        <div class="sc-title" data-i18n="sc1.title">Por enlace</div>
+        <p class="sc-desc" data-i18n="sc1.desc">La acción principal. Planifica tu ruta.</p>
       </div>
       <div class="sc-card">
         <div class="scp r">−30</div>
-        <div class="sc-title">Cada 30 segundos</div>
-        <p class="sc-desc">Presión de tiempo suave pero constante.</p>
+        <div class="sc-title" data-i18n="sc2.title">Cada 30 segundos</div>
+        <p class="sc-desc" data-i18n="sc2.desc">Presión de tiempo suave pero constante.</p>
       </div>
       <div class="sc-card">
         <div class="scp y">−80</div>
-        <div class="sc-title">Volver atrás</div>
-        <p class="sc-desc">El doble que avanzar. Úsalo con cabeza.</p>
+        <div class="sc-title" data-i18n="sc3.title">Volver atrás</div>
+        <p class="sc-desc" data-i18n="sc3.desc">El doble que avanzar. Úsalo con cabeza.</p>
       </div>
     </div>
   </div>
@@ -314,7 +314,7 @@
     <p class="sec-desc" data-i18n="ex.desc">Prueba estas rutas desafiantes</p>
     <div class="examples-grid" id="ex-grid"></div>
     <div style="text-align:center;margin-top:20px">
-      <button class="hl-btn" onclick="location.href='game.html'" style="font-size:14px;padding:11px 24px">Crear mi propia ruta →</button>
+      <button class="hl-btn" onclick="location.href='game.html'" style="font-size:14px;padding:11px 24px"><span data-i18n="ex.cta.btn">Crear mi propia ruta →</span></button>
     </div>
   </div>
 </section>
@@ -322,15 +322,15 @@
 <!-- CTA -->
 <section class="cta-band">
   <div class="container-sm">
-    <h2 class="cta-title">¿Listo para tu primera <em>carrera</em>?</h2>
-    <p class="cta-sub">Sin registro. Sin descargas. Solo abre y juega.</p>
+    <h2 class="cta-title" data-i18n="cta.title">¿Listo para tu primera <em>carrera</em>?</h2>
+    <p class="cta-sub" data-i18n="cta.sub">Sin registro. Sin descargas. Solo abre y juega.</p>
     <button class="cta-btn" onclick="location.href='game.html'">Jugar ahora →</button>
   </div>
 </section>
 
 <footer class="site-footer">
-  <strong>WikiRace</strong> · Hecho con <span style="display:inline-flex;align-items:center;flex-shrink:0;color:#c0392b;margin:0 2px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1.1a5.5 5.5 0 000-7.7z" stroke="currentColor" stroke-width="1.6" fill="currentColor" opacity=".15"/><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1.1a5.5 5.5 0 000-7.7z" stroke="currentColor" stroke-width="1.6"/></svg></span> y Wikipedia ·
-  <a href="howtoplay.html">Cómo jugar</a> · <a href="leaderboard.html">Clasificación</a> · <a href="about.html">Sobre WikiRace</a>
+  <strong>Wiki<em style="color:var(--green2);font-style:normal">Race</em></strong> · Hecho con <span style="display:inline-flex;align-items:center;flex-shrink:0;color:#c0392b;margin:0 2px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1.1a5.5 5.5 0 000-7.7z" stroke="currentColor" stroke-width="1.6" fill="currentColor" opacity=".15"/><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 00-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1.1a5.5 5.5 0 000-7.7z" stroke="currentColor" stroke-width="1.6"/></svg></span> y Wikipedia ·
+  <a href="howtoplay.html" data-i18n="foot.howto">Cómo jugar</a> · <a href="leaderboard.html" data-i18n="foot.lb">Clasificación</a> · <a href="about.html">Sobre WikiRace</a>
 </footer>
 
 <script src="shared.js"></script>
