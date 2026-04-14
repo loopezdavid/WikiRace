@@ -1431,7 +1431,12 @@ function goBack(){
 function giveUp(){if(!confirm('¿Seguro que te rindes?'))return;endGame(false);}
 function checkWin(t){
   if(G.done)return;
-  if(t.toLowerCase().trim().replace(/_/g,' ')===G.end.toLowerCase().trim().replace(/_/g,' '))endGame(true);
+  var n=function(s){return s.toLowerCase().trim().replace(/_/g,' ').replace(/[(),.]/g,'');};
+  var nt=n(t), ne=n(G.end);
+  var hit = nt===ne
+    || (ne.length>4 && nt.indexOf(ne)!==-1)
+    || (nt.length>4 && ne.indexOf(nt)!==-1);
+  if(hit) endGame(true);
 }
 
 /* ─── ACHIEVEMENTS ─── */

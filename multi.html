@@ -1784,6 +1784,7 @@ function mLoadArt(title){
       mUpdateMini();
       pushMyState();
       mCheckWin(rt);
+      if(rt !== title) mCheckWin(title);
     }).catch(function(err){
       msc('m-wload-t').textContent = 'Error: '+err.message;
       mSetP(0);
@@ -1871,8 +1872,12 @@ function mGiveUp(){
 
 function mCheckWin(title){
   if(G.done) return;
-  var n = function(s){return s.toLowerCase().trim().replace(/_/g,' ');};
-  if(n(title)===n(G.end)){
+  var n = function(s){return s.toLowerCase().trim().replace(/_/g,' ').replace(/[(),.]/g,'');};
+  var nt=n(title), ne=n(G.end);
+  var hit = nt===ne
+    || (ne.length>4 && nt.indexOf(ne)!==-1)
+    || (nt.length>4 && ne.indexOf(nt)!==-1);
+  if(hit){
     G.done = true;
     clearInterval(G.timer);
     pushMyState();
