@@ -25,11 +25,13 @@ body{background:var(--bg)}
 
 /* ── SHARED TOPBAR ── */
 .m-bar{
-  height:52px;background:var(--ink);border-bottom:none;
-  display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0;
+  height:52px;background:#1a1612;border-bottom:none;
+  display:flex;align-items:center;padding:0 20px;gap:10px;flex-shrink:0;
+  width:100%;align-self:flex-start;
+  position:sticky;top:0;z-index:50;
 }
-.m-bar-logo{color:#fff!important}
-.m-bar-logo em{color:var(--green2)!important}
+.m-bar-logo{color:#fff!important;text-shadow:none}
+.m-bar-logo em{color:#6aaa64!important}
 .m-bar-badge{background:rgba(255,255,255,.12)!important;color:rgba(255,255,255,.7)!important;border:1px solid rgba(255,255,255,.15)!important}
 .m-bar-btn{border-color:rgba(255,255,255,.18)!important;color:rgba(255,255,255,.65)!important;background:none!important;font-size:12px!important}
 .m-bar-btn:hover{border-color:rgba(255,255,255,.4)!important;color:#fff!important;background:rgba(255,255,255,.06)!important}
@@ -46,13 +48,14 @@ body{background:var(--bg)}
 /* ════════════════════════════════════════════════════════
    LOBBY SCREEN
 ════════════════════════════════════════════════════════ */
-#lobby{background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center}
+#lobby{background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:stretch}
 
 .lobby-inner{
   width:100%;max-width:420px;
   padding:28px 16px 60px;
   display:flex;flex-direction:column;align-items:center;
   gap:0;animation:fadeUp .4s ease both;
+  margin:0 auto;
 }
 
 .lobby-title{
@@ -121,12 +124,13 @@ body{background:var(--bg)}
 /* ════════════════════════════════════════════════════════
    WAITING ROOM SCREEN
 ════════════════════════════════════════════════════════ */
-#waiting{background:var(--bg);overflow-y:auto;align-items:center}
+#waiting{background:var(--bg);overflow-y:auto;align-items:stretch}
 
 .waiting-inner{
-  width:100%;max-width:480px;padding:32px 16px 60px;
+  width:100%;max-width:520px;padding:28px 20px 60px;
   display:flex;flex-direction:column;align-items:center;
   animation:fadeUp .35s ease;
+  margin:0 auto;
 }
 
 /* Room code display */
@@ -454,12 +458,13 @@ body{background:var(--bg)}
 /* ════════════════════════════════════════════════════════
    RESULTS SCREEN
 ════════════════════════════════════════════════════════ */
-#results{background:var(--bg);overflow-y:auto;align-items:center;-webkit-overflow-scrolling:touch}
+#results{background:var(--bg);overflow-y:auto;align-items:stretch;-webkit-overflow-scrolling:touch}
 
 .results-inner{
   width:100%;max-width:520px;padding:28px 16px 60px;
   display:flex;flex-direction:column;align-items:center;
   animation:fadeUp .4s ease;
+  margin:0 auto;
 }
 .res-title{font-size:clamp(28px,7vw,44px);font-weight:900;letter-spacing:-2px;color:var(--ink);text-align:center;margin-bottom:6px}
 .res-sub{font-size:14px;color:var(--ink3);text-align:center;margin-bottom:28px}
@@ -544,6 +549,32 @@ body{background:var(--bg)}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;display:none}
+
+/* ── WIKIPEDIA AUTOCOMPLETE for custom inputs ── */
+.rs-ac-wrap{position:relative}
+.rs-ac-dd{
+  position:absolute;top:calc(100% + 3px);left:0;right:0;
+  background:var(--surface);border:2px solid var(--border);border-radius:8px;
+  z-index:9999;max-height:200px;overflow-y:auto;
+  display:none;
+  box-shadow:0 4px 20px rgba(0,0,0,.12);
+}
+.rs-ac-dd.open{display:block;animation:slideDown .12s ease}
+.rs-ac-item{
+  padding:10px 12px;font-size:13px;color:var(--ink2);cursor:pointer;
+  border-bottom:1px solid var(--surface3);transition:background .08s;font-weight:500;
+}
+.rs-ac-item:last-child{border-bottom:none}
+.rs-ac-item:hover,.rs-ac-item.sel{background:var(--green-bg);color:var(--ink)}
+.rs-ac-item em{color:var(--green);font-style:normal;font-weight:700}
+.rs-spin{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  width:13px;height:13px;border:2px solid var(--border);
+  border-top-color:var(--green);border-radius:50%;
+  animation:spin .5s linear infinite;display:none;
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+
 </style>
 </head>
 <body>
@@ -637,12 +668,20 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <div style="flex:1;min-width:100px">
               <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:4px">Inicio</div>
+              <div class="rs-ac-wrap">
               <input id="rs-input-from" class="rs-word-input" placeholder="Ej: Pulpo Paul" autocomplete="off" spellcheck="false"/>
+              <div class="rs-spin" id="rs-spin-from"></div>
+              <div class="rs-ac-dd" id="rs-dd-from"></div>
+            </div>
             </div>
             <div id="rs-input-arr" style="flex-shrink:0;color:var(--ink4);padding-top:18px"></div>
             <div style="flex:1;min-width:100px">
               <div style="font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:4px">Destino</div>
+              <div class="rs-ac-wrap">
               <input id="rs-input-to" class="rs-word-input" placeholder="Ej: Adolf Hitler" autocomplete="off" spellcheck="false"/>
+              <div class="rs-spin" id="rs-spin-to"></div>
+              <div class="rs-ac-dd" id="rs-dd-to"></div>
+            </div>
             </div>
           </div>
           <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -1308,16 +1347,107 @@ function hostOpenEdit(){
       msc('rs-input-from').value = ROOM.data.start || '';
       msc('rs-input-to').value   = ROOM.data.end   || '';
     }
-    msc('rs-input-from').focus();
+    initRsAC();  // init autocomplete on first open
+    setTimeout(function(){ msc('rs-input-from').focus(); }, 50);
   }
 }
+/* ── Wikipedia Autocomplete for custom word inputs ── */
+var rsAcTimers = {from: null, to: null};
+var rsAcVals   = {from: '', to: ''};
+
+function rsSetupAC(field){
+  var inp = msc('rs-input-' + field);
+  var dd  = msc('rs-dd-' + field);
+  var sp  = msc('rs-spin-' + field);
+  if(!inp || !dd) return;
+
+  inp.addEventListener('input', function(){
+    var q = inp.value.trim();
+    rsAcVals[field] = '';
+    clearTimeout(rsAcTimers[field]);
+    if(q.length < 2){ dd.classList.remove('open'); return; }
+    rsAcTimers[field] = setTimeout(function(){ rsFetchAC(q, field, dd, sp); }, 260);
+  });
+
+  inp.addEventListener('keydown', function(e){
+    if(!dd.classList.contains('open')) return;
+    var items = Array.prototype.slice.call(dd.querySelectorAll('.rs-ac-item'));
+    var idx = -1;
+    items.forEach(function(it, i){ if(it.classList.contains('sel')) idx = i; });
+    if(e.key === 'ArrowDown'){
+      e.preventDefault();
+      var n = items[idx+1] || items[0];
+      items.forEach(function(i){ i.classList.remove('sel'); });
+      n.classList.add('sel');
+      inp.value = n.getAttribute('data-t');
+    } else if(e.key === 'ArrowUp'){
+      e.preventDefault();
+      var p = items[idx-1] || items[items.length-1];
+      items.forEach(function(i){ i.classList.remove('sel'); });
+      if(p){ p.classList.add('sel'); inp.value = p.getAttribute('data-t'); }
+    } else if(e.key === 'Enter'){
+      e.preventDefault();
+      var sel = dd.querySelector('.rs-ac-item.sel') || items[0];
+      if(sel) rsPickAC(field, sel.getAttribute('data-t'));
+    } else if(e.key === 'Escape'){
+      dd.classList.remove('open');
+    }
+  });
+
+  // Close on outside click
+  document.addEventListener('click', function(ev){
+    if(!inp.contains(ev.target) && !dd.contains(ev.target)) dd.classList.remove('open');
+  });
+}
+
+function rsFetchAC(q, field, dd, sp){
+  var lang = (ROOM.data && ROOM.data.lang) || 'es';
+  var L = {eu:'eu', ca:'ca', en:'en'}[lang] || 'es';
+  if(sp) sp.style.display = 'block';
+  fetch('https://'+L+'.wikipedia.org/w/api.php?action=opensearch&search='+encodeURIComponent(q)+'&limit=8&format=json&origin=*')
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(sp) sp.style.display = 'none';
+      var titles = d[1] || [];
+      if(!titles.length){ dd.classList.remove('open'); return; }
+      var rg = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+      dd.innerHTML = titles.map(function(t){
+        return '<div class="rs-ac-item" data-t="'+mEsc(t)+'">'+mEsc(t).replace(rg,'<em>$1</em>')+'</div>';
+      }).join('');
+      dd.querySelectorAll('.rs-ac-item').forEach(function(item){
+        item.addEventListener('click', function(){ rsPickAC(field, this.getAttribute('data-t')); });
+      });
+      dd.classList.add('open');
+    }).catch(function(){ if(sp) sp.style.display='none'; });
+}
+
+function rsPickAC(field, title){
+  rsAcVals[field] = title;
+  var inp = msc('rs-input-' + field);
+  var dd  = msc('rs-dd-' + field);
+  if(inp) inp.value = title;
+  if(dd)  dd.classList.remove('open');
+}
+
+/* Init autocompletes when edit mode opens */
+function initRsAC(){
+  if(rsAcTimers._inited) return;
+  rsAcTimers._inited = true;
+  rsSetupAC('from');
+  rsSetupAC('to');
+}
+
 function applyCustomPair(){
-  var from = (msc('rs-input-from').value||'').trim();
-  var to   = (msc('rs-input-to').value||'').trim();
+  var from = (rsAcVals['from'] || msc('rs-input-from').value || '').trim();
+  var to   = (rsAcVals['to']   || msc('rs-input-to').value   || '').trim();
+  // If user typed manually (no AC selection), use raw input value
+  if(!rsAcVals['from']) from = (msc('rs-input-from').value||'').trim();
+  if(!rsAcVals['to'])   to   = (msc('rs-input-to').value||'').trim();
   if(!from||!to){ mToast('Escribe las dos entradas','pen'); return; }
   ROOM.ref.update({start:from, end:to}).then(function(){
     msc('rs-edit-mode').style.display='none';
     msc('rs-pair-display').style.display='flex';
+    rsAcVals = {from:'', to:''};
     mToast('Palabras actualizadas','hop');
   });
 }
