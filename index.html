@@ -101,13 +101,19 @@
 }
 .step{background:var(--surface);padding:28px 22px}
 .step-n{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--green2);background:var(--green-bg);display:inline-block;padding:3px 10px;border-radius:99px;margin-bottom:14px}
-.step-ico{font-size:28px;margin-bottom:12px;display:block}
+.step-ico{
+  width:44px;height:44px;margin-bottom:14px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--surface3);border-radius:10px;
+  color:var(--ink2);flex-shrink:0;
+}
+.step-ico svg{display:block}
 .step-h{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:7px;letter-spacing:-.3px}
 .step-p{font-size:13px;color:var(--ink3);line-height:1.6}
 @media(max-width:600px){
   .steps-grid{grid-template-columns:1fr}
   .step{padding:22px 18px;display:flex;gap:14px;align-items:flex-start}
-  .step-ico{font-size:24px;margin:0;flex-shrink:0}
+  .step-ico{width:40px;height:40px;margin:0;flex-shrink:0;background:var(--surface3);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--ink2)}
   .step-text{}
   .step-n{display:none}
 }
@@ -134,7 +140,7 @@
 .examples-section{background:var(--surface);border-top:1px solid var(--border);padding:60px 20px}
 .examples-grid{
   display:grid;grid-template-columns:repeat(2,1fr);
-  gap:8px;max-width:640px;margin:0 auto;
+  gap:10px;max-width:680px;margin:0 auto;
 }
 @media(max-width:440px){.examples-grid{grid-template-columns:1fr}}
 
@@ -231,7 +237,7 @@
       </div>
       <div class="step">
         <div class="step-n">02</div>
-        <span class="step-ico"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+        <span class="step-ico"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
         <div class="step-text">
           <div class="step-h">Sigue los enlaces azules</div>
           <p class="step-p">Cada enlace te lleva a una nueva entrada. Cada clic cuenta.</p>

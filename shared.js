@@ -3,19 +3,27 @@
 /* ── LOGO SVG ── */
 function logoSVG(size){
   size = size || 40;
+  /* Canonical WikiRace logo: dark circle, globe grid (subtle),
+     W in Wordle-green, golden racing arrow with speed lines */
   return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">'
-    +'<circle cx="48" cy="48" r="44" fill="#1a1612"/>'
-    +'<circle cx="48" cy="48" r="36" stroke="#3a3228" stroke-width="1.5"/>'
-    +'<ellipse cx="48" cy="48" rx="18" ry="36" stroke="#3a3228" stroke-width="1.5"/>'
-    +'<line x1="12" y1="48" x2="84" y2="48" stroke="#3a3228" stroke-width="1.5"/>'
-    +'<line x1="17" y1="32" x2="79" y2="32" stroke="#3a3228" stroke-width="1"/>'
-    +'<line x1="17" y1="64" x2="79" y2="64" stroke="#3a3228" stroke-width="1"/>'
-    +'<path d="M26 34 L32 56 L38 42 L44 56 L50 34" stroke="#6aaa64" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
-    +'<path d="M52 48 L70 48" stroke="#c9b458" stroke-width="3" stroke-linecap="round"/>'
-    +'<polyline points="64,41 71,48 64,55" stroke="#c9b458" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
-    +'<line x1="53" y1="43" x2="62" y2="43" stroke="#c9b458" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>'
-    +'<line x1="53" y1="53" x2="62" y2="53" stroke="#c9b458" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>'
-    +'<circle cx="48" cy="48" r="44" stroke="#538d4e" stroke-width="2" opacity=".4"/>'
+    /* Background */
+    +'<circle cx="48" cy="48" r="46" fill="#18120c"/>'
+    /* Globe meridians — subtle */
+    +'<circle cx="48" cy="48" r="36" stroke="#2e2318" stroke-width="1.5"/>'
+    +'<ellipse cx="48" cy="48" rx="16" ry="36" stroke="#2e2318" stroke-width="1.5"/>'
+    +'<line x1="12" y1="48" x2="84" y2="48" stroke="#2e2318" stroke-width="1.5"/>'
+    +'<line x1="18" y1="30" x2="78" y2="30" stroke="#2e2318" stroke-width="1"/>'
+    +'<line x1="18" y1="66" x2="78" y2="66" stroke="#2e2318" stroke-width="1"/>'
+    /* W — Wordle green, clean and bold */
+    +'<path d="M24 32 L30 56 L38 40 L46 56 L52 32" stroke="#6aaa64" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
+    /* Racing arrow — golden */
+    +'<path d="M56 48 L76 48" stroke="#c9b458" stroke-width="3.5" stroke-linecap="round"/>'
+    +'<path d="M68 40 L76 48 L68 56" stroke="#c9b458" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
+    /* Speed lines */
+    +'<line x1="56" y1="43" x2="65" y2="43" stroke="#c9b458" stroke-width="2" stroke-linecap="round" opacity=".45"/>'
+    +'<line x1="56" y1="53" x2="65" y2="53" stroke="#c9b458" stroke-width="2" stroke-linecap="round" opacity=".45"/>'
+    /* Green accent ring */
+    +'<circle cx="48" cy="48" r="46" stroke="#538d4e" stroke-width="1.5" opacity=".35"/>'
     +'</svg>';
 }
 
