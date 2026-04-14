@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WikiRace — Mis estadísticas</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+body{background:var(--bg)}
+.page-hero{background:var(--surface);border-bottom:1px solid var(--border);padding:clamp(32px,6vw,52px) 16px;text-align:center}
+.page-eyebrow{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.page-title{font-size:clamp(28px,6vw,46px);font-weight:900;letter-spacing:-2px;color:var(--ink);margin-bottom:6px}
+.page-sub{font-size:15px;color:var(--ink3);max-width:400px;margin:0 auto}
+
+/* TOP STATS */
+.top-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;max-width:600px;margin:0 auto 28px}
+@media(min-width:520px){.top-stats{grid-template-columns:repeat(4,1fr)}}
+.ts{background:var(--surface);padding:18px 14px;text-align:center}
+.ts-n{font-size:28px;font-weight:900;letter-spacing:-1px;color:var(--ink);font-variant-numeric:tabular-nums}
+.ts-n.g{color:var(--green)}.ts-n.y{color:var(--yellow)}.ts-n.r{color:var(--red)}
+.ts-l{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--ink4);margin-top:4px}
+
+/* CHART */
+.chart-section{max-width:700px;margin:0 auto 28px}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.chart-header{padding:14px 18px;border-bottom:1px solid var(--surface3);font-size:13px;font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:space-between}
+.chart-sub{font-size:11px;font-weight:500;color:var(--ink4)}
+.chart-body{padding:20px 18px 12px;position:relative;height:160px}
+.chart-bars{display:flex;align-items:flex-end;gap:4px;height:100%}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%}
+.bar{width:100%;border-radius:3px 3px 0 0;min-height:4px;transition:height .4s ease;cursor:pointer;position:relative}
+.bar:hover::after{content:attr(data-score);position:absolute;top:-24px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);font-size:9px;font-weight:700;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.bar-lbl{font-size:8px;font-weight:600;color:var(--ink4);text-align:center;white-space:nowrap}
+
+/* STREAK */
+.streak-section{max-width:700px;margin:0 auto 28px}
+.streak-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+.streak-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:14px}
+.streak-days{display:flex;gap:6px;flex-wrap:wrap}
+.sd{width:32px;height:32px;border-radius:6px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ink4)}
+.sd.played{background:var(--green);border-color:var(--green);color:#fff}
+.sd.today{background:var(--green2);border-color:var(--green2);color:#fff;box-shadow:0 0 0 2px rgba(106,170,100,.3)}
+.sd.missed{background:var(--red-bg);border-color:rgba(192,57,43,.2);color:var(--red)}
+
+/* BEST GAME */
+.best-section{max-width:700px;margin:0 auto 28px}
+.best-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.best-header{padding:14px 18px;border-bottom:1px solid var(--surface3);font-size:13px;font-weight:700;color:var(--ink)}
+.best-row{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--surface3)}
+.best-row:last-child{border-bottom:none}
+.best-rank{font-size:18px;min-width:32px;text-align:center}
+.best-info{flex:1;min-width:0}
+.best-pair{font-size:13px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.best-meta{font-size:11px;color:var(--ink4);margin-top:2px}
+.best-score{font-size:20px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums}
+
+/* ARTICLES */
+.articles-section{max-width:700px;margin:0 auto 28px}
+.art-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(max-width:440px){.art-grid{grid-template-columns:1fr}}
+.art-chip{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.art-name{font-size:13px;font-weight:600;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.art-count{font-size:11px;font-weight:700;background:var(--green-bg);color:var(--green);padding:2px 8px;border-radius:99px;flex-shrink:0;margin-left:8px}
+
+/* EMPTY */
+.empty{text-align:center;padding:48px 20px}
+.empty-ico{font-size:40px;margin-bottom:12px;opacity:.3}
+.empty-t{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.empty-d{font-size:13px;color:var(--ink3);max-width:280px;margin:0 auto 20px}
+
+.sec-h{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:12px}
+</style>
+</head>
+<body>
+<nav class="site-nav nav-centered">
+  <div class="nav-left">
+    <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
+    <a href="leaderboard.html" class="nav-link">Clasificación</a>
+  </div>
+  <a href="index.html" class="nav-logo">
+    <span id="nav-logo"></span>Wiki<em>Race</em>
+  </a>
+  <div class="nav-right nav-desktop-cta">
+    <a href="stats.html" class="nav-link">📊 Estadísticas</a>
+  <a href="about.html" class="nav-link">Sobre WikiRace</a>
+    <button class="nav-cta" onclick="location.href='game.html'">Jugar →</button>
+  </div>
+  <button class="nav-hamburger" aria-label="Menú">☰</button>
+</nav>
+<div class="nav-overlay"></div>
+<div class="nav-drawer">
+  <a href="index.html" class="nav-link">Inicio</a>
+  <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
+  <a href="leaderboard.html" class="nav-link">Clasificación</a>
+  <a href="stats.html" class="nav-link">📊 Estadísticas</a>
+  <a href="about.html" class="nav-link">Sobre WikiRace</a>
+  <button class="nav-cta btn-block" onclick="location.href='game.html'">Jugar ahora →</button>
+</div>
+
+<div class="page-hero">
+  <div class="page-eyebrow">Perfil</div>
+  <h1 class="page-title">📊 Mis estadísticas</h1>
+  <p class="page-sub">Toda tu actividad en WikiRace en este dispositivo</p>
+</div>
+
+<div class="section" id="main-content">
+  <div class="container-sm">
+
+    <div id="empty-state" style="display:none">
+      <div class="empty">
+        <div class="empty-ico">🎮</div>
+        <div class="empty-t">Aún no has jugado</div>
+        <div class="empty-d">Juega tu primera partida para ver tus estadísticas aquí.</div>
+        <button class="btn btn-primary btn-md" onclick="location.href='game.html'">Jugar ahora →</button>
+      </div>
+    </div>
+
+    <div id="stats-content">
+
+      <!-- TOP STATS -->
+      <div class="top-stats" id="top-stats"></div>
+
+      <!-- SCORE CHART -->
+      <div class="chart-section">
+        <div class="sec-h">Últimas 20 partidas</div>
+        <div class="chart-card">
+          <div class="chart-header">
+            Evolución de puntuación
+            <span class="chart-sub" id="chart-trend"></span>
+          </div>
+          <div class="chart-body">
+            <div class="chart-bars" id="chart-bars"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BEST GAMES -->
+      <div class="best-section">
+        <div class="sec-h">Mejores partidas</div>
+        <div class="best-card">
+          <div class="best-header">Top 5 puntuaciones</div>
+          <div id="best-list"></div>
+        </div>
+      </div>
+
+      <!-- TOP ARTICLES VISITED -->
+      <div class="articles-section">
+        <div class="sec-h">Artículos más visitados</div>
+        <div class="art-grid" id="art-grid"></div>
+      </div>
+
+      <!-- STREAK CALENDAR -->
+      <div class="streak-section">
+        <div class="sec-h">Actividad — últimas 4 semanas</div>
+        <div class="streak-card">
+          <div class="streak-title">Días jugados</div>
+          <div class="streak-days" id="streak-days"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <strong>WikiRace</strong> · <a href="howtoplay.html">Cómo jugar</a> · <a href="leaderboard.html">Clasificación</a> · <a href="about.html">Sobre WikiRace</a>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+document.getElementById('nav-logo').innerHTML = logoSVG(24);
+
+var scores = getScores();
+
+if(!scores.length){
+  document.getElementById('empty-state').style.display='block';
+  document.getElementById('stats-content').style.display='none';
+} else {
+  document.getElementById('empty-state').style.display='none';
+
+  // ── TOP STATS ──
+  var totalGames = scores.length;
+  var won = scores.filter(function(s){return s.won;}).length;
+  var bestScore = Math.max.apply(null, scores.map(function(s){return s.score;}));
+  var avgScore = Math.round(scores.reduce(function(a,b){return a+b.score;},0)/scores.length);
+  var bestHops = Math.min.apply(null, scores.filter(function(s){return s.won&&s.hops>0;}).map(function(s){return s.hops;})) || '—';
+  var days = new Set(scores.map(function(s){return new Date(s.date).toDateString();})).size;
+
+  document.getElementById('top-stats').innerHTML = [
+    {n:totalGames,l:'Partidas',cls:'g'},
+    {n:won+'/'+totalGames,l:'Victorias',cls:''},
+    {n:bestScore,l:'Mejor score',cls:'g'},
+    {n:avgScore,l:'Media',cls:''},
+  ].map(function(s){
+    return '<div class="ts"><div class="ts-n '+s.cls+'">'+s.n+'</div><div class="ts-l">'+s.l+'</div></div>';
+  }).join('');
+
+  // ── CHART ──
+  var last20 = scores.slice().sort(function(a,b){return new Date(a.date)-new Date(b.date);}).slice(-20);
+  var maxS = Math.max.apply(null, last20.map(function(s){return s.score;})) || 1000;
+  var barsEl = document.getElementById('chart-bars');
+  barsEl.innerHTML = last20.map(function(s,i){
+    var pct = Math.max(4, Math.round((s.score/maxS)*100));
+    var col = s.score>=700?'#538d4e':s.score>=400?'#b59f3b':'#c0392b';
+    var d = new Date(s.date).toLocaleDateString('es',{day:'numeric',month:'short'});
+    return '<div class="bar-wrap" style="justify-content:flex-end">'
+      +'<div class="bar" style="height:'+pct+'%;background:'+col+'" data-score="'+s.score+' pts — '+d+'"></div>'
+      +'</div>';
+  }).join('');
+  // Trend
+  if(last20.length>=4){
+    var half=Math.floor(last20.length/2);
+    var a1=last20.slice(0,half).reduce(function(a,s){return a+s.score;},0)/half;
+    var a2=last20.slice(half).reduce(function(a,s){return a+s.score;},0)/(last20.length-half);
+    var trend=document.getElementById('chart-trend');
+    if(a2>a1+20){trend.textContent='📈 Mejorando';trend.style.color='#538d4e';}
+    else if(a2<a1-20){trend.textContent='📉 Bajando';trend.style.color='#c0392b';}
+    else{trend.textContent='→ Estable';}
+  }
+
+  // ── BEST GAMES ──
+  var top5 = scores.slice().sort(function(a,b){return b.score-a.score;}).slice(0,5);
+  var medals=['🥇','🥈','🥉','4️⃣','5️⃣'];
+  document.getElementById('best-list').innerHTML = top5.map(function(s,i){
+    var d = new Date(s.date).toLocaleDateString('es',{day:'numeric',month:'short',year:'numeric'});
+    return '<div class="best-row">'
+      +'<div class="best-rank">'+medals[i]+'</div>'
+      +'<div class="best-info">'
+        +'<div class="best-pair">'+s.start+' → '+s.end+'</div>'
+        +'<div class="best-meta">'+s.hops+' saltos · '+s.time+' · '+d+(s.daily?' · 📅':'')+'</div>'
+      +'</div>'
+      +'<div class="best-score">'+s.score+'</div>'
+      +'</div>';
+  }).join('');
+
+  // ── TOP ARTICLES ──
+  var artCount = {};
+  scores.forEach(function(s){
+    [s.start,s.end].forEach(function(a){
+      if(a) artCount[a]=(artCount[a]||0)+1;
+    });
+  });
+  var topArts = Object.keys(artCount).sort(function(a,b){return artCount[b]-artCount[a];}).slice(0,10);
+  document.getElementById('art-grid').innerHTML = topArts.map(function(a){
+    return '<div class="art-chip"><span class="art-name">'+a+'</span><span class="art-count">×'+artCount[a]+'</span></div>';
+  }).join('');
+
+  // ── STREAK CALENDAR ──
+  var streakEl = document.getElementById('streak-days');
+  var today = new Date(); today.setHours(0,0,0,0);
+  var playedDays = new Set(scores.map(function(s){return new Date(s.date).toDateString();}));
+  var html = '';
+  for(var d=27;d>=0;d--){
+    var date = new Date(today);
+    date.setDate(today.getDate()-d);
+    var ds = date.toDateString();
+    var isToday = d===0;
+    var played = playedDays.has(ds);
+    var cls = isToday?(played?'today':''):(played?'played':'');
+    var label = date.getDate()+'';
+    html += '<div class="sd '+cls+'">'+label+'</div>';
+  }
+  streakEl.innerHTML = html;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WikiRace — Navega Wikipedia como un juego</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+/* ── HERO ── */
+.hero{
+  min-height:calc(100dvh - 52px);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:40px 20px 60px;
+  background:var(--bg);position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%,rgba(106,170,100,.09),transparent 65%),
+    radial-gradient(ellipse 50% 40% at 10% 100%,rgba(201,180,88,.07),transparent 60%);
+}
+.hero-logo{margin-bottom:22px;animation:heroLogo .65s cubic-bezier(.16,1,.3,1)}
+@keyframes heroLogo{from{opacity:0;transform:scale(.7) translateY(8px)}60%{transform:scale(1.05) translateY(-2px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.hero-wordmark{
+  font-size:clamp(58px,15vw,108px);font-weight:900;
+  letter-spacing:-5px;line-height:.9;color:var(--ink);
+  margin-bottom:16px;
+  animation:fadeUp .5s ease .1s both;
+}
+.hero-wordmark em{color:var(--green2);font-style:normal}
+
+.hero-tagline{
+  font-size:clamp(14px,3.5vw,18px);color:var(--ink3);
+  max-width:400px;margin:0 auto 36px;line-height:1.6;
+  animation:fadeUp .5s ease .18s both;
+}
+.hero-tagline strong{color:var(--ink2);font-weight:600}
+
+/* ── THE BUTTON ── */
+.play-btn{
+  display:flex;flex-direction:column;align-items:center;
+  gap:4px;background:var(--ink);color:var(--bg);
+  border:none;border-radius:16px;
+  padding:20px 52px 18px;
+  min-width:min(280px,80vw);
+  font-family:var(--font);cursor:pointer;
+  box-shadow:0 8px 30px rgba(26,22,18,.22),inset 0 1px 0 rgba(255,255,255,.07);
+  transition:all .18s cubic-bezier(.16,1,.3,1);
+  position:relative;overflow:hidden;
+  animation:fadeUp .5s ease .26s both;
+  margin-bottom:16px;
+  -webkit-appearance:none;
+}
+.play-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(106,170,100,.12),transparent 55%);pointer-events:none}
+.play-btn:hover{background:var(--ink2);transform:translateY(-3px) scale(1.02);box-shadow:0 14px 40px rgba(26,22,18,.26)}
+.play-btn:active{transform:scale(.98)}
+.pb-eye{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;opacity:.38}
+.pb-main{font-size:21px;font-weight:900;letter-spacing:-.3px;line-height:1}
+.pb-sub{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:.4}
+
+.hero-links{
+  display:flex;gap:8px;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp .5s ease .34s both;margin-bottom:40px;
+}
+.hl-btn{
+  padding:9px 18px;background:transparent;color:var(--ink2);
+  border:1.5px solid var(--border2);border-radius:8px;
+  font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);
+  transition:all .13s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;
+  -webkit-appearance:none;
+}
+.hl-btn:hover{border-color:var(--ink3);background:var(--surface);color:var(--ink)}
+
+/* STATS */
+.hero-stats{
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp .5s ease .42s both;
+}
+.hs{text-align:center}
+.hs-n{font-size:24px;font-weight:900;color:var(--ink);letter-spacing:-1px;font-variant-numeric:tabular-nums;line-height:1}
+.hs-n.g{color:var(--green)}
+.hs-l{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink4);margin-top:3px}
+.hs-sep{width:1px;height:32px;background:var(--border)}
+
+/* ── TICKER ── */
+.ticker-wrap{overflow:hidden;background:var(--green);padding:8px 0}
+.ticker-inner{display:flex;gap:40px;animation:tickerScroll 26s linear infinite;white-space:nowrap;width:max-content}
+.tick{font-size:11.5px;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.3px;display:inline-flex;align-items:center;gap:8px}
+.tick::before{content:'✦';opacity:.4;font-size:8px}
+@keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── HOW ── */
+.how-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:60px 20px}
+.steps-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:12px;
+  overflow:hidden;max-width:780px;margin:0 auto;
+}
+.step{background:var(--surface);padding:28px 22px}
+.step-n{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--green2);background:var(--green-bg);display:inline-block;padding:3px 10px;border-radius:99px;margin-bottom:14px}
+.step-ico{font-size:28px;margin-bottom:12px;display:block}
+.step-h{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:7px;letter-spacing:-.3px}
+.step-p{font-size:13px;color:var(--ink3);line-height:1.6}
+@media(max-width:600px){
+  .steps-grid{grid-template-columns:1fr}
+  .step{padding:22px 18px;display:flex;gap:14px;align-items:flex-start}
+  .step-ico{font-size:24px;margin:0;flex-shrink:0}
+  .step-text{}
+  .step-n{display:none}
+}
+
+/* ── SCORING ── */
+.scoring-section{padding:60px 20px;background:var(--bg)}
+.score-cards{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:12px;max-width:640px;margin:0 auto;
+}
+.sc-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px 18px;text-align:center}
+.scp{font-size:36px;font-weight:900;letter-spacing:-1.5px;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.scp.r{color:var(--red)}.scp.y{color:var(--yellow)}.scp.g{color:var(--green)}
+.sc-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.sc-desc{font-size:11.5px;color:var(--ink3);line-height:1.5}
+@media(max-width:520px){
+  .score-cards{grid-template-columns:1fr;max-width:380px}
+  .sc-card{display:flex;align-items:center;gap:16px;text-align:left;padding:16px}
+  .scp{font-size:28px;flex-shrink:0;min-width:56px}
+  .sc-desc{display:none}
+}
+
+/* ── EXAMPLES ── */
+.examples-section{background:var(--surface);border-top:1px solid var(--border);padding:60px 20px}
+.examples-grid{
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:8px;max-width:640px;margin:0 auto;
+}
+.ex{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:14px 16px;cursor:pointer;transition:all .12s;border-left:3px solid var(--border);touch-action:manipulation}
+.ex:hover,.ex:active{border-left-color:var(--green2);background:var(--green-bg)}
+.ex-f{font-size:13px;font-weight:700;color:var(--green)}
+.ex-a{font-size:10px;color:var(--ink4);margin:2px 0}
+.ex-t{font-size:13px;font-weight:700;color:var(--red)}
+.ex-d{margin-top:6px}
+@media(max-width:440px){.examples-grid{grid-template-columns:1fr}}
+
+/* ── CTA BAND ── */
+.cta-band{background:var(--ink);padding:64px 20px;text-align:center}
+.cta-title{font-size:clamp(26px,6vw,42px);font-weight:900;color:#fff;letter-spacing:-2px;margin-bottom:10px}
+.cta-title em{color:var(--green2);font-style:normal}
+.cta-sub{color:rgba(255,255,255,.42);font-size:14px;max-width:340px;margin:0 auto 28px;line-height:1.6}
+.cta-btn{background:#fff;color:var(--ink);padding:15px 36px;border-radius:10px;font-size:15px;font-weight:800;border:none;cursor:pointer;font-family:var(--font);transition:all .14s;-webkit-appearance:none}
+.cta-btn:hover{background:var(--bg);transform:translateY(-1px)}
+.cta-btn:active{transform:scale(.98)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="site-nav nav-centered">
+  <div class="nav-left">
+    <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
+    <a href="leaderboard.html" class="nav-link">Clasificación</a>
+  </div>
+  <a href="index.html" class="nav-logo">
+    <span id="nav-logo"></span>Wiki<em>Race</em>
+  </a>
+  <div class="nav-right nav-desktop-cta">
+    <a href="about.html" class="nav-link">Sobre WikiRace</a>
+    <button class="nav-cta" onclick="location.href='game.html'">Jugar →</button>
+  </div>
+  <button class="nav-hamburger" aria-label="Menú">☰</button>
+</nav>
+<div class="nav-overlay"></div>
+<div class="nav-drawer">
+  <a href="index.html" class="nav-link active">Inicio</a>
+  <a href="howtoplay.html" class="nav-link">Cómo jugar</a>
+  <a href="leaderboard.html" class="nav-link">Clasificación</a>
+  <a href="about.html" class="nav-link">Sobre WikiRace</a>
+  <button class="nav-cta btn-block" onclick="location.href='game.html'">Jugar ahora →</button>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-logo" id="hero-logo"></div>
+  <h1 class="hero-wordmark">Wiki<em>Race</em></h1>
+  <p class="hero-tagline">Navega de una entrada de Wikipedia a otra usando <strong>solo los enlaces</strong>. Simple. Adictivo.</p>
+
+  <button class="play-btn" onclick="location.href='game.html'">
+    <span class="pb-eye">¿Preparado?</span>
+    <span class="pb-main">Jugar ahora</span>
+    </button>
+
+  <div class="hero-links">
+    <a href="howtoplay.html" class="hl-btn">Cómo jugar</a>
+    <a href="leaderboard.html" class="hl-btn">🏆 Clasificación</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hs"><div class="hs-n g" id="st-played">0</div><div class="hs-l">Partidas jugadas</div></div>
+    <div class="hs-sep"></div>
+    <div class="hs"><div class="hs-n" id="st-best">—</div><div class="hs-l">Tu mejor score</div></div>
+    <div class="hs-sep"></div>
+    <div class="hs"><div class="hs-n" id="st-day">1</div><div class="hs-l">Partida #</div></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-inner" id="ticker"></div>
+</div>
+
+<!-- HOW -->
+<section class="how-section">
+  <div class="container">
+    <div class="sec-label">El juego</div>
+    <h2 class="sec-title">Simple como adictivo</h2>
+    <p class="sec-desc">Tres pasos para empezar</p>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-n">01</div>
+        <span class="step-ico">📖</span>
+        <div class="step-text">
+          <div class="step-h">Empieza en una entrada</div>
+          <p class="step-p">Lee el artículo de Wikipedia asignado como punto de partida.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <span class="step-ico">🔗</span>
+        <div class="step-text">
+          <div class="step-h">Sigue los enlaces azules</div>
+          <p class="step-p">Cada enlace te lleva a una nueva entrada. Cada clic cuenta.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <span class="step-ico">🎯</span>
+        <div class="step-text">
+          <div class="step-h">Llega al destino</div>
+          <p class="step-p">Menos saltos y menos tiempo = mayor puntuación final.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCORING -->
+<section class="scoring-section">
+  <div class="container">
+    <div class="sec-label">Puntuación</div>
+    <h2 class="sec-title">Empiezas con 1.000 pts</h2>
+    <p class="sec-desc">Cada acción resta puntos. El objetivo: perder los mínimos.</p>
+    <div class="score-cards">
+      <div class="sc-card">
+        <div class="scp r">−40</div>
+        <div class="sc-title">Por enlace</div>
+        <p class="sc-desc">La acción principal. Planifica tu ruta.</p>
+      </div>
+      <div class="sc-card">
+        <div class="scp r">−30</div>
+        <div class="sc-title">Cada 30 segundos</div>
+        <p class="sc-desc">Presión de tiempo suave pero constante.</p>
+      </div>
+      <div class="sc-card">
+        <div class="scp y">−80</div>
+        <div class="sc-title">Volver atrás</div>
+        <p class="sc-desc">El doble que avanzar. Úsalo con cabeza.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAMPLES -->
+<section class="examples-section">
+  <div class="container">
+    <div class="sec-label">Partidas populares</div>
+    <h2 class="sec-title">¿Puedes llegar?</h2>
+    <p class="sec-desc">Prueba estas rutas desafiantes</p>
+    <div class="examples-grid" id="ex-grid"></div>
+    <div style="text-align:center;margin-top:20px">
+      <button class="hl-btn" onclick="location.href='game.html'" style="font-size:14px;padding:11px 24px">Crear mi propia ruta →</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="container-sm">
+    <h2 class="cta-title">¿Listo para tu primera <em>carrera</em>?</h2>
+    <p class="cta-sub">Sin registro. Sin descargas. Solo abre y juega.</p>
+    <button class="cta-btn" onclick="location.href='game.html'">Jugar ahora →</button>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <strong>WikiRace</strong> · Hecho con ❤️ y Wikipedia ·
+  <a href="howtoplay.html">Cómo jugar</a> · <a href="leaderboard.html">Clasificación</a> · <a href="about.html">Sobre WikiRace</a>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+document.getElementById('nav-logo').innerHTML = logoSVG(24);
+document.getElementById('hero-logo').innerHTML = logoSVG(72);
+
+var scores = getScores();
+document.getElementById('st-played').textContent = scores.length || '0';
+var best = getMyBest();
+document.getElementById('st-best').textContent = best ? best.score : '—';
+document.getElementById('st-day').textContent = getDayNumber();
+
+var TICKS=['Pulpo → Hitler','Barcelona → Agujero negro','Gazpacho → Einstein','Flamenco → 2ª GM','Paella → Universo','Sangría → Big Bang','Don Quijote → Darwin','Pelota vasca → Newton'];
+var th=document.getElementById('ticker');
+var th2='';for(var i=0;i<2;i++)TICKS.forEach(function(t){th2+='<span class="tick">'+t+'</span>';});
+th.innerHTML=th2;
+
+var EX=[
+  {s:'Pulpo Paul',e:'Adolf Hitler',d:'Media',dc:'badge-yellow'},
+  {s:'Barcelona',e:'Agujero negro',d:'Difícil',dc:'badge-red'},
+  {s:'Flamenco',e:'Segunda GM',d:'Fácil',dc:'badge-green'},
+  {s:'Tortilla española',e:'Física cuántica',d:'Difícil',dc:'badge-red'},
+  {s:'Sangría',e:'Universo',d:'Media',dc:'badge-yellow'},
+  {s:'Don Quijote',e:'Big Bang',d:'Difícil',dc:'badge-red'},
+];
+document.getElementById('ex-grid').innerHTML=EX.map(function(e){
+  return '<div class="ex" onclick="location.href=\'game.html\'">'
+    +'<div class="ex-f">'+e.s+'</div><div class="ex-a">↓</div><div class="ex-t">'+e.e+'</div>'
+    +'<div class="ex-d"><span class="badge '+e.dc+'">'+e.d+'</span></div></div>';
+}).join('');
+</script>
+</body>
+</html>

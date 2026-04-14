@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WikiRace — Cómo jugar</title>
+<link rel="stylesheet" href="shared.css">
+<style>
+body{background:var(--bg)}
+.page-hero{background:var(--surface);border-bottom:1px solid var(--border);padding:clamp(32px,6vw,52px) 16px 48px;text-align:center}
+.page-eyebrow{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:12px}
+.page-title{font-size:clamp(32px,6vw,52px);font-weight:900;letter-spacing:-2.5px;color:var(--ink);margin-bottom:12px}
+.page-title em{color:var(--green2);font-style:normal}
+.page-sub{font-size:17px;color:var(--ink3);max-width:480px;margin:0 auto;line-height:1.6}
+
+/* STEPS */
+.steps-section{padding:clamp(36px,7vw,64px) clamp(16px,4vw,24px)}
+.step-row{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,4vw,40px);align-items:center;max-width:860px;margin:0 auto clamp(40px,6vw,64px)}
+.step-row.reverse{direction:rtl}
+.step-row.reverse>*{direction:ltr}
+@media(max-width:680px){.step-row,.step-row.reverse{grid-template-columns:1fr;direction:ltr}}
+.step-num-big{font-size:80px;font-weight:900;color:var(--surface3);line-height:1;letter-spacing:-4px}
+.step-text-block{}
+.step-tag{display:inline-flex;align-items:center;gap:6px;background:var(--green-bg);color:var(--green);border:1px solid rgba(83,141,78,.2);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.step-h{font-size:24px;font-weight:800;color:var(--ink);letter-spacing:-.5px;margin-bottom:10px}
+.step-p{font-size:15px;color:var(--ink3);line-height:1.7}
+.step-p strong{color:var(--ink2);font-weight:600}
+
+/* WIKI PREVIEW */
+.wiki-preview{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;font-family:'Linux Libertine','Georgia',serif;box-shadow:0 4px 20px rgba(0,0,0,.07)}
+.wp-bar{background:var(--surface2);border-bottom:1px solid var(--border);padding:8px 14px;font-family:var(--font);font-size:12px;color:var(--ink3);display:flex;align-items:center;gap:8px}
+.wp-dot{width:10px;height:10px;border-radius:50%}
+.wp-content{padding:18px 20px;font-size:14px;line-height:1.7;color:#202122}
+.wp-title{font-size:20px;font-weight:400;border-bottom:1px solid #a2a9b1;padding-bottom:4px;margin-bottom:12px}
+.wp-link{color:#3366cc;text-decoration:none;cursor:pointer;padding:0 1px;border-radius:2px;transition:background .1s}
+.wp-link:hover{background:rgba(51,102,204,.1);text-decoration:underline}
+.wp-link.highlighted{background:rgba(106,170,100,.25);border:1px solid rgba(106,170,100,.4);border-radius:2px;padding:1px 3px}
+
+/* PATH VISUAL */
+.path-visual{display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.pv-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.pv-item:last-child{border-bottom:none}
+.pv-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.pv-dot-start{background:var(--green2)}
+.pv-dot-mid{background:var(--border2)}
+.pv-dot-end{background:var(--red)}
+.pv-dot-cur{background:var(--green2);box-shadow:0 0 0 3px rgba(106,170,100,.25)}
+.pv-name{font-size:13px;font-weight:500;color:var(--ink2)}
+.pv-name.start{color:var(--green);font-weight:700}
+.pv-name.end{color:var(--red);font-weight:700}
+.pv-conn{width:2px;height:10px;background:var(--border);margin-left:4px}
+.pv-pts{margin-left:auto;font-size:11px;font-weight:700;color:var(--red)}
+
+/* SCORING TABLE */
+.scoring-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:clamp(36px,7vw,64px) clamp(16px,4vw,24px)}
+.score-table{max-width:600px;margin:0 auto;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.st-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface)}
+.st-row:last-child{border-bottom:none}
+.st-row:nth-child(even){background:var(--surface2)}
+.st-icon{font-size:22px;width:36px;text-align:center}
+.st-text strong{font-size:14px;font-weight:700;color:var(--ink);display:block}
+.st-text span{font-size:12px;color:var(--ink3)}
+.st-pts{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}
+.st-pts.red{color:var(--red)}.st-pts.yellow{color:var(--yellow)}.st-pts.green{color:var(--green)}
+
+/* TIPS */
+.tips-section{padding:clamp(36px,7vw,64px) clamp(16px,4vw,24px)}
+.tips-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:760px;margin:0 auto}
+@media(max-width:580px){.tips-grid{grid-template-columns:1fr}}
+.tip-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px;transition:all .14s}
+.tip-card:hover{border-color:var(--green2);transform:translateY(-1px)}
+.tip-num{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--green2);margin-bottom:8px}
+.tip-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.tip-desc{font-size:13px;color:var(--ink3);line-height:1.6}
+
+/* FAQ */
+.faq-section{background:var(--surface);border-top:1px solid var(--border);padding:clamp(36px,7vw,64px) clamp(16px,4vw,24px)}
+.faq-list{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:0}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{padding:18px 0;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;user-select:none}
+.faq-q::after{content:'+';font-size:20px;font-weight:400;color:var(--ink3);flex-shrink:0;transition:transform .2s}
+.faq-item.open .faq-q::after{transform:rotate(45deg)}
+.faq-a{font-size:14px;color:var(--ink3);line-height:1.7;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
+.faq-item.open .faq-a{max-height:200px;padding-bottom:16px}
+
+/* CTA */
+.cta-bottom{background:var(--ink);padding:52px 24px;text-align:center}
+.cta-bottom h2{font-size:28px;font-weight:900;color:#fff;letter-spacing:-1px;margin-bottom:8px}
+.cta-bottom p{color:rgba(255,255,255,.5);font-size:14px;margin-bottom:24px}
+</style>
+</head>
+<body>
+<nav class="site-nav nav-centered">
+  <div class="nav-left">
+    <a href="howtoplay.html" class="nav-link active">Cómo jugar</a>
+    <a href="leaderboard.html" class="nav-link">Clasificación</a>
+  </div>
+  <a href="index.html" class="nav-logo">
+    <span id="nav-logo"></span>Wiki<em>Race</em>
+  </a>
+  <div class="nav-right nav-desktop-cta">
+    <a href="stats.html" class="nav-link">📊 Estadísticas</a>
+  <a href="about.html" class="nav-link">Sobre WikiRace</a>
+    <button class="nav-cta" onclick="location.href='game.html'">Jugar &rarr;</button>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu">&#9776;</button>
+</nav>
+<div class="nav-overlay"></div>
+<div class="nav-drawer">
+  <a href="index.html" class="nav-link">Inicio</a>
+  <a href="howtoplay.html" class="nav-link active">Cómo jugar</a>
+  <a href="leaderboard.html" class="nav-link">Clasificación</a>
+  <a href="stats.html" class="nav-link">📊 Estadísticas</a>
+  <a href="about.html" class="nav-link">Sobre WikiRace</a>
+  <button class="nav-cta btn-block" onclick="location.href='game.html'">Jugar ahora &rarr;</button>
+</div>
+<div class="page-hero">
+  <div class="page-eyebrow">Aprende a jugar</div>
+  <h1 class="page-title">Cómo jugar a <em>WikiRace</em></h1>
+  <p class="page-sub">Todo lo que necesitas saber para navegar Wikipedia como un profesional</p>
+</div>
+
+<!-- STEPS -->
+<section class="steps-section">
+  <div class="container">
+
+    <!-- STEP 1 -->
+    <div class="step-row">
+      <div class="step-text-block">
+        <div class="step-tag">Paso 01</div>
+        <h2 class="step-h">Elige tu punto de partida y tu destino</h2>
+        <p class="step-p">
+          Cada partida tiene una <strong>entrada inicial</strong> y una <strong>entrada destino</strong> en Wikipedia.
+          Puedes jugar la <strong>Palabras del día</strong> (la misma para todos cada día) o crear una
+          partida personalizada eligiendo cualquier par de entradas.
+        </p>
+      </div>
+      <div>
+        <div class="path-visual">
+          <div class="pv-item"><div class="pv-dot pv-dot-start"></div><span class="pv-name start">Pulpo Paul</span></div>
+          <div class="pv-conn" style="margin-left:20px"></div>
+          <div class="pv-item"><div class="pv-dot pv-dot-mid"></div><span class="pv-name">?????</span></div>
+          <div class="pv-conn" style="margin-left:20px"></div>
+          <div class="pv-item"><div class="pv-dot pv-dot-mid"></div><span class="pv-name">?????</span></div>
+          <div class="pv-conn" style="margin-left:20px"></div>
+          <div class="pv-item"><div class="pv-dot pv-dot-end"></div><span class="pv-name end">Adolf Hitler</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step-row reverse">
+      <div class="step-text-block">
+        <div class="step-tag">Paso 02</div>
+        <h2 class="step-h">Lee el artículo y haz clic en un enlace</h2>
+        <p class="step-p">
+          Verás el artículo de Wikipedia completo con imágenes, índice y toda la información.
+          Los <strong>enlaces azules</strong> te llevan a otras entradas. Pulsa el que creas que te
+          acerca más a tu destino. Cada clic cuenta — son <strong>−50 puntos</strong>.
+        </p>
+      </div>
+      <div class="wiki-preview">
+        <div class="wp-bar">
+          <div class="wp-dot" style="background:#ff5f57"></div>
+          <div class="wp-dot" style="background:#febc2e"></div>
+          <div class="wp-dot" style="background:#28c840"></div>
+          <span style="margin-left:8px;font-size:11px">Pulpo Paul — Wikipedia</span>
+        </div>
+        <div class="wp-content">
+          <div class="wp-title">Pulpo Paul</div>
+          <p><strong>Pulpo Paul</strong> (2008 – 26 de octubre de 2010) fue un <a class="wp-link">pulpo</a> del
+          <a class="wp-link">Sea Life Aquarium</a> de <a class="wp-link highlighted">Oberhausen</a>,
+          <a class="wp-link">Alemania</a>, famoso por sus predicciones sobre los resultados de
+          partidos de <a class="wp-link">fútbol</a>, especialmente durante la
+          <a class="wp-link">Copa Mundial de Fútbol de 2010</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step-row">
+      <div class="step-text-block">
+        <div class="step-tag">Paso 03</div>
+        <h2 class="step-h">Navega hasta llegar al destino</h2>
+        <p class="step-p">
+          Sigue saltando de entrada en entrada. En el panel lateral puedes ver tu <strong>puntuación en tiempo real</strong>,
+          los saltos que llevas y un indicador de caliente/frío que te dice si te estás
+          acercando al destino. ¡Llega con el mayor número de puntos posible!
+        </p>
+      </div>
+      <div class="path-visual">
+        <div class="pv-item"><div class="pv-dot pv-dot-start"></div><span class="pv-name start">Pulpo Paul</span></div>
+        <div class="pv-conn" style="margin-left:20px"></div>
+        <div class="pv-item"><div class="pv-dot pv-dot-mid"></div><span class="pv-name">Copa Mundial 2010</span><span class="pv-pts">−50</span></div>
+        <div class="pv-conn" style="margin-left:20px"></div>
+        <div class="pv-item"><div class="pv-dot pv-dot-mid"></div><span class="pv-name">Alemania</span><span class="pv-pts">−50</span></div>
+        <div class="pv-conn" style="margin-left:20px"></div>
+        <div class="pv-item"><div class="pv-dot pv-dot-cur"></div><span class="pv-name" style="color:var(--green2);font-weight:700">Segunda Guerra Mundial</span><span class="pv-pts">−50</span></div>
+        <div class="pv-conn" style="margin-left:20px"></div>
+        <div class="pv-item"><div class="pv-dot pv-dot-end"></div><span class="pv-name end">Adolf Hitler</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SCORING -->
+<section class="scoring-section">
+  <div class="container-sm">
+    <div class="section-eyebrow">Puntuación</div>
+    <h2 class="section-title" style="margin-bottom:14px">Empiezas con 1.000 puntos</h2>
+    <p class="section-desc" style="margin-bottom:36px">Cada acción tiene un coste. El reto es perder los mínimos puntos posibles.</p>
+    <div class="score-table">
+      <div class="st-row">
+        <div class="st-icon">🖱</div>
+        <div class="st-text"><strong>Clic en un enlace</strong><span>Cada vez que navegas a una nueva entrada</span></div>
+        <div class="st-pts red">−40</div>
+      </div>
+      <div class="st-row">
+        <div class="st-icon">⏱</div>
+        <div class="st-text"><strong>Cada 30 segundos</strong><span>El tiempo también cuenta en tu contra</span></div>
+        <div class="st-pts red">−30</div>
+      </div>
+      <div class="st-row">
+        <div class="st-icon">↩</div>
+        <div class="st-text"><strong>Volver atrás</strong><span>Si necesitas retroceder una entrada</span></div>
+        <div class="st-pts yellow">−80</div>
+      </div>
+      <div class="st-row" style="background:var(--green-bg)">
+        <div class="st-icon">🏆</div>
+        <div class="st-text"><strong>Puntuación perfecta</strong><span>Sin ir atrás, en 3 saltos, en menos de 1 minuto</span></div>
+        <div class="st-pts green">950+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section class="tips-section">
+  <div class="container">
+    <div class="section-eyebrow">Estrategia</div>
+    <h2 class="section-title" style="margin-bottom:14px">Consejos de los mejores</h2>
+    <p class="section-desc" style="margin-bottom:36px">Trucos para conseguir las puntuaciones más altas</p>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-num">TIP 01</div>
+        <div class="tip-title">Pasa siempre por países o ciudades</div>
+        <p class="tip-desc">Los artículos de países y ciudades grandes tienen muchos enlaces. Desde casi cualquier entrada puedes llegar a una capital, y de allí a cualquier tema histórico.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">TIP 02</div>
+        <div class="tip-title">Las guerras lo conectan todo</div>
+        <p class="tip-desc">Segunda Guerra Mundial, Primera Guerra Mundial... son artículos "hub" con miles de enlaces. Si tu destino es histórico, pasa por ahí.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">TIP 03</div>
+        <div class="tip-title">Lee el indicador caliente/frío</div>
+        <p class="tip-desc">El panel lateral te dice si te estás acercando o alejando del destino. Si ves 🔥 ¡Muy cerca!, mantén el curso. Si ves ❄, cambia de estrategia.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">TIP 04</div>
+        <div class="tip-title">El índice es tu aliado</div>
+        <p class="tip-desc">Los artículos largos tienen un índice (tabla de contenidos) al inicio. Puedes saltar directamente a secciones específicas para encontrar los enlaces que necesitas.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">TIP 05</div>
+        <div class="tip-title">Personas famosas como puente</div>
+        <p class="tip-desc">Los artículos de personas importantes (científicos, políticos, artistas) suelen conectar muchos campos temáticos distintos. Son excelentes peldaños intermedios.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">TIP 06</div>
+        <div class="tip-title">No uses "atrás" a la ligera</div>
+        <p class="tip-desc">Volver atrás cuesta el doble que avanzar. Antes de retroceder, explora más el artículo actual. A veces el enlace que necesitas está más abajo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container-sm">
+    <div class="section-eyebrow">Preguntas frecuentes</div>
+    <h2 class="section-title" style="margin-bottom:36px">Dudas habituales</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">¿Qué son las "Palabras del día"?</div>
+        <div class="faq-a">Cada día hay un par de entradas fijo que es igual para todos los jugadores. Si juegas la partida del día podrás comparar tu puntuación con la de otros jugadores en el mismo reto. Se renueva a medianoche.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">¿Puedo crear mis propias rutas?</div>
+        <div class="faq-a">Sí, con la partida personalizada puedes buscar cualquier entrada de Wikipedia como punto de partida y cualquier otra como destino. El autocomplete te ayuda a encontrar las entradas exactas.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">¿En qué idiomas está disponible?</div>
+        <div class="faq-a">WikiRace está disponible en español, inglés, euskera y catalán. Puedes cambiar el idioma antes de empezar una partida, lo que cambia también la versión de Wikipedia que se usa.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">¿Se guarda mi historial?</div>
+        <div class="faq-a">Tus partidas y puntuaciones se guardan localmente en tu navegador. Puedes ver tu historial y tu mejor puntuación en la página de clasificación.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">¿Qué pasa si no puedo llegar al destino?</div>
+        <div class="faq-a">Puedes rendirte en cualquier momento. Se registrará tu puntuación hasta ese punto y podrás ver la ruta que llevabas. No hay penalización por rendirse, simplemente termina la partida.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-bottom">
+  <h2>¿Todo claro? ¡A jugar!</h2>
+  <p>La mejor forma de aprender es jugando</p>
+  <button class="btn-cta-white btn btn-lg" onclick="location.href='game.html'" style="background:#fff;color:var(--ink);border:none;padding:14px 36px;font-size:15px;font-weight:700;border-radius:10px;cursor:pointer;font-family:var(--font)">Empezar primera partida →</button>
+</div>
+
+<footer class="site-footer">
+  <strong>WikiRace</strong> · Hecho con ❤️ y Wikipedia ·
+  <a href="howtoplay.html">Cómo jugar</a> ·
+  <a href="leaderboard.html">Clasificación</a> ·
+  <a href="about.html">Sobre WikiRace</a>
+</footer>
+
+<script src="shared.js"></script>
+<script>
+document.getElementById('nav-logo').innerHTML = logoSVG(26);
+function toggleFaq(el){
+  var item=el.parentElement;
+  var wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open');});
+  if(!wasOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
