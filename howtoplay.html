@@ -89,7 +89,7 @@ body{background:var(--bg)}
 .cta-bottom p{color:rgba(255,255,255,.5);font-size:14px;margin-bottom:24px}
 </style>
 </head>
-<body>
+<body data-title-key="page.title.htp">
 <nav class="site-nav nav-centered">
   <div class="nav-left">
     <a href="index.html" class="nav-link" data-i18n="nav.home">Inicio</a>
@@ -117,12 +117,12 @@ body{background:var(--bg)}
   <a href="multi.html" class="nav-link" data-i18n="nav.multi">VS Multi</a>
   <a href="about.html" class="nav-link" data-i18n="nav.about">Acerca de</a>
   <a href="game.html" class="nav-cta btn-block" data-i18n="nav.play">Jugar &#x2192;</a>
-  <button class="nav-drawer-dm"><span class="dm-label">Modo oscuro</span><span class="dm-icon"></span></button>
+  <button class="nav-drawer-dm"><span class="dm-label" data-i18n="dm.dark">Modo oscuro</span><span class="dm-icon"></span></button>
   <div style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--border)"><button onclick="setLang('es')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--red)">ES</button><button onclick="setLang('en')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:#1d4ed8">EN</button><button onclick="setLang('eu')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--green)">EU</button><button onclick="setLang('ca')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--yellow)">CA</button></div>
 </div>
 </div>
 <div class="page-hero">
-  <div class="page-eyebrow">Aprende a jugar</div>
+  <div class="page-eyebrow" data-i18n="htp.eyebrow">Aprende a jugar</div>
   <h1 class="page-title">Cómo jugar a <em>WikiRace</em></h1>
   <p class="page-sub">Todo lo que necesitas saber para navegar Wikipedia como un profesional</p>
 </div>
@@ -134,8 +134,8 @@ body{background:var(--bg)}
     <!-- STEP 1 -->
     <div class="step-row">
       <div class="step-text-block">
-        <div class="step-tag">Paso 01</div>
-        <h2 class="step-h">Elige tu punto de partida y tu destino</h2>
+        <div class="step-tag" data-i18n="htp.step1.tag">Paso 01</div>
+        <h2 class="step-h" data-i18n="htp.step1.h">Elige tu punto de partida y tu destino</h2>
         <p class="step-p">
           Cada partida tiene una <strong>entrada inicial</strong> y una <strong>entrada destino</strong> en Wikipedia.
           Puedes jugar la <strong>Palabras del día</strong> (la misma para todos cada día) o crear una
@@ -158,8 +158,8 @@ body{background:var(--bg)}
     <!-- STEP 2 -->
     <div class="step-row reverse">
       <div class="step-text-block">
-        <div class="step-tag">Paso 02</div>
-        <h2 class="step-h">Lee el artículo y haz clic en un enlace</h2>
+        <div class="step-tag" data-i18n="htp.step2.tag">Paso 02</div>
+        <h2 class="step-h" data-i18n="htp.step2.h">Lee el artículo y haz clic en un enlace</h2>
         <p class="step-p">
           Verás el artículo de Wikipedia completo con imágenes, índice y toda la información.
           Los <strong>enlaces azules</strong> te llevan a otras entradas. Pulsa el que creas que te
@@ -187,8 +187,8 @@ body{background:var(--bg)}
     <!-- STEP 3 -->
     <div class="step-row">
       <div class="step-text-block">
-        <div class="step-tag">Paso 03</div>
-        <h2 class="step-h">Navega hasta llegar al destino</h2>
+        <div class="step-tag" data-i18n="htp.step3.tag">Paso 03</div>
+        <h2 class="step-h" data-i18n="htp.step3.h">Navega hasta llegar al destino</h2>
         <p class="step-p">
           Sigue saltando de entrada en entrada. En el panel lateral puedes ver tu <strong>puntuación en tiempo real</strong>,
           los saltos que llevas y un indicador de caliente/frío que te dice si te estás
@@ -215,8 +215,8 @@ body{background:var(--bg)}
 <section class="scoring-section">
   <div class="container-sm">
     <div class="section-eyebrow">Puntuación</div>
-    <h2 class="section-title" style="margin-bottom:14px">Empiezas con 1.000 puntos</h2>
-    <p class="section-desc" style="margin-bottom:36px">Cada acción tiene un coste. El reto es perder los mínimos puntos posibles.</p>
+    <h2 class="section-title" style="margin-bottom:14px" data-i18n="htp.score.section">Empiezas con 1.000 puntos</h2>
+    <p class="section-desc" style="margin-bottom:36px" data-i18n="htp.score.desc">Cada acción tiene un coste. El reto es perder los mínimos puntos posibles.</p>
     <div class="score-table">
       <div class="st-row">
         <div class="st-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M4 2l16 9-8 1-4 8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="currentColor" opacity=".1"/><path d="M4 2l16 9-8 1-4 8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 13l3 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></div>
@@ -225,12 +225,12 @@ body{background:var(--bg)}
       </div>
       <div class="st-row">
         <div class="st-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 2h6" stroke="currentColor" stroke-width="22" stroke-linecap="round"/></svg></span></div>
-        <div class="st-text"><strong>Cada 30 segundos</strong><span>El tiempo también cuenta en tu contra</span></div>
+        <div class="st-text"><strong data-i18n="htp.sc.time">Cada 30 segundos</strong><span>El tiempo también cuenta en tu contra</span></div>
         <div class="st-pts red">−30</div>
       </div>
       <div class="st-row">
         <div class="st-icon">↩</div>
-        <div class="st-text"><strong>Volver atrás</strong><span>Si necesitas retroceder una entrada</span></div>
+        <div class="st-text"><strong data-i18n="htp.sc.back">Volver atrás</strong><span>Si necesitas retroceder una entrada</span></div>
         <div class="st-pts yellow">−80</div>
       </div>
       <div class="st-row" style="background:var(--green-bg)">
@@ -246,37 +246,37 @@ body{background:var(--bg)}
 <section class="tips-section">
   <div class="container">
     <div class="section-eyebrow">Estrategia</div>
-    <h2 class="section-title" style="margin-bottom:14px">Consejos de los mejores</h2>
-    <p class="section-desc" style="margin-bottom:36px">Trucos para conseguir las puntuaciones más altas</p>
+    <h2 class="section-title" style="margin-bottom:14px" data-i18n="htp.tips.section">Consejos de los mejores</h2>
+    <p class="section-desc" style="margin-bottom:36px" data-i18n="htp.tips.desc">Trucos para conseguir las puntuaciones más altas</p>
     <div class="tips-grid">
       <div class="tip-card">
-        <div class="tip-num">TIP 01</div>
-        <div class="tip-title">Pasa siempre por países o ciudades</div>
+        <div class="tip-num" data-i18n="htp.t1.num">TIP 01</div>
+        <div class="tip-title" data-i18n="htp.t1.title">Pasa siempre por países o ciudades</div>
         <p class="tip-desc">Los artículos de países y ciudades grandes tienen muchos enlaces. Desde casi cualquier entrada puedes llegar a una capital, y de allí a cualquier tema histórico.</p>
       </div>
       <div class="tip-card">
-        <div class="tip-num">TIP 02</div>
-        <div class="tip-title">Las guerras lo conectan todo</div>
+        <div class="tip-num" data-i18n="htp.t2.num">TIP 02</div>
+        <div class="tip-title" data-i18n="htp.t2.title">Las guerras lo conectan todo</div>
         <p class="tip-desc">Segunda Guerra Mundial, Primera Guerra Mundial... son artículos "hub" con miles de enlaces. Si tu destino es histórico, pasa por ahí.</p>
       </div>
       <div class="tip-card">
-        <div class="tip-num">TIP 03</div>
-        <div class="tip-title">Lee el indicador caliente/frío</div>
+        <div class="tip-num" data-i18n="htp.t3.num">TIP 03</div>
+        <div class="tip-title" data-i18n="htp.t3.title">Lee el indicador caliente/frío</div>
         <p class="tip-desc">El panel lateral te dice si te estás acercando o alejando del destino. Si ves <span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M12 22c4.4 0 8-3 8-7.5 0-3-2-5.5-3-7C16 10 14 11 14 13c0-4-3-8-5-9 0 3-2 5-2 8.5C7 17 9.6 22 12 22z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="currentColor" opacity=".1"/><path d="M12 22c4.4 0 8-3 8-7.5 0-3-2-5.5-3-7C16 10 14 11 14 13c0-4-3-8-5-9 0 3-2 5-2 8.5C7 17 9.6 22 12 22z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 22c2.2 0 4-1.5 4-3.5C16 17 15 16 14.5 15c-.5 1-1.5 1.5-2.5 1.5S10 16 9.5 15C9 16 8 17 8 18.5c0 2 1.8 3.5 4 3.5z" fill="currentColor" opacity=".3"/></svg></span> ¡Muy cerca!, mantén el curso. Si ves <span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M12 2v20M12 2l-3 3M12 2l3 3M12 22l-3-3M12 22l3-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M2 12h20M2 12l3-3M2 12l3 3M22 12l-3-3M22 12l-3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5.6 5.6l12.8 12.8M5.6 5.6l1 3.8M5.6 5.6l3.8 1M18.4 18.4l-1-3.8M18.4 18.4l-3.8-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".6"/></svg></span>, cambia de estrategia.</p>
       </div>
       <div class="tip-card">
-        <div class="tip-num">TIP 04</div>
-        <div class="tip-title">El índice es tu aliado</div>
+        <div class="tip-num" data-i18n="htp.t4.num">TIP 04</div>
+        <div class="tip-title" data-i18n="htp.t4.title">El índice es tu aliado</div>
         <p class="tip-desc">Los artículos largos tienen un índice (tabla de contenidos) al inicio. Puedes saltar directamente a secciones específicas para encontrar los enlaces que necesitas.</p>
       </div>
       <div class="tip-card">
-        <div class="tip-num">TIP 05</div>
-        <div class="tip-title">Personas famosas como puente</div>
+        <div class="tip-num" data-i18n="htp.t5.num">TIP 05</div>
+        <div class="tip-title" data-i18n="htp.t5.title">Personas famosas como puente</div>
         <p class="tip-desc">Los artículos de personas importantes (científicos, políticos, artistas) suelen conectar muchos campos temáticos distintos. Son excelentes peldaños intermedios.</p>
       </div>
       <div class="tip-card">
-        <div class="tip-num">TIP 06</div>
-        <div class="tip-title">No uses "atrás" a la ligera</div>
+        <div class="tip-num" data-i18n="htp.t6.num">TIP 06</div>
+        <div class="tip-title" data-i18n="htp.t6.title">No uses "atrás" a la ligera</div>
         <p class="tip-desc">Volver atrás cuesta el doble que avanzar. Antes de retroceder, explora más el artículo actual. A veces el enlace que necesitas está más abajo.</p>
       </div>
     </div>
@@ -287,26 +287,26 @@ body{background:var(--bg)}
 <section class="faq-section">
   <div class="container-sm">
     <div class="section-eyebrow">Preguntas frecuentes</div>
-    <h2 class="section-title" style="margin-bottom:36px">Dudas habituales</h2>
+    <h2 class="section-title" style="margin-bottom:36px" data-i18n="htp.faq.title">Dudas habituales</h2>
     <div class="faq-list">
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿Qué son las "Palabras del día"?</div>
+        <div class="faq-q" onclick="toggleFaq(this)" data-i18n="htp.faq1.q">¿Qué son las "Palabras del día"?</div>
         <div class="faq-a">Cada día hay un par de entradas fijo que es igual para todos los jugadores. Si juegas la partida del día podrás comparar tu puntuación con la de otros jugadores en el mismo reto. Se renueva a medianoche.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿Puedo crear mis propias rutas?</div>
+        <div class="faq-q" onclick="toggleFaq(this)" data-i18n="htp.faq2.q">¿Puedo crear mis propias rutas?</div>
         <div class="faq-a">Sí, con la partida personalizada puedes buscar cualquier entrada de Wikipedia como punto de partida y cualquier otra como destino. El autocomplete te ayuda a encontrar las entradas exactas.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿En qué idiomas está disponible?</div>
+        <div class="faq-q" onclick="toggleFaq(this)" data-i18n="htp.faq3.q">¿En qué idiomas está disponible?</div>
         <div class="faq-a">WikiRace está disponible en español, inglés, euskera y catalán. Puedes cambiar el idioma antes de empezar una partida, lo que cambia también la versión de Wikipedia que se usa.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿Se guarda mi historial?</div>
+        <div class="faq-q" onclick="toggleFaq(this)" data-i18n="htp.faq4.q">¿Se guarda mi historial?</div>
         <div class="faq-a">Tus partidas y puntuaciones se guardan localmente en tu navegador. Puedes ver tu historial y tu mejor puntuación en la página de clasificación.</div>
       </div>
       <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">¿Qué pasa si no puedo llegar al destino?</div>
+        <div class="faq-q" onclick="toggleFaq(this)" data-i18n="htp.faq5.q">¿Qué pasa si no puedo llegar al destino?</div>
         <div class="faq-a">Puedes rendirte en cualquier momento. Se registrará tu puntuación hasta ese punto y podrás ver la ruta que llevabas. No hay penalización por rendirse, simplemente termina la partida.</div>
       </div>
     </div>
@@ -317,7 +317,7 @@ body{background:var(--bg)}
 <div class="cta-bottom">
   <h2>¿Todo claro? ¡A jugar!</h2>
   <p>La mejor forma de aprender es jugando</p>
-  <button class="btn-cta-white btn btn-lg" onclick="location.href='game.html'" style="background:#fff;color:var(--ink);border:none;padding:14px 36px;font-size:15px;font-weight:700;border-radius:10px;cursor:pointer;font-family:var(--font)">Empezar primera partida →</button>
+  <button class="btn-cta-white btn btn-lg" onclick="location.href='game.html'" style="background:#fff;color:var(--ink);border:none;padding:14px 36px;font-size:15px;font-weight:700;border-radius:10px;cursor:pointer;font-family:var(--font)" data-i18n="htp.cta.btn">Empezar primera partida →</button>
 </div>
 
 <footer class="site-footer">

@@ -64,14 +64,14 @@ body{background:var(--bg)}
 
 /* EMPTY */
 .empty{text-align:center;padding:48px 20px}
-.empty-ico{font-size:40px;margin-bottom:12px;opacity:.3}
+.empty-ico{margin-bottom:16px;display:flex;justify-content:center;color:var(--ink4)}
 .empty-t{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:6px}
 .empty-d{font-size:13px;color:var(--ink3);max-width:280px;margin:0 auto 20px}
 
 .sec-h{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);margin-bottom:12px}
 </style>
 </head>
-<body>
+<body data-title-key="page.title.stats">
 <nav class="site-nav nav-centered">
   <div class="nav-left">
     <a href="index.html" class="nav-link" data-i18n="nav.home">Inicio</a>
@@ -99,14 +99,14 @@ body{background:var(--bg)}
   <a href="multi.html" class="nav-link" data-i18n="nav.multi">VS Multi</a>
   <a href="about.html" class="nav-link" data-i18n="nav.about">Acerca de</a>
   <a href="game.html" class="nav-cta btn-block" data-i18n="nav.play">Jugar &#x2192;</a>
-  <button class="nav-drawer-dm"><span class="dm-label">Modo oscuro</span><span class="dm-icon"></span></button>
+  <button class="nav-drawer-dm"><span class="dm-label" data-i18n="dm.dark">Modo oscuro</span><span class="dm-icon"></span></button>
   <div style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--border)"><button onclick="setLang('es')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--red)">ES</button><button onclick="setLang('en')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:#1d4ed8">EN</button><button onclick="setLang('eu')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--green)">EU</button><button onclick="setLang('ca')" style="flex:1;padding:8px 4px;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:12px;font-weight:800;cursor:pointer;background:none;color:var(--yellow)">CA</button></div>
 </div>
 </div>
 <div class="page-hero">
-  <div class="page-eyebrow">Perfil</div>
+  <div class="page-eyebrow" data-i18n="st.eyebrow">Perfil</div>
   <h1 class="page-title" style="display:flex;align-items:center;gap:10px;justify-content:center"><span style="display:inline-flex;align-items:center;flex-shrink:0;color:var(--green);"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><rect x="3" y="12" width="34" height="34" rx="1" fill="currentColor" opacity=".6"/><rect x="10" y="7" width="34" height="34" rx="1" fill="currentColor" opacity=".8"/><rect x="17" y="3" width="34" height="34" rx="1" fill="currentColor"/></svg></span data-i18n="st.title">Mis estadísticas</h1>
-  <p class="page-sub"><span data-i18n="st.sub">Toda tu actividad en WikiRace en este dispositivo</span></p>
+  <p class="page-sub"><span data-i18n="st.sub" data-i18n="st.sub">Toda tu actividad en WikiRace en este dispositivo</span></p>
 </div>
 
 <div class="section" id="main-content">
@@ -115,9 +115,9 @@ body{background:var(--bg)}
     <div id="empty-state" style="display:none">
       <div class="empty">
         <div class="empty-ico"><span style="display:inline-flex;align-items:center;color:var(--ink4);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none"><rect x="2" y="6" width="20" height="12" rx="5" stroke="currentColor" stroke-width="1.6"/><path d="M6 12h4M8 10v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="11" r="1" fill="currentColor"/><circle cx="14" cy="13" r="1" fill="currentColor"/></svg></span></div>
-        <div class="empty-t"><span data-i18n="st.empty.title">Aún no has jugado</span></div>
-        <div class="empty-d">Juega tu primera partida para ver tus estadísticas aquí.</div>
-        <button class="btn btn-primary btn-md" onclick="location.href='game.html'">Jugar ahora →</button>
+        <div class="empty-t"><span data-i18n="st.empty.title" data-i18n="st.empty.title">Aún no has jugado</span></div>
+        <div class="empty-d" data-i18n="st.empty.desc">Juega tu primera partida para ver tus estadísticas aquí.</div>
+        <button class="btn btn-primary btn-md" onclick="location.href='game.html'" data-i18n="st.empty.btn">Jugar ahora →</button>
       </div>
     </div>
 
@@ -128,7 +128,7 @@ body{background:var(--bg)}
 
       <!-- SCORE CHART -->
       <div class="chart-section">
-        <div class="sec-h">Últimas 20 partidas</div>
+        <div class="sec-h" data-i18n="st.last20">Últimas 20 partidas</div>
         <div class="chart-card">
           <div class="chart-header">
             Evolución de puntuación
@@ -142,9 +142,9 @@ body{background:var(--bg)}
 
       <!-- BEST GAMES -->
       <div class="best-section">
-        <div class="sec-h">Mejores partidas</div>
+        <div class="sec-h" data-i18n="st.best.games">Mejores partidas</div>
         <div class="best-card">
-          <div class="best-header">Top 5 puntuaciones</div>
+          <div class="best-header" data-i18n="st.best5">Top 5 puntuaciones</div>
           <div id="best-list"></div>
         </div>
       </div>
@@ -159,7 +159,7 @@ body{background:var(--bg)}
       <div class="streak-section">
         <div class="sec-h">Actividad — últimas 4 semanas</div>
         <div class="streak-card">
-          <div class="streak-title">Días jugados</div>
+          <div class="streak-title" data-i18n="st.days">Días jugados</div>
           <div class="streak-days" id="streak-days"></div>
         </div>
       </div>
