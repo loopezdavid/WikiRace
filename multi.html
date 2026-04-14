@@ -995,6 +995,8 @@ function msc(id){return document.getElementById(id);}
 function showMScreen(id){
   document.querySelectorAll('.mscreen').forEach(function(s){s.classList.remove('active');});
   msc(id).classList.add('active');
+  // Bind dark toggles on new screen
+  if(typeof bindDarkToggles === 'function') setTimeout(bindDarkToggles, 50);
 }
 function mFmt(s){var m=Math.floor(s/60),r=s%60;return m+':'+(r<10?'0':'')+r;}
 function mEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -1123,10 +1125,20 @@ document.addEventListener('DOMContentLoaded', function(){
     applyDarkM(saved==='1'||(saved===null&&prefersDark));
   }
   initDarkM();
-  document.querySelectorAll('.nav-dark-toggle, .m-bar-dm').forEach(function(btn){
-    btn.innerHTML = document.body.classList.contains('dark') ? sunSVG() : moonSVG();
-    btn.addEventListener('click', function(){ applyDarkM(!document.body.classList.contains('dark')); });
-  });
+  // Set icon + listener on ALL dark toggles (after initDarkM has applied class)
+  function bindDarkToggles(){
+    var isDarkNow = document.body.classList.contains('dark');
+    document.querySelectorAll('.nav-dark-toggle, .m-bar-dm').forEach(function(btn){
+      if(btn._dmBound) return;
+      btn._dmBound = true;
+      btn.innerHTML = isDarkNow ? sunSVG() : moonSVG();
+      btn.title = isDarkNow ? 'Modo claro' : 'Modo oscuro';
+      btn.addEventListener('click', function(){
+        applyDarkM(!document.body.classList.contains('dark'));
+      });
+    });
+  }
+  bindDarkToggles();
 
   // Action card icons
   if(msc('ac-create-icon')) msc('ac-create-icon').innerHTML = plusSVG();
@@ -1283,14 +1295,21 @@ function enterWaitingRoom(roomId, playerId){
   msc('btn-start-game').style.display = isHost ? 'block' : 'none';
   msc('waiting-msg').style.display = isHost ? 'none' : 'block';
   msc('rs-host-label').textContent = isHost ? 'ANFITRIÓN' : 'INVITADO';
-  // Host can edit words, guest sees read-only
+  // Host: show edit mode immediately; Guest: show read-only pair
   var editHint = msc('rs-edit-hint');
-  if(editHint) editHint.style.display = isHost ? 'inline' : 'none';
-  // Init icon for rs-input-arr
+  if(editHint) editHint.style.display = 'none';
   setTimeout(function(){
     if(msc('rs-input-arr')) msc('rs-input-arr').innerHTML = bigArrowSVG();
     if(msc('rs-check-icon')) msc('rs-check-icon').innerHTML = checkSVGSmall();
-  }, 50);
+    if(isHost){
+      // Auto-open edit mode for host
+      var edit = msc('rs-edit-mode');
+      var display = msc('rs-pair-display');
+      if(edit) edit.style.display = 'flex';
+      if(display) display.style.display = 'none';
+      initRsAC();
+    }
+  }, 100);
 
   // Listen to room
   listenRoom();
@@ -1536,8 +1555,9 @@ function toggleMLang(){
 }
 function setMLang(l){
   M_LANG = l;
-  var label = document.getElementById('m-lang-label');
-  if(label) label.textContent = l.toUpperCase();
+  // Update ALL lang labels on the page
+  document.querySelectorAll('[id^="m-lang-label"]').forEach(function(el){ el.textContent = l.toUpperCase(); });
+  document.querySelectorAll('.lang-toggle-lbl').forEach(function(el){ el.textContent = l.toUpperCase(); });
   var dd = document.getElementById('m-lang-dd');
   if(dd){ dd.classList.remove('open'); }
   // Update room lang in Firebase if host
@@ -1558,12 +1578,23 @@ document.addEventListener('click', function(e){
 function randomizePair(){
   if(!ME.isHost) return;
   var p = ALL_PAIRS_MULTI[Math.floor(Math.random()*ALL_PAIRS_MULTI.length)];
+  // Pre-fill inputs
+  var fi = msc('rs-input-from'), ti = msc('rs-input-to');
+  if(fi) fi.value = p.s;
+  if(ti) ti.value = p.e;
+  rsAcVals = {from:p.s, to:p.e};
   ROOM.ref.update({ start: p.s, end: p.e });
+  mToast(p.s + ' → ' + p.e, 'hop', 2000);
 }
 function setDailyPair(){
   if(!ME.isHost) return;
   var p = getDailyPairShared();
+  var fi = msc('rs-input-from'), ti = msc('rs-input-to');
+  if(fi) fi.value = p.s;
+  if(ti) ti.value = p.e;
+  rsAcVals = {from:p.s, to:p.e};
   ROOM.ref.update({ start: p.s, end: p.e });
+  mToast('Palabras del día: ' + p.s + ' → ' + p.e, 'hop', 2500);
 }
 
 function hostStartGame(){
