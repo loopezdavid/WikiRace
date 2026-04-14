@@ -26,10 +26,47 @@ body{background:var(--bg)}
 /* ── SHARED TOPBAR ── */
 .m-bar{
   height:52px;background:#1a1612;border-bottom:none;
-  display:flex;align-items:center;padding:0 20px;gap:10px;flex-shrink:0;
+  display:flex;align-items:center;padding:0 16px;gap:8px;flex-shrink:0;
   width:100%;align-self:flex-start;
   position:sticky;top:0;z-index:50;
 }
+.m-bar-center{
+  position:absolute;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;
+  pointer-events:none;
+}
+.m-bar-left{display:flex;align-items:center;gap:6px}
+.m-bar-right{display:flex;align-items:center;gap:6px;margin-left:auto}
+
+/* Lang picker in header */
+.m-lang-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 10px;background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);border-radius:6px;
+  color:rgba(255,255,255,.7);font-size:12px;font-weight:700;
+  cursor:pointer;font-family:var(--font);transition:all .13s;
+}
+.m-lang-btn:hover{background:rgba(255,255,255,.14);color:#fff}
+.m-lang-dd{
+  position:absolute;top:calc(100% + 6px);right:0;
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  min-width:140px;overflow:hidden;z-index:1000;
+  display:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+  animation:slideDown .15s ease;
+}
+.m-lang-dd.open{display:block}
+.m-lang-dd button{
+  display:flex;width:100%;padding:10px 14px;
+  font-size:13px;font-weight:600;text-align:left;
+  background:none;border:none;border-bottom:1px solid var(--surface3);
+  color:var(--ink2);cursor:pointer;font-family:var(--font);
+  transition:background .1s;align-items:center;gap:8px;
+}
+.m-lang-dd button:last-child{border-bottom:none}
+.m-lang-dd button:hover{background:var(--green-bg);color:var(--ink)}
+.m-lang-dd button.active{font-weight:800;color:var(--green)}
+.m-lang-wrap{position:relative}
 .m-bar-logo{color:#fff!important;text-shadow:none}
 .m-bar-logo em{color:#6aaa64!important}
 .m-bar-badge{background:rgba(255,255,255,.12)!important;color:rgba(255,255,255,.7)!important;border:1px solid rgba(255,255,255,.15)!important}
@@ -40,7 +77,7 @@ body{background:var(--bg)}
 .m-bar-logo{font-size:18px;font-weight:900;letter-spacing:-1px;color:var(--ink);display:flex;align-items:center;gap:7px;text-decoration:none}
 .m-bar-logo em{color:var(--green2);font-style:normal}
 .m-bar-badge{background:var(--ink);color:var(--bg);font-size:9px;font-weight:800;padding:3px 8px;border-radius:3px;letter-spacing:1.5px;text-transform:uppercase}
-.m-bar-spacer{flex:1}
+.m-bar-spacer{flex:1}/* kept for backward compat */
 .m-bar-btn{padding:6px 14px;background:none;border:1px solid var(--border);border-radius:6px;font-size:12px;font-weight:600;color:var(--ink3);cursor:pointer;font-family:var(--font);transition:all .13s}
 .m-bar-btn:hover{border-color:var(--border2);color:var(--ink)}
 .m-bar-dm{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid var(--border);border-radius:6px;cursor:pointer;color:var(--ink3)}
@@ -162,12 +199,12 @@ body{background:var(--bg)}
 /* Game setup in room */
 .room-setup{
   background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  width:100%;margin-bottom:16px;overflow:hidden;
+  width:100%;margin-bottom:16px;overflow:visible;position:relative;
 }
 .rs-header{padding:14px 18px;border-bottom:1px solid var(--surface3);display:flex;align-items:center;gap:10px}
 .rs-title{font-size:13px;font-weight:700;color:var(--ink);flex:1}
 .rs-host-badge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:3px;letter-spacing:1px;text-transform:uppercase;background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(181,159,59,.2)}
-.rs-body{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.rs-body{padding:14px 18px;display:flex;flex-direction:column;gap:10px;overflow:visible;position:relative}
 .rs-pair{display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:8px;padding:12px 14px;transition:background .12s}
 .rs-pair:hover{background:var(--surface3)}
 .rs-word-input{
@@ -551,11 +588,11 @@ body{background:var(--bg)}
 canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;display:none}
 
 /* ── WIKIPEDIA AUTOCOMPLETE for custom inputs ── */
-.rs-ac-wrap{position:relative}
+.rs-ac-wrap{position:relative;overflow:visible}
 .rs-ac-dd{
   position:absolute;top:calc(100% + 3px);left:0;right:0;
   background:var(--surface);border:2px solid var(--border);border-radius:8px;
-  z-index:9999;max-height:200px;overflow-y:auto;
+  z-index:99999;max-height:200px;overflow-y:auto;
   display:none;
   box-shadow:0 4px 20px rgba(0,0,0,.12);
 }
@@ -586,13 +623,18 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 <!-- ════════════ LOBBY ════════════ -->
 <div id="lobby" class="mscreen active">
   <div class="m-bar">
-    <a href="index.html" class="m-bar-logo">
-      <span id="mb-logo"></span>Wiki<em>Race</em>
-    </a>
-    <span class="m-bar-badge">Multijugador</span>
-    <div class="m-bar-spacer"></div>
-    <button class="m-bar-btn" onclick="location.href='game.html'">Modo solo</button>
-    <button class="m-bar-dm nav-dark-toggle" id="lobby-dm" title="Modo oscuro"></button>
+    <div class="m-bar-left">
+      <button class="m-bar-btn" onclick="location.href='game.html'">Modo solo</button>
+    </div>
+    <div class="m-bar-center">
+      <a href="index.html" class="m-bar-logo" style="pointer-events:auto">
+        <span id="mb-logo"></span>Wiki<em>Race</em>
+      </a>
+      <span class="m-bar-badge">Multijugador</span>
+    </div>
+    <div class="m-bar-right">
+      <button class="m-bar-dm nav-dark-toggle" id="lobby-dm" title="Modo oscuro"></button>
+    </div>
   </div>
 
   <div class="lobby-inner">
@@ -635,13 +677,30 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 <!-- ════════════ WAITING ROOM ════════════ -->
 <div id="waiting" class="mscreen">
   <div class="m-bar">
-    <a href="#" class="m-bar-logo" onclick="leaveRoom();return false">
-      <span id="wb-logo"></span>Wiki<em>Race</em>
-    </a>
-    <span class="m-bar-badge" id="wr-room-id">—</span>
-    <div class="m-bar-spacer"></div>
-    <button class="m-bar-btn" onclick="leaveRoom()">Salir</button>
-    <button class="m-bar-dm nav-dark-toggle" id="waiting-dm" title="Modo oscuro"></button>
+    <div class="m-bar-left">
+      <button class="m-bar-btn" onclick="leaveRoom()">Salir</button>
+    </div>
+    <div class="m-bar-center">
+      <a href="#" class="m-bar-logo" onclick="leaveRoom();return false" style="pointer-events:auto">
+        <span id="wb-logo"></span>Wiki<em>Race</em>
+      </a>
+      <span class="m-bar-badge" id="wr-room-id">—</span>
+    </div>
+    <div class="m-bar-right">
+      <div class="m-lang-wrap">
+        <button class="m-lang-btn" id="m-lang-btn-w" onclick="toggleMLang()">
+          <span id="m-lang-label">ES</span>
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="m-lang-dd" id="m-lang-dd">
+          <button onclick="setMLang('es')" data-l="es"><span style="font-weight:900;font-size:11px;color:var(--red)">ES</span> Español</button>
+          <button onclick="setMLang('en')" data-l="en"><span style="font-weight:900;font-size:11px;color:#1d4ed8">EN</span> English</button>
+          <button onclick="setMLang('eu')" data-l="eu"><span style="font-weight:900;font-size:11px;color:var(--green)">EU</span> Euskera</button>
+          <button onclick="setMLang('ca')" data-l="ca"><span style="font-weight:900;font-size:11px;color:#c9b458">CA</span> Català</button>
+        </div>
+      </div>
+      <button class="m-bar-dm nav-dark-toggle" id="waiting-dm" title="Modo oscuro"></button>
+    </div>
   </div>
 
   <div class="waiting-inner">
@@ -834,10 +893,16 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 <!-- ════════════ RESULTS ════════════ -->
 <div id="results" class="mscreen">
   <div class="m-bar">
-    <a href="index.html" class="m-bar-logo"><span id="rb-logo"></span>Wiki<em>Race</em></a>
-    <span class="m-bar-badge">Resultados</span>
-    <div class="m-bar-spacer"></div>
-    <button class="m-bar-dm nav-dark-toggle" id="results-dm" title="Modo oscuro"></button>
+    <div class="m-bar-left">
+      <button class="m-bar-btn" onclick="playAgain()">Revancha</button>
+    </div>
+    <div class="m-bar-center">
+      <a href="index.html" class="m-bar-logo" style="pointer-events:auto"><span id="rb-logo"></span>Wiki<em>Race</em></a>
+      <span class="m-bar-badge">Resultados</span>
+    </div>
+    <div class="m-bar-right">
+      <button class="m-bar-dm nav-dark-toggle" id="results-dm" title="Modo oscuro"></button>
+    </div>
   </div>
 
   <div class="results-inner">
@@ -1250,6 +1315,12 @@ function listenRoom(){
     if(!data) return;
     ROOM.data = data;
 
+    // Sync lang
+    if(data.lang && data.lang !== M_LANG){
+      M_LANG = data.lang;
+      var ll = document.getElementById('m-lang-label');
+      if(ll) ll.textContent = data.lang.toUpperCase();
+    }
     // Update pair display
     if(msc('rs-from')) msc('rs-from').textContent = data.start || '—';
     if(msc('rs-to'))   msc('rs-to').textContent = data.end || '—';
@@ -1401,7 +1472,7 @@ function rsSetupAC(field){
 }
 
 function rsFetchAC(q, field, dd, sp){
-  var lang = (ROOM.data && ROOM.data.lang) || 'es';
+  var lang = M_LANG || (ROOM.data && ROOM.data.lang) || 'es';
   var L = {eu:'eu', ca:'ca', en:'en'}[lang] || 'es';
   if(sp) sp.style.display = 'block';
   fetch('https://'+L+'.wikipedia.org/w/api.php?action=opensearch&search='+encodeURIComponent(q)+'&limit=8&format=json&origin=*')
@@ -1451,6 +1522,38 @@ function applyCustomPair(){
     mToast('Palabras actualizadas','hop');
   });
 }
+
+/* ── HEADER LANG SWITCHER ── */
+var M_LANG = 'es';
+function toggleMLang(){
+  var dd = document.getElementById('m-lang-dd');
+  if(!dd) return;
+  dd.classList.toggle('open');
+  // mark active
+  dd.querySelectorAll('button').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-l') === M_LANG);
+  });
+}
+function setMLang(l){
+  M_LANG = l;
+  var label = document.getElementById('m-lang-label');
+  if(label) label.textContent = l.toUpperCase();
+  var dd = document.getElementById('m-lang-dd');
+  if(dd){ dd.classList.remove('open'); }
+  // Update room lang in Firebase if host
+  if(ME.isHost && ROOM.ref){
+    ROOM.ref.update({lang: l});
+  }
+  mToast('Idioma: ' + l.toUpperCase(), 'hop', 1500);
+}
+// Close lang dd on outside click
+document.addEventListener('click', function(e){
+  var wrap = document.querySelector('.m-lang-wrap');
+  if(wrap && !wrap.contains(e.target)){
+    var dd = document.getElementById('m-lang-dd');
+    if(dd) dd.classList.remove('open');
+  }
+});
 
 function randomizePair(){
   if(!ME.isHost) return;
@@ -1521,7 +1624,7 @@ function startCountdown(start, end){
 /* ════════════════════════════════════════════════════════
    GAME
 ════════════════════════════════════════════════════════ */
-function wikiLang(l){ return({eu:'eu',ca:'ca',en:'en'})[l]||'es'; }
+function wikiLang(l){ l=l||M_LANG; return({eu:'eu',ca:'ca',en:'en'})[l]||'es'; }
 
 function beginGame(start, end, lang){
   if(G.started) return;
