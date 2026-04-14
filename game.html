@@ -278,16 +278,16 @@ body{background:var(--bg)}
 .btn-reshuffle:hover{color:var(--ink)}
 .btn-reshuffle .ico{display:inline-block;transition:transform .35s}
 .btn-reshuffle:hover .ico{transform:rotate(180deg)}
-.suggestions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
-@media(max-width:440px){.suggestions{grid-template-columns:1fr}}
+.suggestions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+
 .sugg{
   background:var(--surface);border:1px solid var(--border);
-  border-radius:8px;padding:11px 13px;cursor:pointer;
+  border-radius:8px;padding:11px 14px;cursor:pointer;
   border-left:3px solid var(--border);
   transition:all .14s;text-align:left;
-  display:flex;align-items:center;gap:6px;
+  display:inline-flex;align-items:center;gap:8px;
   -webkit-tap-highlight-color:transparent;
-  overflow:hidden;
+  flex:1;min-width:140px;max-width:100%;
 }
 .sugg:hover{border-color:var(--green);border-left-color:var(--green);background:var(--green-bg)}
 .sugg:active{transform:scale(.98)}
@@ -619,6 +619,32 @@ body{background:var(--bg)}
 .win-ext-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink3);text-decoration:none;font-size:12px;font-weight:600;padding:7px 14px;border-radius:6px;border:1px solid var(--border);transition:all .13s;background:var(--surface)}
 .win-ext-link:hover{color:var(--ink);border-color:var(--border2)}
 
+.btn-hint{
+  background:rgba(181,159,59,.08);border:1px solid rgba(181,159,59,.22);
+  color:#b59f3b;border-radius:4px;padding:9px 11px;
+  font-size:12px;font-weight:600;cursor:pointer;
+  transition:all .13s;display:flex;align-items:center;gap:7px;font-family:var(--font);
+}
+.btn-hint:hover{background:rgba(181,159,59,.15)}
+.btn-hint[disabled]{opacity:.2;cursor:default}
+body.dark .btn-hint{color:var(--yellow2)}
+
+.lang-pick-dd{
+  position:absolute;top:calc(100% + 4px);right:0;
+  background:var(--surface);border:1px solid var(--border);border-radius:8px;
+  min-width:130px;overflow:hidden;z-index:999;display:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
+.lang-pick-dd.open{display:block;animation:slideDown .14s ease}
+.lang-pick-dd button{
+  display:flex;width:100%;padding:9px 13px;gap:9px;align-items:center;
+  font-size:13px;font-weight:600;background:none;border:none;
+  border-bottom:1px solid var(--surface3);color:var(--ink2);
+  cursor:pointer;font-family:var(--font);transition:background .1s;
+}
+.lang-pick-dd button:last-child{border-bottom:none}
+.lang-pick-dd button:hover{background:var(--green-bg);color:var(--ink)}
+
 #victory-flash.show{display:block!important;animation:victoryFlash .8s ease forwards}
 
 /* ════════ THERMOMETER HOT/COLD ════════ */
@@ -811,7 +837,7 @@ body.dark .hint-item:hover{background:var(--green-bg)}
 <div id="setup" class="screen">
   <div class="game-header">
     <a href="index.html" class="hdr-btn header-left" style="text-decoration:none;display:inline-flex;align-items:center">← Inicio</a>
-    <div class="header-logo" style="display:flex;align-items:center;gap:7px;font-size:18px;font-weight:900;letter-spacing:-1px"><span id="game-header-logo"></span>Wiki<em style="color:var(--green2);font-style:normal">Race</em></div>
+    <a href="index.html" class="header-logo" style="display:flex;align-items:center;gap:7px;font-size:18px;font-weight:900;letter-spacing:-1px;text-decoration:none;color:inherit"><span id="game-header-logo"></span>Wiki<em style="color:var(--green2);font-style:normal">Race</em></a>
     <div class="header-right">
       <button class="nav-dark-toggle" id="dm-toggle" title="Modo oscuro"></button>
       <div class="lang-picker" id="lang-picker-wrap">
@@ -954,7 +980,7 @@ body.dark .hint-item:hover{background:var(--green-bg)}
       <div class="path-map" id="path-map"></div>
     </div>
     <div class="sb-acts">
-      <button class="btn-bk" id="btn-bk" onclick="goBack()" disabled>← Artículo anterior<span class="bk-pts">−80</span></button>
+      <button class="btn-bk" id="btn-bk" onclick="goBack()" disabled>← Palabra anterior<span class="bk-pts">−80</span></button>
       <button class="btn-hint" id="btn-hint" onclick="useHint()"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M9 21h6M12 3a6 6 0 016 6c0 2.2-1.2 4.2-3 5.4V17H9v-2.6A6 6 0 0112 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".5"/><circle cx="12" cy="9" r="1.5" fill="currentColor" opacity=".4"/></svg></span>Pista<span class="bk-pts">−120</span></button>
       <button class="btn-gv" onclick="giveUp()">Rendirse</button>
     </div>
@@ -972,7 +998,7 @@ body.dark .hint-item:hover{background:var(--green-bg)}
       <span class="wtb-score" id="bar-sc">1000</span>
     </div>
     <div class="wiki-scroll" id="wscroll">
-      <button class="float-back" id="float-back" onclick="goBack()">← Volver <span class="fb-pts">−80</span></button>
+      <button class="float-back" id="float-back" onclick="goBack()">← Palabra anterior <span class="fb-pts">−80</span></button>
       <div class="wiki-loader" id="wload"><div class="ld-ring"></div><div class="ld-txt" id="wload-t">Cargando…</div></div>
       <div id="wc"></div>
     </div>

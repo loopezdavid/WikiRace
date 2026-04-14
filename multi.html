@@ -18,7 +18,7 @@
 html,body{height:100%!important;max-height:100vh!important;overflow:hidden!important}
 body{min-height:0!important;background:var(--bg)}
 #mroot{height:100dvh;height:100vh;max-height:100vh;display:flex;flex-direction:column;overflow:hidden}
-#mroot{height:100dvh;height:100vh;display:flex;flex-direction:column}
+
 
 .mscreen{display:none;height:100%;flex-direction:column;overflow:hidden}
 .mscreen.active{display:flex}
@@ -854,7 +854,7 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
 
     <div class="msb-acts">
       <button class="btn-bk-m" id="m-btn-bk" onclick="mGoBack()" disabled>
-        ← Volver atrás<span class="bk-pts-m">−80</span>
+        ← Palabra anterior<span class="bk-pts-m">−80</span>
       </button>
       <button class="btn-give-m" onclick="mGiveUp()">Rendirse</button>
     </div>
@@ -872,7 +872,7 @@ canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;displa
     </div>
     <div class="m-wiki-scroll" id="m-wscroll">
       <button class="m-float-back" id="m-float-back" onclick="mGoBack()">
-        ← Volver <span style="font-size:9px;opacity:.6">−80</span>
+        ← Palabra anterior <span style="font-size:9px;opacity:.6">−80</span>
       </button>
       <div class="winner-banner" id="winner-banner">
         <div class="wb-icon" id="wb-icon"></div>
