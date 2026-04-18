@@ -980,7 +980,7 @@ body.dark .hint-item:hover{background:var(--green-bg)}
       <div class="path-map" id="path-map"></div>
     </div>
     <div class="sb-acts">
-      <button class="btn-bk" id="btn-bk" onclick="goBack()" disabled>← Palabra anterior<span class="bk-pts">−80</span></button>
+      <button class="btn-bk" id="btn-bk" onclick="goBack()" disabled>← Palabra anterior<span class="bk-pts" id="bk-pts-label">−40</span></button>
       <button class="btn-hint" id="btn-hint" onclick="useHint()"><span style="display:inline-flex;align-items:center;flex-shrink:0;margin-right:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M9 21h6M12 3a6 6 0 016 6c0 2.2-1.2 4.2-3 5.4V17H9v-2.6A6 6 0 0112 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.5 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".5"/><circle cx="12" cy="9" r="1.5" fill="currentColor" opacity=".4"/></svg></span>Pista<span class="bk-pts">−120</span></button>
       <button class="btn-gv" onclick="giveUp()">Rendirse</button>
     </div>
@@ -998,7 +998,7 @@ body.dark .hint-item:hover{background:var(--green-bg)}
       <span class="wtb-score" id="bar-sc">1000</span>
     </div>
     <div class="wiki-scroll" id="wscroll">
-      <button class="float-back" id="float-back" onclick="goBack()">← Palabra anterior <span class="fb-pts">−80</span></button>
+      <button class="float-back" id="float-back" onclick="goBack()">← Palabra anterior <span class="fb-pts" id="fb-pts-label">−40</span></button>
       <div class="wiki-loader" id="wload"><div class="ld-ring"></div><div class="ld-txt" id="wload-t">Cargando…</div></div>
       <div id="wc"></div>
     </div>
@@ -1081,7 +1081,17 @@ var DAILY_PAIRS=[
 
 /* ─── STATE ─── */
 var lang='es',G={},acT={s:null,e:null},acVal={s:'',e:''},curPresets=[],isDaily=false;
-var S0=1000,SL=40,ST=30,SB=80;
+var S0=1000;
+/* ─── ESCALABLE SCORING ─── */
+/* ENLACES: 1º=-10, 2º=-15, 3º=-20, +5 cada vez */
+function getLinkPenalty(){return 10+(G.clicks||0)*5;}
+/* TIEMPO: cada 30s: 1º=-10, 2º=-20, 3º=-30, +10 cada vez */
+function getTimePenalty(){var interval=Math.floor((G.sec||0)/30);return 10+(interval)*10;}
+/* VOLVER ATRÁS: 1º=-40, 2º=-60, 3º=-80, +20 cada vez */
+function getBackPenalty(){return 40+(G.backs||0)*20;}
+/* PISTA: 1ª=-80, 2ª=-120, 3ª=-160, +40 cada vez */
+var G_HINT_COUNT=0;
+function getHintPenalty(){return 80+(G_HINT_COUNT)*40;}
 
 /* ─── UTILS ─── */
 function wl(){return({eu:'eu',ca:'ca',en:'en'})[lang]||'es';}
@@ -1317,7 +1327,7 @@ function startGame(daily){
   else{s=acVal.s||$('ac-s').value.trim();e=acVal.e||$('ac-e').value.trim();}
   if(!s||!e){shake('btn-start');toast('Selecciona o escribe ambas entradas','pen');return;}
   isDaily=!!daily;clearInterval(G.timer);
-  G={start:s,end:e,cur:s,path:[s],hist:[],clicks:0,backs:0,sec:0,score:S0,timer:null,done:false,replay:[{n:s,t:null,_abs:0}]};G_HINT_USED=false;
+  G={start:s,end:e,cur:s,path:[s],hist:[],clicks:0,backs:0,sec:0,score:S0,timer:null,done:false,replay:[{n:s,t:null,_abs:0}]};G_HINT_USED=false;G_HINT_COUNT=0;
   $('trf').textContent=s;$('trt').textContent=e;
   $('sb-lb').textContent=lang.toUpperCase();
   $('score-num').textContent=S0;$('score-num').style.color='#6aaa64';
@@ -1328,11 +1338,17 @@ function startGame(daily){
   showScreen('game');closeSB();renderPath();updateMini();updateFB();loadArt(s);
   G.timer=setInterval(function(){
     if(G.done)return;G.sec++;
-    if(G.sec%30===0){updateScore(-ST);toast('−'+ST+' pts por tiempo','time');}
+    if(G.sec%30===0){var tp=getTimePenalty();updateScore(-tp);toast('−'+tp+' pts por tiempo','time');}
     $('s-t').textContent=fmt(G.sec);
   },1000);
 }
-function updateMini(){$('s-t').textContent=fmt(G.sec);$('s-h').textContent=Math.max(0,G.path.length-1);$('s-b').textContent=G.backs;$('btn-bk').disabled=G.hist.length===0;updateFB();}
+function updateMini(){
+  $('s-t').textContent=fmt(G.sec);$('s-h').textContent=Math.max(0,G.path.length-1);$('s-b').textContent=G.backs;$('btn-bk').disabled=G.hist.length===0;updateFB();
+  /* Actualizar etiquetas de coste escalable */
+  var nextBack='−'+(40+(G.backs||0)*20);
+  var bkL=$('bk-pts-label'),fbL=$('fb-pts-label');
+  if(bkL)bkL.textContent=nextBack;if(fbL)fbL.textContent=nextBack;
+}
 
 /* ─── LOAD ARTICLE ─── */
 function loadArt(title){
@@ -1402,7 +1418,10 @@ function renderWiki(html,L,title){
 
 /* ─── NAVIGATE ─── */
 function navigateTo(title){
-  if(G.done)return;G.clicks++;updateScore(-SL);
+  if(G.done)return;
+  var lp=getLinkPenalty();
+  G.clicks++;updateScore(-lp);
+  toast('Enlace −'+lp+' pts','pen',1000);
   /* track timing for replay */
   if(!G.replay) G.replay=[];
   var now=G.sec;
@@ -1417,9 +1436,11 @@ function navigateTo(title){
   renderPath();updateMini();loadArt(title);closeSB();
 }
 function goBack(){
-  if(!G.hist.length||G.done)return;G.backs++;
-  updateScore(-SB,Math.round(window.innerWidth*.15),Math.round(window.innerHeight*.4));
-  toast('← Atrás  −'+SB+' pts','pen',1800);
+  if(!G.hist.length||G.done)return;
+  var bp=getBackPenalty();
+  G.backs++;
+  updateScore(-bp,Math.round(window.innerWidth*.15),Math.round(window.innerHeight*.4));
+  toast('← Atrás  −'+bp+' pts','pen',1800);
   var pv=G.hist.pop();G.path.pop();G.cur=pv;renderPath();updateMini();loadArt(pv);closeSB();
 }
 function giveUp(){if(!confirm('¿Seguro que te rindes?'))return;endGame(false);}
@@ -1536,11 +1557,12 @@ function closeHintPanel(){
 function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function useHint(){
-  if(G.done||G_HINT_USED) return;
+  if(G.done) return;
   if(G.score<=0){ toast('Sin puntos suficientes','pen'); return; }
-  G_HINT_USED=true;
-  updateScore(-120);
-  $('btn-hint').disabled=true;
+  var hp=getHintPenalty();
+  G_HINT_COUNT++;
+  $('btn-hint').disabled=false;
+  updateScore(-hp);
 
   var wc=$('wc');
   if(!wc) return;
@@ -1559,7 +1581,7 @@ function useHint(){
   scored.sort(function(a,b){return b.score-a.score;});
 
   buildHintPanel(scored);
-  toast('Pista activada −120 pts','time',2000);
+  toast('Pista activada −'+hp+' pts','time',2000);
 }
 
 function calcAch(won){

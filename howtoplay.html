@@ -62,6 +62,7 @@ body{background:var(--bg)}
 .st-text span{font-size:12px;color:var(--ink3)}
 .st-pts{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}
 .st-pts.red{color:var(--red)}.st-pts.yellow{color:var(--yellow)}.st-pts.green{color:var(--green)}
+.st-pts.red.escalating,.st-pts.yellow.escalating{font-size:14px;font-weight:700;letter-spacing:.5px}
 
 /* TIPS */
 .tips-section{padding:clamp(36px,7vw,64px) clamp(16px,4vw,24px)}
@@ -163,7 +164,7 @@ body{background:var(--bg)}
         <p class="step-p">
           Verás el artículo de Wikipedia completo con imágenes, índice y toda la información.
           Los <strong>enlaces azules</strong> te llevan a otras entradas. Pulsa el que creas que te
-          acerca más a tu destino. Cada clic cuenta — son <strong>−50 puntos</strong>.
+          acerca más a tu destino. Cada clic cuenta — el coste <strong>aumenta con cada enlace</strong> que visitas (−10, −15, −20…).
         </p>
       </div>
       <div class="wiki-preview">
@@ -198,11 +199,11 @@ body{background:var(--bg)}
       <div class="path-visual">
         <div class="pv-item"><div class="pv-dot pv-dot-start"></div><span class="pv-name start">Pulpo Paul</span></div>
         <div class="pv-conn" style="margin-left:20px"></div>
-        <div class="pv-item"><div class="pv-dot pv-dot-mid"></div><span class="pv-name">Copa Mundial 2010</span><span class="pv-pts">−50</span></div>
+        <div class="pv-item"><div class="pv-dot pv-dot-mid"></div><span class="pv-name">Copa Mundial 2010</span><span class="pv-pts">−10</span></div>
         <div class="pv-conn" style="margin-left:20px"></div>
-        <div class="pv-item"><div class="pv-dot pv-dot-mid"></div><span class="pv-name">Alemania</span><span class="pv-pts">−50</span></div>
+        <div class="pv-item"><div class="pv-dot pv-dot-mid"></div><span class="pv-name">Alemania</span><span class="pv-pts">−15</span></div>
         <div class="pv-conn" style="margin-left:20px"></div>
-        <div class="pv-item"><div class="pv-dot pv-dot-cur"></div><span class="pv-name" style="color:var(--green2);font-weight:700">Segunda Guerra Mundial</span><span class="pv-pts">−50</span></div>
+        <div class="pv-item"><div class="pv-dot pv-dot-cur"></div><span class="pv-name" style="color:var(--green2);font-weight:700">Segunda Guerra Mundial</span><span class="pv-pts">−20</span></div>
         <div class="pv-conn" style="margin-left:20px"></div>
         <div class="pv-item"><div class="pv-dot pv-dot-end"></div><span class="pv-name end">Adolf Hitler</span></div>
       </div>
@@ -220,18 +221,23 @@ body{background:var(--bg)}
     <div class="score-table">
       <div class="st-row">
         <div class="st-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M4 2l16 9-8 1-4 8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="currentColor" opacity=".1"/><path d="M4 2l16 9-8 1-4 8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 13l3 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></div>
-        <div class="st-text"><strong>Clic en un enlace</strong><span>Cada vez que navegas a una nueva entrada</span></div>
-        <div class="st-pts red">−40</div>
+        <div class="st-text"><strong>Clic en un enlace</strong><span>1º −10 · 2º −15 · 3º −20 · (+5 cada vez)</span></div>
+        <div class="st-pts red">↗</div>
       </div>
       <div class="st-row">
         <div class="st-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 2h6" stroke="currentColor" stroke-width="22" stroke-linecap="round"/></svg></span></div>
-        <div class="st-text"><strong>Cada 30 segundos</strong><span>El tiempo también cuenta en tu contra</span></div>
-        <div class="st-pts red">−30</div>
+        <div class="st-text"><strong>Cada 30 segundos</strong><span>1ºs −10 · 2ºs −20 · 3ºs −30 · (+10 cada vez)</span></div>
+        <div class="st-pts red">↗</div>
       </div>
       <div class="st-row">
         <div class="st-icon">↩</div>
-        <div class="st-text"><strong>Volver atrás</strong><span>Si necesitas retroceder una entrada</span></div>
-        <div class="st-pts yellow">−80</div>
+        <div class="st-text"><strong>Volver atrás</strong><span>1ª vez −40 · 2ª −60 · 3ª −80 · (+20 cada vez)</span></div>
+        <div class="st-pts yellow">↗</div>
+      </div>
+      <div class="st-row">
+        <div class="st-icon">💡</div>
+        <div class="st-text"><strong>Usar pista</strong><span>1ª −80 · 2ª −120 · 3ª −160 · (+40 cada vez)</span></div>
+        <div class="st-pts yellow">↗</div>
       </div>
       <div class="st-row" style="background:var(--green-bg)">
         <div class="st-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M8 2h8v8a4 4 0 01-8 0V2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 6H5a2 2 0 000 4h3M16 6h3a2 2 0 010 4h-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 14v4M8 22h8M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="2" fill="currentColor" opacity=".5"/></svg></span></div>
@@ -277,7 +283,7 @@ body{background:var(--bg)}
       <div class="tip-card">
         <div class="tip-num">TIP 06</div>
         <div class="tip-title">No uses "atrás" a la ligera</div>
-        <p class="tip-desc">Volver atrás cuesta el doble que avanzar. Antes de retroceder, explora más el artículo actual. A veces el enlace que necesitas está más abajo.</p>
+        <p class="tip-desc">Volver atrás cuesta más cada vez (−40, −60, −80…). Antes de retroceder, explora bien el artículo actual. A veces el enlace que necesitas está más abajo.</p>
       </div>
     </div>
   </div>
