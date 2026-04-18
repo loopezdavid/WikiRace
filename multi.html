@@ -1021,7 +1021,7 @@ body.dark .m-hint-panel{background:#1a1a1b;border-color:#3a3a3c}
 
     <div class="msb-acts">
       <button class="btn-bk-m" id="m-btn-bk" onclick="mGoBack()" disabled>
-        ← Palabra anterior<span class="bk-pts-m">−80</span>
+        ← Palabra anterior<span class="bk-pts-m" id="m-bk-pts-label">−40</span>
       </button>
       <button class="btn-hint-m" id="m-btn-hint" onclick="mUseHint()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M9 21h6M12 3a6 6 0 016 6c0 2.2-1.2 4.2-3 5.4V17H9v-2.6A6 6 0 0112 3z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1046,7 +1046,7 @@ body.dark .m-hint-panel{background:#1a1a1b;border-color:#3a3a3c}
     </div>
     <div class="m-wiki-scroll" id="m-wscroll">
       <button class="m-float-back" id="m-float-back" onclick="mGoBack()">
-        ← Palabra anterior <span style="font-size:9px;opacity:.6">−80</span>
+        ← Palabra anterior <span style="font-size:9px;opacity:.6" id="m-fb-pts-label">−40</span>
       </button>
       <div class="winner-banner" id="winner-banner">
         <div class="wb-icon" id="wb-icon"></div>
@@ -1150,7 +1150,13 @@ var FB_CONFIG = {
 /* ════════════════════════════════════════════════════════
    CONSTANTS & STATE
 ════════════════════════════════════════════════════════ */
-var S0=1000, SL=40, ST=30, SB=80;
+var S0=1000;
+/* ─── ESCALABLE SCORING ─── */
+function mGetLinkPenalty(){return 10+(G.clicks||0)*5;}
+function mGetTimePenalty(){var interval=Math.floor((G.sec||0)/30);return 10+(interval)*10;}
+function mGetBackPenalty(){return 40+(G.backs||0)*20;}
+var M_HINT_COUNT=0;
+function mGetHintPenalty(){return 80+(M_HINT_COUNT)*40;}
 var COLORS=['#6aaa64','#e06060','#c9b458','#60a5fa','#a78bfa','#f97316','#ec4899','#14b8a6'];
 var AVATAR_LETTERS = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
 
@@ -1873,6 +1879,7 @@ function wikiLang(l){ l=l||M_LANG; return({eu:'eu',ca:'ca',en:'en'})[l]||'es'; }
 _resultsShown = false;
 function beginGame(start, end, lang){
   if(G.started) return;
+  M_HINT_USED=false; M_HINT_COUNT=0;
   G = {
     started:true, done:false,
     start:start, end:end, lang:lang,
@@ -1897,8 +1904,9 @@ function beginGame(start, end, lang){
     if(G.done) return;
     G.sec++;
     if(G.sec % 30 === 0){
-      mUpdateScore(-ST);
-      mToast('−'+ST+' pts por tiempo','time');
+      var tp=mGetTimePenalty();
+      mUpdateScore(-tp);
+      mToast('−'+tp+' pts por tiempo','time');
     }
     msc('m-s-t').textContent = mFmt(G.sec);
   }, 1000);
@@ -2047,8 +2055,10 @@ function mRenderWiki(html, L, title){
 
 function mNavigateTo(title){
   if(G.done) return;
+  var lp=mGetLinkPenalty();
   G.clicks++;
-  mUpdateScore(-SL);
+  mUpdateScore(-lp);
+  mToast('Enlace −'+lp+' pts','pen',1000);
   G.hist.push(G.cur);
   G.path.push(title);
   G.cur = title;
@@ -2061,9 +2071,10 @@ function mNavigateTo(title){
 
 function mGoBack(){
   if(!G.hist.length || G.done) return;
+  var bp=mGetBackPenalty();
   G.backs++;
-  mUpdateScore(-SB);
-  mToast('← Atrás −'+SB+' pts','pen');
+  mUpdateScore(-bp);
+  mToast('← Atrás −'+bp+' pts','pen');
   var prev = G.hist.pop();
   G.path.pop();
   G.cur = prev;
@@ -2116,18 +2127,19 @@ function mBuildHintPanel(scored){
 }
 var M_HINT_USED=false;
 function mUseHint(){
-  if(G.done||M_HINT_USED)return;
-  M_HINT_USED=true;
+  if(G.done) return;
+  var hp=mGetHintPenalty();
+  M_HINT_COUNT++;
   var btn=document.getElementById('m-btn-hint');
-  if(btn) btn.disabled=true;
-  G.score=Math.max(0,(G.score||0)-120);
+  if(btn) btn.disabled=false;
+  G.score=Math.max(0,(G.score||0)-hp);
   // Update score display
   var sn=document.getElementById('m-score-num');
   if(sn) sn.textContent=G.score;
   var bar=document.getElementById('m-score-bar');
   if(bar) bar.style.width=Math.max(0,(G.score/S0)*100)+'%';
   pushMyState();
-  mToast('Pista activada −120 pts','time',2000);
+  mToast('Pista activada −'+hp+' pts','time',2000);
   // Score visible links
   var wc=document.getElementById('m-wscroll');
   var scored=[];
@@ -2243,6 +2255,10 @@ function mUpdateMini(){
   msc('m-s-h').textContent = Math.max(0, G.path.length-1);
   msc('m-s-b').textContent = G.backs;
   msc('m-btn-bk').disabled = G.hist.length === 0;
+  /* Etiquetas de coste escalable */
+  var nextBack='−'+(40+(G.backs||0)*20);
+  var bkL=document.getElementById('m-bk-pts-label'),fbL=document.getElementById('m-fb-pts-label');
+  if(bkL)bkL.textContent=nextBack;if(fbL)fbL.textContent=nextBack;
 }
 
 function mRenderPath(){
