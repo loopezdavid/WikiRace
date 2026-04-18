@@ -1337,8 +1337,10 @@ function startGame(daily){
   $('snow').textContent=s;if($('bar-sc'))$('bar-sc').textContent=S0;
   showScreen('game');closeSB();renderPath();updateMini();updateFB();loadArt(s);
   G.timer=setInterval(function(){
-    if(G.done)return;G.sec++;
-    if(G.sec%30===0){var tp=getTimePenalty();updateScore(-tp);toast('−'+tp+' pts por tiempo','time');}
+    if(G.done)return;
+    var prevSec=G.sec;
+    G.sec++;
+    if(G.sec%30===0){var tp=10+(Math.floor(prevSec/30))*10;updateScore(-tp);toast('−'+tp+' pts por tiempo','time');}
     $('s-t').textContent=fmt(G.sec);
   },1000);
 }
@@ -1395,7 +1397,7 @@ function renderWiki(html,L,title){
     var art=a.getAttribute('data-art');
     if(art){a.addEventListener('click',function(e){
       e.preventDefault();e.stopPropagation();
-      var r=a.getBoundingClientRect();linkFlash(r);floatN('−'+SL,'#c0392b',Math.round(r.left+r.width/2),Math.round(r.top-10));
+      var r=a.getBoundingClientRect();linkFlash(r);var lp=getLinkPenalty();floatN('−'+lp,'#c0392b',Math.round(r.left+r.width/2),Math.round(r.top-10));
       navigateTo(art);
     });}
   });

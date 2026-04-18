@@ -52,17 +52,37 @@ body{background:var(--bg)}
 .pv-pts{margin-left:auto;font-size:11px;font-weight:700;color:var(--red)}
 
 /* SCORING TABLE */
-.scoring-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:clamp(36px,7vw,64px) clamp(16px,4vw,24px)}
-.score-table{max-width:600px;margin:0 auto;border:1px solid var(--border);border-radius:10px;overflow:hidden}
-.st-row{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid var(--border);background:var(--surface)}
-.st-row:last-child{border-bottom:none}
-.st-row:nth-child(even){background:var(--surface2)}
-.st-icon{font-size:22px;width:36px;text-align:center}
-.st-text strong{font-size:14px;font-weight:700;color:var(--ink);display:block}
-.st-text span{font-size:12px;color:var(--ink3)}
-.st-pts{font-size:20px;font-weight:900;font-variant-numeric:tabular-nums}
-.st-pts.red{color:var(--red)}.st-pts.yellow{color:var(--yellow)}.st-pts.green{color:var(--green)}
-.st-pts.red.escalating,.st-pts.yellow.escalating{font-size:14px;font-weight:700;letter-spacing:.5px}
+.scoring-section{background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:clamp(36px,7vw,64px) clamp(16px,4vw,24px)}
+.score-cards{max-width:640px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.score-cards{grid-template-columns:1fr}}
+.sc-card{position:relative;border-radius:14px;padding:20px 22px;overflow:hidden;border:1px solid var(--border);background:var(--surface);transition:transform .18s,box-shadow .18s}
+.sc-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.09)}
+.sc-card.c-link{border-color:rgba(51,102,204,.2);background:linear-gradient(135deg,rgba(51,102,204,.06) 0%,var(--surface) 60%)}
+.sc-card.c-time{border-color:rgba(192,57,43,.2);background:linear-gradient(135deg,rgba(192,57,43,.06) 0%,var(--surface) 60%)}
+.sc-card.c-back{border-color:rgba(201,162,39,.25);background:linear-gradient(135deg,rgba(201,162,39,.07) 0%,var(--surface) 60%)}
+.sc-card.c-hint{border-color:rgba(155,89,182,.2);background:linear-gradient(135deg,rgba(155,89,182,.06) 0%,var(--surface) 60%)}
+.sc-card.c-perfect{grid-column:1/-1;border-color:rgba(106,170,100,.3);background:linear-gradient(135deg,rgba(106,170,100,.1) 0%,rgba(106,170,100,.03) 100%)}
+.sc-card-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:18px}
+.c-link .sc-card-icon{background:rgba(51,102,204,.12);color:#3366cc}
+.c-time .sc-card-icon{background:rgba(192,57,43,.12);color:var(--red)}
+.c-back .sc-card-icon{background:rgba(201,162,39,.12);color:#c9a227}
+.c-hint .sc-card-icon{background:rgba(155,89,182,.12);color:#9b59b6}
+.c-perfect .sc-card-icon{background:rgba(106,170,100,.15);color:var(--green)}
+.sc-card-label{font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.2px;margin-bottom:6px}
+.sc-card-desc{font-size:11px;color:var(--ink4);line-height:1.5;margin-bottom:14px}
+.sc-steps{display:flex;gap:6px;flex-wrap:wrap}
+.sc-step{display:inline-flex;align-items:center;gap:3px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700;color:var(--ink3)}
+.sc-step .sc-num{font-size:10px;color:var(--ink4);font-weight:500}
+.sc-step .sc-val{color:var(--red)}
+.c-back .sc-step .sc-val{color:#c9a227}
+.c-hint .sc-step .sc-val{color:#9b59b6}
+.sc-escalate{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:10px;font-weight:600;color:var(--ink4);background:var(--surface3);border-radius:4px;padding:3px 8px}
+.sc-escalate svg{opacity:.5}
+.sc-perfect-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.sc-perfect-left{display:flex;align-items:center;gap:14px}
+.sc-perfect-badge{font-size:28px;font-weight:900;color:var(--green);letter-spacing:-1px;flex-shrink:0}
+.sc-perfect-text strong{font-size:13px;font-weight:800;color:var(--ink);display:block;margin-bottom:2px}
+.sc-perfect-text span{font-size:11px;color:var(--ink4)}
 
 /* TIPS */
 .tips-section{padding:clamp(36px,7vw,64px) clamp(16px,4vw,24px)}
@@ -218,32 +238,78 @@ body{background:var(--bg)}
     <div class="section-eyebrow">Puntuación</div>
     <h2 class="section-title" style="margin-bottom:14px">Empiezas con 1.000 puntos</h2>
     <p class="section-desc" style="margin-bottom:36px">Cada acción tiene un coste. El reto es perder los mínimos puntos posibles.</p>
-    <div class="score-table">
-      <div class="st-row">
-        <div class="st-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M4 2l16 9-8 1-4 8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" fill="currentColor" opacity=".1"/><path d="M4 2l16 9-8 1-4 8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 13l3 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span></div>
-        <div class="st-text"><strong>Clic en un enlace</strong><span>1º −10 · 2º −15 · 3º −20 · (+5 cada vez)</span></div>
-        <div class="st-pts red">↗</div>
+    <div class="score-cards">
+
+      <!-- ENLACES -->
+      <div class="sc-card c-link">
+        <div class="sc-card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="sc-card-label">Clic en enlace</div>
+        <div class="sc-card-desc">Cada vez que navegas a una nueva entrada</div>
+        <div class="sc-steps">
+          <div class="sc-step"><span class="sc-num">1º</span><span class="sc-val">−10</span></div>
+          <div class="sc-step"><span class="sc-num">2º</span><span class="sc-val">−15</span></div>
+          <div class="sc-step"><span class="sc-num">3º</span><span class="sc-val">−20</span></div>
+        </div>
+        <div class="sc-escalate"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>+5 pts cada enlace</div>
       </div>
-      <div class="st-row">
-        <div class="st-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 2h6" stroke="currentColor" stroke-width="22" stroke-linecap="round"/></svg></span></div>
-        <div class="st-text"><strong>Cada 30 segundos</strong><span>1ºs −10 · 2ºs −20 · 3ºs −30 · (+10 cada vez)</span></div>
-        <div class="st-pts red">↗</div>
+
+      <!-- TIEMPO -->
+      <div class="sc-card c-time">
+        <div class="sc-card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="sc-card-label">Cada 30 segundos</div>
+        <div class="sc-card-desc">El tiempo también juega en tu contra</div>
+        <div class="sc-steps">
+          <div class="sc-step"><span class="sc-num">1ºs</span><span class="sc-val">−10</span></div>
+          <div class="sc-step"><span class="sc-num">2ºs</span><span class="sc-val">−20</span></div>
+          <div class="sc-step"><span class="sc-num">3ºs</span><span class="sc-val">−30</span></div>
+        </div>
+        <div class="sc-escalate"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>+10 pts cada 30s</div>
       </div>
-      <div class="st-row">
-        <div class="st-icon">↩</div>
-        <div class="st-text"><strong>Volver atrás</strong><span>1ª vez −40 · 2ª −60 · 3ª −80 · (+20 cada vez)</span></div>
-        <div class="st-pts yellow">↗</div>
+
+      <!-- VOLVER ATRÁS -->
+      <div class="sc-card c-back">
+        <div class="sc-card-icon">↩</div>
+        <div class="sc-card-label">Volver atrás</div>
+        <div class="sc-card-desc">Retroceder a la entrada anterior</div>
+        <div class="sc-steps">
+          <div class="sc-step"><span class="sc-num">1ª</span><span class="sc-val">−40</span></div>
+          <div class="sc-step"><span class="sc-num">2ª</span><span class="sc-val">−60</span></div>
+          <div class="sc-step"><span class="sc-num">3ª</span><span class="sc-val">−80</span></div>
+        </div>
+        <div class="sc-escalate"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>+20 pts cada vez</div>
       </div>
-      <div class="st-row">
-        <div class="st-icon">💡</div>
-        <div class="st-text"><strong>Usar pista</strong><span>1ª −80 · 2ª −120 · 3ª −160 · (+40 cada vez)</span></div>
-        <div class="st-pts yellow">↗</div>
+
+      <!-- PISTA -->
+      <div class="sc-card c-hint">
+        <div class="sc-card-icon">💡</div>
+        <div class="sc-card-label">Usar pista</div>
+        <div class="sc-card-desc">Resalta los enlaces más cercanos al destino</div>
+        <div class="sc-steps">
+          <div class="sc-step"><span class="sc-num">1ª</span><span class="sc-val">−80</span></div>
+          <div class="sc-step"><span class="sc-num">2ª</span><span class="sc-val">−120</span></div>
+          <div class="sc-step"><span class="sc-num">3ª</span><span class="sc-val">−160</span></div>
+        </div>
+        <div class="sc-escalate"><svg width="10" height="10" viewBox="0 0 24 24" fill="none"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>+40 pts cada pista</div>
       </div>
-      <div class="st-row" style="background:var(--green-bg)">
-        <div class="st-icon"><span style="display:inline-flex;align-items:center;flex-shrink:0;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><path d="M8 2h8v8a4 4 0 01-8 0V2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 6H5a2 2 0 000 4h3M16 6h3a2 2 0 010 4h-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 14v4M8 22h8M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="2" fill="currentColor" opacity=".5"/></svg></span></div>
-        <div class="st-text"><strong>Puntuación perfecta</strong><span>Sin ir atrás, en 3 saltos, en menos de 1 minuto</span></div>
-        <div class="st-pts green">950+</div>
+
+      <!-- PUNTUACIÓN PERFECTA -->
+      <div class="sc-card c-perfect">
+        <div class="sc-perfect-row">
+          <div class="sc-perfect-left">
+            <div class="sc-card-icon" style="margin-bottom:0">🏆</div>
+            <div class="sc-perfect-text">
+              <strong>Puntuación perfecta</strong>
+              <span>Sin ir atrás · 3 saltos · menos de 1 minuto</span>
+            </div>
+          </div>
+          <div class="sc-perfect-badge">950+</div>
+        </div>
       </div>
+
     </div>
   </div>
 </section>

@@ -1902,9 +1902,10 @@ function beginGame(start, end, lang){
   // Start timer
   G.timer = setInterval(function(){
     if(G.done) return;
+    var prevSec=G.sec;
     G.sec++;
     if(G.sec % 30 === 0){
-      var tp=mGetTimePenalty();
+      var tp=10+(Math.floor(prevSec/30))*10;
       mUpdateScore(-tp);
       mToast('−'+tp+' pts por tiempo','time');
     }
