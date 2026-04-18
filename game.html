@@ -447,6 +447,23 @@ body{background:var(--bg)}
 .float-back.on{display:flex}
 .fb-pts{font-size:9px;font-weight:700;opacity:.6;margin-left:1px}
 
+/* ── FLOAT HINT (mobile only) ── */
+.float-hint{
+  position:fixed;top:16px;left:16px;z-index:200;
+  background:var(--sb);color:#c9b458;
+  border:1px solid rgba(201,180,88,.3);
+  border-radius:6px;padding:9px 14px 9px 11px;
+  font-size:12px;font-weight:700;cursor:pointer;font-family:var(--font);
+  display:none;align-items:center;gap:6px;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);
+  animation:fadeDown .22s ease;white-space:nowrap;transition:background .12s;
+}
+.float-hint:hover{background:var(--sb3)}
+.float-hint:active{transform:scale(.97)}
+.float-hint.on{display:flex}
+.fh-pts{font-size:9px;font-weight:700;opacity:.6;margin-left:1px}
+@media(min-width:769px){.float-hint{display:none!important}}
+
 /* ── WIKIPEDIA ── */
 #wc{max-width:860px;margin:0 auto;padding:26px 32px 80px;display:none;font-family:'Linux Libertine','Georgia',serif;font-size:15px;line-height:1.75;color:#202122}
 @media(max-width:600px){#wc{padding:14px 14px 80px;font-size:14px}}
@@ -555,8 +572,27 @@ body{background:var(--bg)}
 .win-nav-btn:hover{border-color:var(--border2);color:var(--ink)}
 .win-hdr{display:none}
 .win-card{width:100%;max-width:480px;animation:scaleIn .4s cubic-bezier(.16,1,.3,1) both;flex-shrink:0}
-.win-result{border-radius:14px;overflow:hidden;margin-bottom:10px}
-.win-result-inner{padding:32px 24px 22px;text-align:center;position:relative}
+.win-result{border-radius:14px;overflow:visible;margin-bottom:10px}
+.win-result-inner{padding:32px 24px 28px;text-align:center;position:relative;border-radius:14px;overflow:hidden}
+@media(min-width:600px){.win-result-inner{padding:40px 36px 32px}}
+
+/* ── PATH VISUAL ── */
+.win-path-scroll{padding:16px 18px}
+.wpr{display:flex;align-items:center;gap:10px;position:relative;animation:wprIn .3s ease both}
+@keyframes wprIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.wpr-inner{display:flex;align-items:center;gap:10px;flex:1;min-width:0;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;transition:border-color .15s}
+.wpr.wf .wpr-inner{background:rgba(106,170,100,.07);border-color:rgba(106,170,100,.3)}
+.wpr.wl .wpr-inner{background:rgba(192,57,43,.06);border-color:rgba(192,57,43,.25)}
+.wpr-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.wpr-dot.s{background:var(--green);box-shadow:0 0 0 3px rgba(106,170,100,.2)}
+.wpr-dot.m{background:var(--border2)}
+.wpr-dot.e{background:var(--red);box-shadow:0 0 0 3px rgba(192,57,43,.2)}
+.wpr-n{font-size:10px;font-weight:800;color:var(--ink4);font-variant-numeric:tabular-nums;flex-shrink:0;min-width:14px}
+.wpr-name{font-size:13px;font-weight:600;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.wpr.wf .wpr-name{color:var(--green);font-weight:700}
+.wpr.wl .wpr-name{color:var(--red);font-weight:700}
+.wpr-connector{width:2px;background:var(--border);height:8px;margin-left:18px;flex-shrink:0}
+.wpr-arr{display:none}
 .win-result-inner.hw{background:linear-gradient(155deg,#0a1f0a,#153a15 50%,#0d2810)}
 .win-result-inner.hl{background:linear-gradient(155deg,#1a1612,#2a1e10 60%,#1a1a1a)}
 .win-result-inner::before{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(106,170,100,.18) 0%,transparent 60%)}
@@ -999,6 +1035,7 @@ body.dark .hint-item:hover{background:var(--green-bg)}
     </div>
     <div class="wiki-scroll" id="wscroll">
       <button class="float-back" id="float-back" onclick="goBack()">← Palabra anterior <span class="fb-pts" id="fb-pts-label">−40</span></button>
+      <button class="float-hint" id="float-hint" onclick="useHint()">💡 Pista <span class="fh-pts" id="fh-pts-label">−80</span></button>
       <div class="wiki-loader" id="wload"><div class="ld-ring"></div><div class="ld-txt" id="wload-t">Cargando…</div></div>
       <div id="wc"></div>
     </div>
@@ -1114,7 +1151,14 @@ function shuffle(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.flo
 /* ─── SIDEBAR ─── */
 function openSB(){$('sidebar').classList.add('open');$('sb-overlay').classList.add('show');}
 function closeSB(){$('sidebar').classList.remove('open');$('sb-overlay').classList.remove('show');}
-function updateFB(){var fb=$('float-back');if(fb){if(G&&G.hist&&G.hist.length>0&&!G.done)fb.classList.add('on');else fb.classList.remove('on');}}
+function updateFB(){
+  var fb=$('float-back');
+  if(fb){if(G&&G.hist&&G.hist.length>0&&!G.done)fb.classList.add('on');else fb.classList.remove('on');}
+  var fh=$('float-hint');
+  if(fh){if(G&&!G.done)fh.classList.add('on');else fh.classList.remove('on');}
+  var fhL=$('fh-pts-label');
+  if(fhL)fhL.textContent='−'+(80+(G_HINT_COUNT||0)*40);
+}
 
 /* ─── INTRO ─── */
 function getDailyPair(){var d=new Date();return DAILY_PAIRS[(d.getFullYear()*366+d.getMonth()*31+d.getDate())%DAILY_PAIRS.length];}
@@ -1350,6 +1394,9 @@ function updateMini(){
   var nextBack='−'+(40+(G.backs||0)*20);
   var bkL=$('bk-pts-label'),fbL=$('fb-pts-label');
   if(bkL)bkL.textContent=nextBack;if(fbL)fbL.textContent=nextBack;
+  /* Hint sidebar label */
+  var bhL=document.querySelector('.btn-hint .bk-pts');
+  if(bhL)bhL.textContent='−'+(80+(G_HINT_COUNT||0)*40);
 }
 
 /* ─── LOAD ARTICLE ─── */
@@ -1674,8 +1721,12 @@ function endGame(won){
   G.path.forEach(function(p,i){
     var cls=i===0?'wf':i===G.path.length-1?'wl':'';
     var dc=i===0?'s':i===G.path.length-1?'e':'m';
-    var arr=i<G.path.length-1?'<span class="wpr-arr">→</span>':'';
-    ph+='<div class="wpr '+cls+'" style="animation-delay:'+(i*.025)+'s"><div class="wpr-dot '+dc+'"></div><span class="wpr-n">'+(i+1)+'</span><span class="wpr-name">'+esc(p)+'</span>'+arr+'</div>';
+    ph+='<div class="wpr '+cls+'" style="animation-delay:'+(i*.04)+'s">'
+      +'<div class="wpr-inner"><div class="wpr-dot '+dc+'"></div>'
+      +'<span class="wpr-n">'+(i+1)+'</span>'
+      +'<span class="wpr-name">'+esc(p)+'</span>'
+      +'</div></div>';
+    if(i<G.path.length-1) ph+='<div class="wpr-connector"></div>';
   });
   $('wpath').innerHTML=ph;
   /* Replay with timing */

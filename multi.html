@@ -427,6 +427,22 @@ body{min-height:0!important;background:var(--bg)}
 .m-float-back.on{display:flex}
 .m-float-back:hover{background:#1a2e22}
 
+/* Float hint button — mobile only */
+.m-float-hint{
+  position:absolute;top:10px;right:12px;z-index:21;
+  background:#1a1408;color:#c9b458;border:1px solid rgba(201,180,88,.3);
+  border-radius:4px;padding:7px 12px;font-size:11px;font-weight:700;
+  cursor:pointer;font-family:var(--font);display:none;align-items:center;gap:5px;
+  box-shadow:0 3px 12px rgba(0,0,0,.2);animation:slideDown .2s ease;
+  white-space:nowrap;transition:background .12s;
+}
+.m-float-hint:hover{background:rgba(201,180,88,.12)}
+.m-float-hint.visible{display:flex}
+/* When float-back is also showing, push hint to the left */
+.m-float-back.on ~ .m-float-hint.visible,
+.m-float-hint.visible.with-back{right:auto;left:12px}
+@media(min-width:769px){.m-float-hint{display:none!important}}
+
 /* Wikipedia styles (same as solo) */
 #mwc{max-width:860px;margin:0 auto;padding:24px 28px 80px;display:none;font-family:'Linux Libertine','Georgia',serif;font-size:15px;line-height:1.75;color:#202122}
 @media(max-width:600px){#mwc{padding:14px 14px 80px;font-size:14px}}
@@ -467,19 +483,25 @@ body{min-height:0!important;background:var(--bg)}
 
 /* WINNER BANNER (floats over wiki article) */
 .winner-banner{
-  position:absolute;top:0;left:0;right:0;
-  background:linear-gradient(135deg,#1a3a1a,#0e1a0e);
-  border-bottom:2px solid #6aaa64;
-  padding:14px 18px;z-index:30;
-  display:none;align-items:center;gap:14px;
-  animation:slideDown .35s cubic-bezier(.16,1,.3,1);
+  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-120px);
+  min-width:280px;max-width:90vw;
+  background:linear-gradient(135deg,#0d2810 0%,#153a15 100%);
+  border:1px solid rgba(106,170,100,.4);border-radius:16px;
+  padding:14px 18px;z-index:300;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(106,170,100,.15);
+  transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .3s ease;
+  opacity:0;pointer-events:none;
 }
-.winner-banner.show{display:flex}
+.winner-banner.show{transform:translateX(-50%) translateY(0);opacity:1;pointer-events:auto}
 .wb-icon{font-size:0;flex-shrink:0;color:#6aaa64}
 .wb-text{flex:1;min-width:0}
-.wb-title{font-size:14px;font-weight:800;color:#6aaa64;margin-bottom:2px}
-.wb-sub{font-size:12px;color:rgba(255,255,255,.5)}
-.wb-close{background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:18px;padding:2px}
+.wb-title{font-size:14px;font-weight:800;color:#6aaa64;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wb-score{font-size:11px;font-weight:700;color:rgba(201,180,88,.8);margin-top:2px}
+.wb-sub{font-size:12px;color:rgba(255,255,255,.45)}
+.wb-close{background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:18px;padding:2px;flex-shrink:0}
+.wb-pulse{position:absolute;inset:0;border-radius:16px;border:2px solid rgba(106,170,100,.3);animation:wbPulse 1.5s ease 0.4s both}
+@keyframes wbPulse{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.06)}}
 
 /* MOBILE */
 .m-sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99}
@@ -510,8 +532,10 @@ body{min-height:0!important;background:var(--bg)}
 
 .results-scroll{
   flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
-  display:flex;flex-direction:column;align-items:center;min-height:0;
+  display:flex;flex-direction:column;align-items:center;
+  padding-bottom:40px;
 }
+#results{display:flex;flex-direction:column;height:100dvh;height:100vh;overflow:hidden}
 
 /* ── HERO BANNER ── */
 .res-hero{
@@ -658,7 +682,7 @@ body{min-height:0!important;background:var(--bg)}
 .rrc-pos.rp1{color:#c9b458}.rrc-pos.rp2{color:#9ca3af}.rrc-pos.rp3{color:#cd853f}.rrc-pos.rpn{color:var(--ink4)}
 .rrc-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
 .rrc-info{flex:1;min-width:0}
-.rrc-name{font-size:14px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.rrc-name{font-size:14px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:6px;min-width:0}
 .rrc-you{font-size:9px;font-weight:800;background:var(--green-bg);color:var(--green2);padding:2px 6px;border-radius:3px;border:1px solid rgba(83,141,78,.3)}
 .rrc-meta{font-size:11px;color:var(--ink4);margin-top:2px}
 .rrc-right{text-align:right;flex-shrink:0}
@@ -676,8 +700,8 @@ body{min-height:0!important;background:var(--bg)}
 .rps-who{display:flex;align-items:center;gap:7px;margin-bottom:8px}
 .rps-av{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0}
 .rps-name{font-size:12px;font-weight:700;color:var(--ink2)}
-.rps-chips{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
-.rps-chip{font-size:11px;font-weight:600;color:var(--ink2);background:var(--surface2);border:1px solid var(--border);padding:3px 8px;border-radius:4px}
+.rps-chips{display:flex;flex-wrap:wrap;gap:4px;align-items:center;overflow:hidden;word-break:break-word}
+.rps-chip{font-size:11px;font-weight:600;color:var(--ink2);background:var(--surface2);border:1px solid var(--border);padding:3px 8px;border-radius:4px;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block}
 .rps-chip.ch-s{color:var(--green);border-color:rgba(83,141,78,.3);background:var(--green-bg)}
 .rps-chip.ch-e{color:var(--red);border-color:rgba(192,57,43,.2);background:var(--red-bg)}
 .rps-arr{color:var(--ink4);font-size:9px}
@@ -1048,13 +1072,18 @@ body.dark .m-hint-panel{background:#1a1a1b;border-color:#3a3a3c}
       <button class="m-float-back" id="m-float-back" onclick="mGoBack()">
         ← Palabra anterior <span style="font-size:9px;opacity:.6" id="m-fb-pts-label">−40</span>
       </button>
+      <button class="m-float-hint" id="m-float-hint" onclick="mUseHint()">
+        💡 Pista <span id="m-fh-pts-label" style="font-size:9px;opacity:.7">−80</span>
+      </button>
       <div class="winner-banner" id="winner-banner">
+        <div class="wb-pulse"></div>
         <div class="wb-icon" id="wb-icon"></div>
         <div class="wb-text">
           <div class="wb-title" id="wb-title">¡Alguien llegó primero!</div>
-          <div class="wb-sub" id="wb-sub">Sigue intentando llegar</div>
+          <div class="wb-score" id="wb-score"></div>
+          <div class="wb-sub" id="wb-sub">Sigue — ¡aún puedes completarla!</div>
         </div>
-        <button class="wb-close" onclick="document.getElementById('winner-banner').classList.remove('show')">×</button>
+        <button class="wb-close" onclick="this.closest('.winner-banner').classList.remove('show')">×</button>
       </div>
       <div class="m-wload" id="m-wload">
         <div class="m-ld-ring"></div>
@@ -1524,6 +1553,8 @@ function enterWaitingRoom(roomId, playerId){
 
   // Listen to room
   listenRoom();
+  listenForWinner();
+  listenForRematch();
 
   // Set disconnect cleanup
   if(ROOM.ref){
@@ -2223,14 +2254,19 @@ function listenForWinner(){
     if(!winnerId) return;
     if(winnerId !== ME.id){
       // Someone else won
-      ROOM.ref.child('firstWinnerName').once('value').then(function(ns){
+      ROOM.ref.once('value').then(function(snap){
+        var rd = snap.val()||{};
         var banner = msc('winner-banner');
+        var winnerName = rd.firstWinnerName||'Alguien';
+        var winnerScore = rd.firstWinnerScore;
+        var winnerTime = rd.firstWinnerTime;
         if(banner && !G.done){
           msc('wb-icon').innerHTML = trophySVG(28);
-          msc('wb-title').textContent = (ns.val()||'Alguien') + ' llegó primero';
-          msc('wb-sub').textContent = 'Sigue intentando — ¡aún puedes completarla!';
+          msc('wb-title').textContent = winnerName + ' llegó primero 🏆';
+          if(winnerScore) msc('wb-score').textContent = winnerScore+' pts'+(winnerTime?' · '+mFmtTime(winnerTime):'');
           banner.classList.add('show');
-          mToast((ns.val()||'Un rival')+' llegó a la meta','rival',3000);
+          mToast(winnerName+' llegó a la meta — ¡'+winnerScore+' pts!','rival',3500);
+          setTimeout(function(){banner.classList.remove('show');},6000);
         }
       });
     }
@@ -2260,6 +2296,15 @@ function mUpdateMini(){
   var nextBack='−'+(40+(G.backs||0)*20);
   var bkL=document.getElementById('m-bk-pts-label'),fbL=document.getElementById('m-fb-pts-label');
   if(bkL)bkL.textContent=nextBack;if(fbL)fbL.textContent=nextBack;
+  /* Float hint: show on mobile, update penalty label */
+  var fh=document.getElementById('m-float-hint');
+  var fhL=document.getElementById('m-fh-pts-label');
+  if(fh){
+    if(!G.done) fh.classList.add('visible'); else fh.classList.remove('visible');
+    /* If float-back is also visible, push hint to left */
+    if(G.hist.length>0) fh.classList.add('with-back'); else fh.classList.remove('with-back');
+  }
+  if(fhL) fhL.textContent='−'+(80+(M_HINT_COUNT||0)*40);
 }
 
 function mRenderPath(){
@@ -2455,12 +2500,13 @@ function showResults(players){
 
 function playAgain(){
   if(!ME.isHost){
-    mToast('Solo el anfitrión puede iniciar la revancha','pen');
+    mToast('Esperando que el anfitrión inicie la revancha…','time');
     return;
   }
   // Reset all players and go back to waiting
   G = {};
   RIVALS = {};
+  _resultsShown = false;
   var updates = {status:'waiting'};
   // Reset player states
   if(ROOM.data && ROOM.data.players){
@@ -2468,6 +2514,7 @@ function playAgain(){
       updates['players/'+id+'/score'] = S0;
       updates['players/'+id+'/hops'] = 0;
       updates['players/'+id+'/backs'] = 0;
+      updates['players/'+id+'/clicks'] = 0;
       updates['players/'+id+'/current'] = '';
       updates['players/'+id+'/path'] = [];
       updates['players/'+id+'/finished'] = false;
@@ -2476,8 +2523,28 @@ function playAgain(){
   }
   updates.firstWinner = null;
   updates.firstWinnerName = null;
-  ROOM.ref.update(updates).then(function(){
-    showMScreen('waiting');
+  updates.firstWinnerScore = null;
+  updates.firstWinnerTime = null;
+  ROOM.ref.update(updates);
+  // Host goes back — others will follow via status listener
+}
+
+/* Non-host players listen for status 'waiting' to rejoin */
+function listenForRematch(){
+  if(!ROOM.ref) return;
+  ROOM.ref.child('status').on('value', function(snap){
+    var st = snap.val();
+    // If we're on results and status flips back to waiting → go back to waiting room
+    if(st === 'waiting' && !ME.isHost){
+      var cur = document.querySelector('.mscreen.active');
+      if(cur && cur.id === 'results'){
+        G = {};
+        RIVALS = {};
+        _resultsShown = false;
+        showMScreen('waiting');
+        mToast('El anfitrión inició revancha — ¡vamos!','hop',2500);
+      }
+    }
   });
 }
 
