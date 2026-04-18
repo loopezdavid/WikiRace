@@ -418,31 +418,27 @@ body{min-height:0!important;background:var(--bg)}
 
 /* Float back */
 .m-float-back{
-  position:absolute;top:10px;right:12px;z-index:20;
+  position:fixed;bottom:16px;right:12px;z-index:200;
   background:#18120c;color:#c9a227;border:1px solid rgba(201,162,39,.28);
-  border-radius:4px;padding:7px 12px;font-size:11px;font-weight:700;
-  cursor:pointer;font-family:var(--font);display:none;align-items:center;gap:5px;
-  box-shadow:0 3px 12px rgba(0,0,0,.2);animation:slideDown .2s ease;
-  white-space:nowrap;
+  border-radius:8px;padding:10px 14px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:var(--font);display:none;align-items:center;gap:6px;
+  box-shadow:0 4px 16px rgba(0,0,0,.35);white-space:nowrap;transition:background .12s;
 }
 .m-float-back.on{display:flex}
 .m-float-back:hover{background:#1a2e22}
+.m-float-back:active{transform:scale(.97)}
 
-/* Float hint button — mobile only */
+/* Float hint button */
 .m-float-hint{
-  position:absolute;top:10px;right:12px;z-index:21;
+  position:fixed;bottom:16px;left:12px;z-index:200;
   background:#1a1408;color:#c9b458;border:1px solid rgba(201,180,88,.3);
-  border-radius:4px;padding:7px 12px;font-size:11px;font-weight:700;
-  cursor:pointer;font-family:var(--font);display:none;align-items:center;gap:5px;
-  box-shadow:0 3px 12px rgba(0,0,0,.2);animation:slideDown .2s ease;
-  white-space:nowrap;transition:background .12s;
+  border-radius:8px;padding:10px 14px;font-size:12px;font-weight:700;
+  cursor:pointer;font-family:var(--font);display:none;align-items:center;gap:6px;
+  box-shadow:0 4px 16px rgba(0,0,0,.3);white-space:nowrap;transition:background .12s;
 }
 .m-float-hint:hover{background:rgba(201,180,88,.12)}
+.m-float-hint:active{transform:scale(.97)}
 .m-float-hint.visible{display:flex}
-/* When float-back is also showing, push hint to the left */
-.m-float-back.on ~ .m-float-hint.visible,
-.m-float-hint.visible.with-back{right:auto;left:12px}
-@media(min-width:769px){.m-float-hint{display:none!important}}
 
 /* Wikipedia styles (same as solo) */
 #mwc{max-width:860px;margin:0 auto;padding:24px 28px 80px;display:none;font-family:'Linux Libertine','Georgia',serif;font-size:15px;line-height:1.75;color:#202122}
@@ -503,6 +499,49 @@ body{min-height:0!important;background:var(--bg)}
 .wb-close{background:none;border:none;color:rgba(255,255,255,.3);cursor:pointer;font-size:18px;padding:2px;flex-shrink:0}
 .wb-pulse{position:absolute;inset:0;border-radius:16px;border:2px solid rgba(106,170,100,.3);animation:wbPulse 1.5s ease 0.4s both}
 @keyframes wbPulse{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.06)}}
+
+/* ── RIVAL ARRIVAL OVERLAY ── */
+#rival-overlay{
+  position:fixed;inset:0;z-index:500;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s ease;
+}
+#rival-overlay.show{opacity:1;pointer-events:auto}
+#rival-overlay.show .ro-backdrop{opacity:1}
+.ro-backdrop{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(3px);
+  opacity:0;transition:opacity .3s ease;
+}
+.ro-card{
+  position:relative;z-index:1;
+  background:linear-gradient(145deg,#0a2010,#153a20);
+  border:1px solid rgba(106,170,100,.35);
+  border-radius:20px;padding:36px 40px;text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(106,170,100,.1);
+  max-width:340px;width:90vw;
+  transform:scale(.7) translateY(30px);opacity:0;
+  transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .3s ease;
+}
+#rival-overlay.show .ro-card{transform:scale(1) translateY(0);opacity:1}
+.ro-trophy{font-size:52px;line-height:1;margin-bottom:12px;animation:roTrophy .6s cubic-bezier(.16,1,.3,1) .15s both}
+@keyframes roTrophy{from{transform:scale(.3) rotate(-20deg)}to{transform:scale(1) rotate(0)}}
+.ro-label{font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:rgba(106,170,100,.6);margin-bottom:8px}
+.ro-name{font-size:28px;font-weight:900;color:#6aaa64;letter-spacing:-1px;margin-bottom:4px;line-height:1.1}
+.ro-msg{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:16px}
+.ro-score{font-size:40px;font-weight:900;letter-spacing:-2px;
+  background:linear-gradient(135deg,#6aaa64,#c9b458);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:20px;}
+.ro-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:20px}
+.ro-close{
+  background:rgba(106,170,100,.15);border:1px solid rgba(106,170,100,.3);
+  color:#6aaa64;border-radius:8px;padding:10px 28px;
+  font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);
+  transition:background .15s;pointer-events:auto;
+}
+.ro-close:hover{background:rgba(106,170,100,.25)}
 
 /* MOBILE */
 .m-sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99}
@@ -1075,6 +1114,18 @@ body.dark .m-hint-panel{background:#1a1a1b;border-color:#3a3a3c}
       <button class="m-float-hint" id="m-float-hint" onclick="mUseHint()">
         💡 Pista <span id="m-fh-pts-label" style="font-size:9px;opacity:.7">−80</span>
       </button>
+      <!-- RIVAL ARRIVAL OVERLAY -->
+      <div id="rival-overlay">
+        <div class="ro-backdrop" onclick="closeRivalOverlay()"></div>
+        <div class="ro-card">
+          <div class="ro-trophy">🏆</div>
+          <div class="ro-label">¡Llegó primero!</div>
+          <div class="ro-name" id="ro-name">—</div>
+          <div class="ro-score" id="ro-score">—</div>
+          <div class="ro-sub">Sigue — ¡tú también puedes llegar!</div>
+          <button class="ro-close" onclick="closeRivalOverlay()">Seguir jugando →</button>
+        </div>
+      </div>
       <div class="winner-banner" id="winner-banner">
         <div class="wb-pulse"></div>
         <div class="wb-icon" id="wb-icon"></div>
@@ -2245,6 +2296,26 @@ function checkAllFinished(){
   }
 }
 
+/* ── RIVAL ARRIVAL OVERLAY ── */
+function showRivalOverlay(name, score, time){
+  var ov = document.getElementById('rival-overlay');
+  var roName = document.getElementById('ro-name');
+  var roScore = document.getElementById('ro-score');
+  if(!ov) return;
+  if(roName) roName.textContent = name;
+  if(roScore) roScore.textContent = score + ' pts' + (time ? ' · ' + mFmtTime(time) : '');
+  ov.classList.add('show');
+  // Auto-close after 7s
+  clearTimeout(ov._timer);
+  ov._timer = setTimeout(closeRivalOverlay, 7000);
+}
+function closeRivalOverlay(){
+  var ov = document.getElementById('rival-overlay');
+  if(!ov) return;
+  clearTimeout(ov._timer);
+  ov.classList.remove('show');
+}
+
 /* Listen for first winner announcement */
 function listenForWinner(){
   if(!ROOM.ref) return;
@@ -2252,20 +2323,14 @@ function listenForWinner(){
     var winnerId = snap.val();
     if(!winnerId) return;
     if(winnerId !== ME.id){
-      // Someone else won
+      // Someone else won — show big animated overlay
       ROOM.ref.once('value').then(function(snap){
         var rd = snap.val()||{};
-        var banner = msc('winner-banner');
         var winnerName = rd.firstWinnerName||'Alguien';
-        var winnerScore = rd.firstWinnerScore;
-        var winnerTime = rd.firstWinnerTime;
-        if(banner && !G.done){
-          msc('wb-icon').innerHTML = trophySVG(28);
-          msc('wb-title').textContent = winnerName + ' llegó primero 🏆';
-          if(winnerScore) msc('wb-score').textContent = winnerScore+' pts'+(winnerTime?' · '+mFmtTime(winnerTime):'');
-          banner.classList.add('show');
-          mToast(winnerName+' llegó a la meta — ¡'+winnerScore+' pts!','rival',3500);
-          setTimeout(function(){banner.classList.remove('show');},6000);
+        var winnerScore = rd.firstWinnerScore||0;
+        var winnerTime = rd.firstWinnerTime||0;
+        if(!G.done){
+          showRivalOverlay(winnerName, winnerScore, winnerTime);
         }
       });
     }
@@ -2509,15 +2574,16 @@ function playAgain(){
     mToast('Esperando que el anfitrión inicie la revancha…','time');
     return;
   }
-  // Reset all players and go back to waiting
   G = {};
   RIVALS = {};
   _resultsShown = false;
-  var updates = {status:'waiting'};
-  // Reset player states
-  if(ROOM.data && ROOM.data.players){
-    Object.keys(ROOM.data.players).forEach(function(id){
-      updates['players/'+id+'/score'] = S0;
+  M_HINT_COUNT = 0;
+  // Read live players from Firebase to avoid stale ROOM.data
+  ROOM.ref.child('players').once('value').then(function(snap){
+    var players = snap.val() || {};
+    var updates = {status:'waiting'};
+    Object.keys(players).forEach(function(id){
+      updates['players/'+id+'/score'] = 0;
       updates['players/'+id+'/hops'] = 0;
       updates['players/'+id+'/backs'] = 0;
       updates['players/'+id+'/clicks'] = 0;
@@ -2525,18 +2591,17 @@ function playAgain(){
       updates['players/'+id+'/path'] = [];
       updates['players/'+id+'/finished'] = false;
       updates['players/'+id+'/finishedAt'] = null;
+      updates['players/'+id+'/ready'] = true;
     });
-  }
-  updates.firstWinner = null;
-  updates.firstWinnerName = null;
-  updates.firstWinnerScore = null;
-  updates.firstWinnerTime = null;
-  ROOM.ref.update(updates).then(function(){
-    // Host also goes back to waiting room
+    updates.firstWinner = null;
+    updates.firstWinnerName = null;
+    updates.firstWinnerScore = null;
+    updates.firstWinnerTime = null;
+    return ROOM.ref.update(updates);
+  }).then(function(){
     showMScreen('waiting');
     mToast('Revancha iniciada — ¡a por ellos!','hop',2000);
   });
-  // Host goes back — others will follow via status listener
 }
 
 /* Non-host players listen for status 'waiting' to rejoin */
@@ -2544,13 +2609,28 @@ function listenForRematch(){
   if(!ROOM.ref) return;
   ROOM.ref.child('status').on('value', function(snap){
     var st = snap.val();
-    // If we're on results and status flips back to waiting → go back to waiting room
     if(st === 'waiting' && !ME.isHost){
       var cur = document.querySelector('.mscreen.active');
       if(cur && cur.id === 'results'){
         G = {};
         RIVALS = {};
         _resultsShown = false;
+        M_HINT_COUNT = 0;
+        // Re-write player state in Firebase so host sees them as ready
+        if(ROOM.ref && ME.id){
+          var pRef = ROOM.ref.child('players/' + ME.id);
+          pRef.update({
+            score: 0,
+            hops: 0,
+            backs: 0,
+            clicks: 0,
+            current: '',
+            path: [],
+            finished: false,
+            finishedAt: null,
+            ready: true
+          });
+        }
         showMScreen('waiting');
         mToast('El anfitrión inició revancha — ¡vamos!','hop',2500);
       }
