@@ -416,7 +416,7 @@ body{min-height:0!important;background:var(--bg)}
 .m-ld-ring{width:26px;height:26px;border:2px solid #e4e4e4;border-top-color:var(--green);border-radius:50%;animation:spin .5s linear infinite}
 .m-ld-txt{font-size:12px;color:#aaa;font-family:var(--font)}
 
-/* Float back */
+/* Float back — bottom on mobile, inline topbar on desktop */
 .m-float-back{
   position:fixed;bottom:16px;right:12px;z-index:200;
   background:#18120c;color:#c9a227;border:1px solid rgba(201,162,39,.28);
@@ -428,7 +428,7 @@ body{min-height:0!important;background:var(--bg)}
 .m-float-back:hover{background:#1a2e22}
 .m-float-back:active{transform:scale(.97)}
 
-/* Float hint button */
+/* Float hint — bottom on mobile, inline topbar on desktop */
 .m-float-hint{
   position:fixed;bottom:16px;left:12px;z-index:200;
   background:#1a1408;color:#c9b458;border:1px solid rgba(201,180,88,.3);
@@ -439,6 +439,25 @@ body{min-height:0!important;background:var(--bg)}
 .m-float-hint:hover{background:rgba(201,180,88,.12)}
 .m-float-hint:active{transform:scale(.97)}
 .m-float-hint.visible{display:flex}
+
+/* Desktop: move into topbar, no fixed positioning */
+@media(min-width:769px){
+  .m-float-back,.m-float-hint{
+    position:static;
+    bottom:auto;left:auto;right:auto;
+    padding:5px 10px;font-size:11px;
+    border-radius:5px;box-shadow:none;
+  }
+  .m-float-back.on,.m-float-hint.visible{display:flex}
+  .m-float-back{background:rgba(201,162,39,.1)}
+  .m-float-hint{background:rgba(201,180,88,.08)}
+  /* Hide the fixed mobile buttons on desktop */
+  #m-float-back,#m-float-hint{display:none!important}
+}
+/* Mobile: hide topbar inline buttons */
+@media(max-width:768px){
+  .mwtb-btn{display:none!important}
+}
 
 /* Wikipedia styles (same as solo) */
 #mwc{max-width:860px;margin:0 auto;padding:24px 28px 80px;display:none;font-family:'Linux Libertine','Georgia',serif;font-size:15px;line-height:1.75;color:#202122}
@@ -1167,6 +1186,9 @@ body.dark .m-hint-panel{background:#1a1a1b;border-color:#3a3a3c}
       </button>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="opacity:.35;flex-shrink:0"><circle cx="12" cy="12" r="9.5" stroke="#538d4e" stroke-width="1.6"/><path d="M8.5 4.8S6.5 8.5 6.5 12s2 7.2 2 7.2M15.5 4.8S17.5 8.5 17.5 12s-2 7.2-2 7.2M3 9.5h18M3 14.5h18" stroke="#538d4e" stroke-width="1.5" stroke-linecap="round"/></svg>
       <span class="m-wtb-title" id="m-wtbt">—</span>
+      <!-- Desktop inline buttons -->
+      <button class="m-float-hint mwtb-btn" id="m-float-hint-tb" onclick="mUseHint()">💡 Pista <span id="m-fh-pts-label-tb" style="font-size:9px;opacity:.6">−80</span></button>
+      <button class="m-float-back mwtb-btn" id="m-float-back-tb" onclick="mGoBack()">← Atrás <span id="m-fb-pts-label-tb" style="font-size:9px;opacity:.6">−40</span></button>
       <span class="m-wtb-score" id="m-bar-sc">1000</span>
     </div>
     <div class="m-wiki-scroll" id="m-wscroll">
@@ -2364,6 +2386,28 @@ function checkAllFinished(){
   }
 }
 
+/* ── GIF LOADER ── */
+function loadRandomGif(folder, cb){
+  var maxTry = 20;
+  var found = [];
+  var checked = 0;
+  for(var i = 1; i <= maxTry; i++){
+    (function(n){
+      var img = new Image();
+      var url = folder + n + '.gif';
+      img.onload = function(){ found.push(url); check(); };
+      img.onerror = function(){ check(); };
+      img.src = url;
+    })(i);
+  }
+  function check(){
+    checked++;
+    if(checked === maxTry){
+      cb(found.length ? found[Math.floor(Math.random()*found.length)] : null);
+    }
+  }
+}
+
 /* ── RIVAL ARRIVAL OVERLAY ── */
 function showRivalOverlay(name, score, time){
   var ov = document.getElementById('rival-overlay');
@@ -2439,17 +2483,23 @@ function mUpdateMini(){
   msc('m-btn-bk').disabled = G.hist.length === 0;
   /* Etiquetas de coste escalable */
   var nextBack='−'+(40+(G.backs||0)*20);
+  var nextHint='−'+(80+(M_HINT_COUNT||0)*40);
   var bkL=document.getElementById('m-bk-pts-label'),fbL=document.getElementById('m-fb-pts-label');
   if(bkL)bkL.textContent=nextBack;if(fbL)fbL.textContent=nextBack;
   /* Float hint: show on mobile, update penalty label */
   var fh=document.getElementById('m-float-hint');
   var fhL=document.getElementById('m-fh-pts-label');
-  if(fh){
-    if(!G.done) fh.classList.add('visible'); else fh.classList.remove('visible');
-    /* If float-back is also visible, push hint to left */
-    if(G.hist.length>0) fh.classList.add('with-back'); else fh.classList.remove('with-back');
-  }
-  if(fhL) fhL.textContent='−'+(80+(M_HINT_COUNT||0)*40);
+  if(fh){ if(!G.done) fh.classList.add('visible'); else fh.classList.remove('visible'); }
+  if(fhL) fhL.textContent=nextHint;
+  /* Desktop topbar buttons */
+  var tbBack=document.getElementById('m-float-back-tb');
+  var tbHint=document.getElementById('m-float-hint-tb');
+  var tbBackL=document.getElementById('m-fb-pts-label-tb');
+  var tbHintL=document.getElementById('m-fh-pts-label-tb');
+  if(tbBack){ tbBack.style.display=(!G.done&&G.hist.length>0)?'flex':'none'; }
+  if(tbHint){ tbHint.style.display=(!G.done)?'flex':'none'; }
+  if(tbBackL) tbBackL.textContent=nextBack;
+  if(tbHintL) tbHintL.textContent=nextHint;
 }
 
 function mRenderPath(){
@@ -2506,32 +2556,44 @@ function showResults(players){
   // Animated graphic
   var animWrap = msc('res-anim-wrap');
   if(animWrap){
-    if(amIWinner){
-      animWrap.innerHTML =
-        '<div class="anim-trophy" style="position:relative">'+
-          '<div class="trophy-glow"></div>'+
-          [0,45,90,135,180,225,270,315].map(function(deg,i){
-            return '<div class="star-ray" style="transform:rotate('+deg+'deg) translateX(-50%);animation-delay:'+(i*0.05+0.3)+'s"></div>';
-          }).join('')+
-          '<span class="trophy-emoji">🏆</span>'+
-          '<div class="trophy-shadow"></div>'+
-          '<div style="position:absolute;top:-14px;left:-28px;font-size:22px;animation:floatL 3s ease-in-out infinite;opacity:.9">🎉</div>'+
-          '<div style="position:absolute;top:-18px;right:-28px;font-size:20px;animation:floatR 2.5s ease-in-out .5s infinite;opacity:.9">🎊</div>'+
-          '<div style="position:absolute;bottom:-4px;right:-22px;font-size:18px;animation:floatL 3.5s ease-in-out 1s infinite;opacity:.8">⭐</div>'+
-        '</div>';
-    } else {
-      // Loss emoji varies by rank
-      var lossEmojis = ['','😤','😅','😬','😐','😑','😶','🫠','😔'];
-      var lossEmoji = lossEmojis[myRank] || '😔';
-      var rankColors = ['','#c9b458','#9ca3af','#cd853f'];
-      var rc = myRank<=3 ? rankColors[myRank] : 'rgba(255,255,255,.2)';
-      animWrap.innerHTML =
-        '<div class="anim-loss">'+
-          '<div class="rank-circle" style="border:3px solid '+rc+';color:'+rc+';background:rgba(255,255,255,.03)">'+
-            '<span class="loss-emoji">'+lossEmoji+'</span>'+
-          '</div>'+
-        '</div>';
-    }
+    var gifFolder = amIWinner ? 'gifs/winner/' : 'gifs/loser/';
+    // Try to load a random GIF — uses a probe img to test existence
+    loadRandomGif(gifFolder, function(gifUrl){
+      if(gifUrl){
+        animWrap.innerHTML =
+          '<div style="position:relative;display:inline-flex;flex-direction:column;align-items:center">'+
+          '<img src="'+gifUrl+'" style="height:120px;max-width:240px;object-fit:contain;border-radius:12px;'+(amIWinner?'box-shadow:0 0 40px rgba(106,170,100,.3)':'opacity:.85')+'" alt="">'+
+          (amIWinner?'<div style="position:absolute;top:-14px;left:-28px;font-size:22px;animation:floatL 3s ease-in-out infinite">🎉</div><div style="position:absolute;top:-18px;right:-28px;font-size:20px;animation:floatR 2.5s ease-in-out .5s infinite">🎊</div>':'')+
+          '</div>';
+      } else {
+        // CSS fallback
+        if(amIWinner){
+          animWrap.innerHTML =
+            '<div class="anim-trophy" style="position:relative">'+
+              '<div class="trophy-glow"></div>'+
+              [0,45,90,135,180,225,270,315].map(function(deg,i){
+                return '<div class="star-ray" style="transform:rotate('+deg+'deg) translateX(-50%);animation-delay:'+(i*0.05+0.3)+'s"></div>';
+              }).join('')+
+              '<span class="trophy-emoji">🏆</span>'+
+              '<div class="trophy-shadow"></div>'+
+              '<div style="position:absolute;top:-14px;left:-28px;font-size:22px;animation:floatL 3s ease-in-out infinite;opacity:.9">🎉</div>'+
+              '<div style="position:absolute;top:-18px;right:-28px;font-size:20px;animation:floatR 2.5s ease-in-out .5s infinite;opacity:.9">🎊</div>'+
+              '<div style="position:absolute;bottom:-4px;right:-22px;font-size:18px;animation:floatL 3.5s ease-in-out 1s infinite;opacity:.8">⭐</div>'+
+            '</div>';
+        } else {
+          var lossEmojis = ['','😤','😅','😬','😐','😑','😶','🫠','😔'];
+          var lossEmoji = lossEmojis[myRank] || '😔';
+          var rankColors2 = ['','#c9b458','#9ca3af','#cd853f'];
+          var rc = myRank<=3 ? rankColors2[myRank] : 'rgba(255,255,255,.2)';
+          animWrap.innerHTML =
+            '<div class="anim-loss">'+
+              '<div class="rank-circle" style="border:3px solid '+rc+';color:'+rc+';background:rgba(255,255,255,.03)">'+
+                '<span class="loss-emoji">'+lossEmoji+'</span>'+
+              '</div>'+
+            '</div>';
+        }
+      }
+    });
   }
 
   // Badge

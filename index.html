@@ -121,19 +121,21 @@
 /* ── SCORING ── */
 .scoring-section{padding:60px 20px;background:var(--bg)}
 .score-cards{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:12px;max-width:640px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:12px;max-width:760px;margin:0 auto;
 }
 .sc-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px 18px;text-align:center}
-.scp{font-size:36px;font-weight:900;letter-spacing:-1.5px;margin-bottom:6px;font-variant-numeric:tabular-nums}
+.scp{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:6px}
 .scp.r{color:var(--red)}.scp.y{color:var(--yellow)}.scp.g{color:var(--green)}
 .sc-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
-.sc-desc{font-size:11.5px;color:var(--ink3);line-height:1.5}
-@media(max-width:520px){
+.sc-desc{font-size:11.5px;color:var(--ink3);line-height:1.5;font-variant-numeric:tabular-nums}
+@media(max-width:640px){
+  .score-cards{grid-template-columns:1fr 1fr}
+}
+@media(max-width:400px){
   .score-cards{grid-template-columns:1fr;max-width:380px}
-  .sc-card{display:flex;align-items:center;gap:16px;text-align:left;padding:16px}
-  .scp{font-size:28px;flex-shrink:0;min-width:56px}
-  .sc-desc{display:none}
+  .sc-card{display:flex;align-items:center;gap:16px;text-align:left;padding:14px}
+  .scp{font-size:24px;flex-shrink:0;min-width:36px}
 }
 
 /* ── EXAMPLES ── */
@@ -285,22 +287,27 @@
   <div class="container">
     <div class="sec-label" data-i18n="score.label">Puntuación</div>
     <h2 class="sec-title" data-i18n="score.title">Empiezas con 1.000 pts</h2>
-    <p class="sec-desc" data-i18n="score.desc">Cada acción resta puntos. El objetivo: perder los mínimos.</p>
+    <p class="sec-desc" data-i18n="score.desc">Cada acción resta puntos. El coste aumenta con cada uso.</p>
     <div class="score-cards">
       <div class="sc-card">
-        <div class="scp r">−40</div>
+        <div class="scp r">🔗</div>
         <div class="sc-title" data-i18n="sc1.title">Por enlace</div>
-        <p class="sc-desc" data-i18n="sc1.desc">La acción principal. Planifica tu ruta.</p>
+        <p class="sc-desc" data-i18n="sc1.desc">−10 · −15 · −20 · … (+5 cada vez)</p>
       </div>
       <div class="sc-card">
-        <div class="scp r">−30</div>
+        <div class="scp r">⏱</div>
         <div class="sc-title" data-i18n="sc2.title">Cada 30 segundos</div>
-        <p class="sc-desc" data-i18n="sc2.desc">Presión de tiempo suave pero constante.</p>
+        <p class="sc-desc" data-i18n="sc2.desc">−10 · −20 · −30 · … (+10 cada vez)</p>
       </div>
       <div class="sc-card">
-        <div class="scp y">−80</div>
+        <div class="scp y">↩</div>
         <div class="sc-title" data-i18n="sc3.title">Volver atrás</div>
-        <p class="sc-desc" data-i18n="sc3.desc">El doble que avanzar. Úsalo con cabeza.</p>
+        <p class="sc-desc" data-i18n="sc3.desc">−40 · −60 · −80 · … (+20 cada vez)</p>
+      </div>
+      <div class="sc-card">
+        <div class="scp y">💡</div>
+        <div class="sc-title" data-i18n="sc4.title">Usar pista</div>
+        <p class="sc-desc" data-i18n="sc4.desc">−80 · −120 · −160 · … (+40 cada vez)</p>
       </div>
     </div>
   </div>
