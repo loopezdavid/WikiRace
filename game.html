@@ -268,6 +268,15 @@ body{background:var(--bg)}
 .scb{padding:2px 7px;border-radius:3px;font-size:10.5px;font-weight:800}
 .scb-r{background:var(--red-bg);color:var(--red)}.scb-y{background:var(--yellow-bg);color:var(--yellow)}
 
+/* ── SCORING V2 (intro) ── */
+.scoring-v2{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px 10px;border-top:1px solid var(--surface3);background:var(--surface2)}
+.sv2-item{display:flex;flex-direction:column;gap:2px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 10px}
+.sv2-item.sv2-red{border-left:3px solid var(--red)}
+.sv2-item.sv2-yellow{border-left:3px solid var(--yellow)}
+.sv2-icon{font-size:14px;line-height:1}
+.sv2-label{font-size:10px;font-weight:800;color:var(--ink2);letter-spacing:.3px}
+.sv2-vals{font-size:9.5px;color:var(--ink4);font-variant-numeric:tabular-nums;white-space:nowrap}
+
 /* ── SUGGESTIONS ── */
 .sec-label{
   font-size:10px;font-weight:800;letter-spacing:2px;
@@ -419,11 +428,14 @@ body{background:var(--bg)}
 .main{flex:1;display:flex;flex-direction:column;min-width:0;overflow:hidden;position:relative;background:var(--surface2)}
 .pbar-wrap{height:2px;background:var(--border);flex-shrink:0}
 .pbar{height:2px;background:var(--green);width:0%;transition:width .4s ease}
-.wiki-topbar{padding:0 14px;height:42px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;flex-shrink:0}
+.wiki-topbar{padding:0 10px;height:42px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;flex-shrink:0}
 .wtb-ham{display:none;background:none;border:none;cursor:pointer;color:var(--ink3);font-size:20px;padding:0 6px 0 0;line-height:1}
 .wtb-globe{opacity:.35;flex-shrink:0}
 .wtb-title{font-size:13px;font-weight:600;color:var(--ink2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .wtb-score{font-size:15px;font-weight:800;color:var(--green);font-variant-numeric:tabular-nums;flex-shrink:0}
+/* inline topbar action buttons - desktop only */
+.wtb-btn{flex-shrink:0}
+@media(max-width:768px){.wtb-btn{display:none!important}}
 
 .wiki-scroll{flex:1;overflow-y:auto;background:#fff;min-height:0;position:relative;-webkit-overflow-scrolling:touch}
 .wiki-loader{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:#fff;z-index:5;transition:opacity .2s}
@@ -431,7 +443,7 @@ body{background:var(--bg)}
 .ld-ring{width:28px;height:28px;border:2px solid #e4e4e4;border-top-color:var(--green);border-radius:50%;animation:spin .5s linear infinite}
 .ld-txt{font-size:13px;color:#aaa;font-family:var(--font)}
 
-/* ── FLOAT BACK — bottom right ── */
+/* ── FLOAT BACK — bottom right on mobile, in topbar on desktop ── */
 .float-back{
   position:fixed;bottom:20px;right:14px;z-index:200;
   background:var(--sb);color:#c9a227;
@@ -447,7 +459,7 @@ body{background:var(--bg)}
 .float-back.on{display:flex}
 .fb-pts{font-size:9px;font-weight:700;opacity:.6;margin-left:1px}
 
-/* ── FLOAT HINT — bottom left ── */
+/* ── FLOAT HINT — bottom left on mobile, in topbar on desktop ── */
 .float-hint{
   position:fixed;bottom:20px;left:14px;z-index:200;
   background:var(--sb);color:#c9b458;
@@ -462,6 +474,17 @@ body{background:var(--bg)}
 .float-hint:active{transform:scale(.97)}
 .float-hint.on{display:flex}
 .fh-pts{font-size:9px;font-weight:700;opacity:.6;margin-left:1px}
+
+/* Desktop: move into wiki-topbar area */
+@media(min-width:769px){
+  .float-back,.float-hint{
+    position:static;display:none;
+    padding:5px 10px;font-size:11px;border-radius:5px;
+    box-shadow:none;bottom:auto;left:auto;right:auto;
+  }
+  .float-back.on,.float-hint.on{display:flex}
+  /* They sit inside .wtb-actions flex row */
+}
 
 /* ── WIKIPEDIA ── */
 #wc{max-width:860px;margin:0 auto;padding:26px 32px 80px;display:none;font-family:'Linux Libertine','Georgia',serif;font-size:15px;line-height:1.75;color:#202122}
@@ -924,14 +947,27 @@ body.dark .hint-item:hover{background:var(--green-bg)}
         </div>
         <button class="btn-play" id="btn-start" onclick="startGame(false)">Empezar partida →</button>
       </div>
-      <div class="scoring">
-        <div class="sc"><span class="scb scb-r">↑</span>por enlace</div>
-        <div class="sc"><span class="scb scb-r">↑</span>cada 30 s</div>
-        <div class="sc"><span class="scb scb-y">↑</span>por atrás</div>
-        <div class="sc"><span class="scb scb-y">↑</span>por pista</div>
-      </div>
-      <div style="font-size:10px;color:var(--ink4);text-align:center;padding:0 16px 10px;line-height:1.5">
-        Enlace: −10·−15·−20… · 30s: −10·−20·−30… · Atrás: −40·−60·−80… · Pista: −80·−120…
+      <div class="scoring-v2">
+        <div class="sv2-item sv2-red">
+          <span class="sv2-icon">🔗</span>
+          <span class="sv2-label">Enlace</span>
+          <span class="sv2-vals">−10 → −15 → −20…</span>
+        </div>
+        <div class="sv2-item sv2-red">
+          <span class="sv2-icon">⏱</span>
+          <span class="sv2-label">30 seg</span>
+          <span class="sv2-vals">−10 → −20 → −30…</span>
+        </div>
+        <div class="sv2-item sv2-yellow">
+          <span class="sv2-icon">↩</span>
+          <span class="sv2-label">Atrás</span>
+          <span class="sv2-vals">−40 → −60 → −80…</span>
+        </div>
+        <div class="sv2-item sv2-yellow">
+          <span class="sv2-icon">💡</span>
+          <span class="sv2-label">Pista</span>
+          <span class="sv2-vals">−80 → −120 → −160…</span>
+        </div>
       </div>
     </div>
 
@@ -1037,11 +1073,12 @@ body.dark .hint-item:hover{background:var(--green-bg)}
         <path d="M8.5 4.8S6.5 8.5 6.5 12s2 7.2 2 7.2M15.5 4.8S17.5 8.5 17.5 12s-2 7.2-2 7.2M3 9.5h18M3 14.5h18" stroke="#538d4e" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
       <span class="wtb-title" id="wtbt">—</span>
+      <!-- Desktop inline action buttons -->
+      <button class="float-hint wtb-btn" id="float-hint" onclick="useHint()">💡 Pista <span class="fh-pts" id="fh-pts-label">−80</span></button>
+      <button class="float-back wtb-btn" id="float-back" onclick="goBack()">← Atrás <span class="fb-pts" id="fb-pts-label">−40</span></button>
       <span class="wtb-score" id="bar-sc">1000</span>
     </div>
     <div class="wiki-scroll" id="wscroll">
-      <button class="float-back" id="float-back" onclick="goBack()">← Palabra anterior <span class="fb-pts" id="fb-pts-label">−40</span></button>
-      <button class="float-hint" id="float-hint" onclick="useHint()">💡 Pista <span class="fh-pts" id="fh-pts-label">−80</span></button>
       <div class="wiki-loader" id="wload"><div class="ld-ring"></div><div class="ld-txt" id="wload-t">Cargando…</div></div>
       <div id="wc"></div>
     </div>

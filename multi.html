@@ -569,161 +569,224 @@ body{min-height:0!important;background:var(--bg)}
 }
 
 /* ── HERO BANNER ── */
+/* ══════════════════════════════════════
+   EPIC WINNER SCREEN
+══════════════════════════════════════ */
+
+/* ── HERO BANNER ── */
 .res-hero{
   width:100%;position:relative;overflow:hidden;
-  padding:48px 20px 40px;text-align:center;
+  padding:52px 20px 44px;text-align:center;
   display:flex;flex-direction:column;align-items:center;
 }
-.res-hero.rh-win{background:linear-gradient(160deg,#0a1f0a 0%,#153a15 45%,#0d2810 100%)}
-.res-hero.rh-lose{background:linear-gradient(160deg,#1a1612 0%,#2a1e10 55%,#1a1a1a 100%)}
+.res-hero.rh-win{background:linear-gradient(160deg,#071a07 0%,#0e2e0e 40%,#0a200a 100%)}
+.res-hero.rh-lose{background:linear-gradient(160deg,#140f0a 0%,#1e160e 50%,#141414 100%)}
 .res-hero::before{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse at 50% -10%,rgba(106,170,100,.22) 0%,transparent 65%);
+  background:radial-gradient(ellipse at 50% 0%,rgba(106,170,100,.28) 0%,transparent 60%);
 }
+/* Particle stars */
+.res-hero::after{
+  content:'✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧ ✦ ✧';
+  position:absolute;top:20px;left:0;right:0;
+  font-size:10px;color:rgba(201,180,88,.2);letter-spacing:20px;text-align:center;
+  animation:starsDrift 8s linear infinite;
+}
+@keyframes starsDrift{from{letter-spacing:20px;opacity:.3}to{letter-spacing:26px;opacity:.1}}
 
-/* Animated winner graphic */
+/* ── ANIMATED CHARACTER (CSS gif-like) ── */
 .res-anim-wrap{
-  margin-bottom:18px;position:relative;z-index:1;
+  margin-bottom:20px;position:relative;z-index:1;
+  width:100px;height:100px;
 }
-
-/* Trophy bounce for winner */
+/* Winner: bouncing trophy */
 .anim-trophy{
+  display:flex;align-items:center;justify-content:center;
+  width:100px;height:100px;position:relative;
   animation:epicTrophy .8s cubic-bezier(.16,1,.3,1) both;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
 }
-@keyframes epicTrophy{
-  0%{opacity:0;transform:translateY(-50px) scale(.3) rotate(-15deg)}
-  50%{transform:translateY(8px) scale(1.08) rotate(4deg)}
-  70%{transform:translateY(-4px) scale(.97) rotate(-1deg)}
-  100%{opacity:1;transform:none}
+.anim-trophy .trophy-emoji{
+  font-size:64px;line-height:1;
+  animation:trophyFloat 2.5s ease-in-out infinite;
+  display:block;
 }
-/* Pulse ring around trophy */
+@keyframes trophyFloat{
+  0%,100%{transform:translateY(0) rotate(-3deg)}
+  50%{transform:translateY(-12px) rotate(3deg)}
+}
+.anim-trophy .trophy-shadow{
+  position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);
+  width:50px;height:8px;border-radius:50%;
+  background:rgba(0,0,0,.3);
+  animation:shadowPulse 2.5s ease-in-out infinite;
+}
+@keyframes shadowPulse{
+  0%,100%{width:50px;opacity:.3}
+  50%{width:36px;opacity:.15}
+}
 .trophy-glow{
-  position:absolute;inset:-12px;border-radius:50%;
-  background:radial-gradient(circle,rgba(201,180,88,.25) 0%,transparent 70%);
+  position:absolute;inset:-16px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,180,88,.3) 0%,transparent 70%);
   animation:pulseGlow 2s ease infinite;
 }
-@keyframes pulseGlow{
-  0%,100%{transform:scale(1);opacity:.7}
-  50%{transform:scale(1.15);opacity:1}
-}
-
-/* Loss cross */
-.anim-loss{
-  animation:lossIn .5s cubic-bezier(.16,1,.3,1) .1s both;
-  opacity:.7;
-}
-@keyframes lossIn{from{opacity:0;transform:scale(.4)}to{opacity:.7;transform:none}}
-
-/* Stars burst for winner */
-.stars-burst{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:120px;height:120px;pointer-events:none;
-}
+@keyframes pulseGlow{0%,100%{transform:scale(1);opacity:.7}50%{transform:scale(1.2);opacity:1}}
+/* Star rays */
 .star-ray{
   position:absolute;width:2px;border-radius:1px;
-  background:linear-gradient(to bottom,#c9b458,transparent);
-  top:50%;left:50%;transform-origin:bottom center;
-  animation:rayShoot .6s ease .3s both;
+  background:linear-gradient(to top,#c9b458,transparent);
+  bottom:50%;left:50%;transform-origin:bottom center;
+  animation:rayShoot .7s ease .3s both;
 }
-@keyframes rayShoot{from{height:0;opacity:0}to{height:40px;opacity:1}}
+@keyframes rayShoot{from{height:0;opacity:0}to{height:44px;opacity:1}}
+
+/* Loser: sad character animation */
+.anim-loss{
+  display:flex;align-items:center;justify-content:center;
+  width:100px;height:100px;
+  animation:lossIn .6s cubic-bezier(.16,1,.3,1) .1s both;
+}
+.anim-loss .loss-emoji{
+  font-size:58px;line-height:1;
+  animation:lossSway 3s ease-in-out infinite;
+}
+@keyframes lossIn{from{opacity:0;transform:scale(.3) rotate(-15deg)}to{opacity:1;transform:none}}
+@keyframes lossSway{
+  0%,100%{transform:rotate(-6deg) translateY(0)}
+  33%{transform:rotate(6deg) translateY(-4px)}
+  66%{transform:rotate(-3deg) translateY(2px)}
+}
+/* Rank circle for non-podium */
+.rank-circle{
+  width:72px;height:72px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:32px;font-weight:900;
+  animation:lossIn .6s cubic-bezier(.16,1,.3,1) .1s both;
+}
+
+@keyframes epicTrophy{
+  0%{opacity:0;transform:scale(.3) translateY(-40px) rotate(-20deg)}
+  60%{transform:scale(1.1) translateY(6px) rotate(4deg)}
+  80%{transform:scale(.97) translateY(-3px)}
+  100%{opacity:1;transform:scale(1) translateY(0) rotate(0)}
+}
+@keyframes lossIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
 
 .res-hero-badge{
   display:inline-flex;align-items:center;gap:6px;
-  padding:4px 16px;border-radius:99px;
+  padding:5px 18px;border-radius:99px;
   font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
-  margin-bottom:14px;position:relative;z-index:1;
+  margin-bottom:12px;position:relative;z-index:1;
   animation:fadeUp .4s ease .2s both;
 }
-.badge-win{background:rgba(201,180,88,.2);color:#c9b458;border:1px solid rgba(201,180,88,.4)}
-.badge-lose{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.12)}
+.badge-win{background:rgba(201,180,88,.18);color:#c9b458;border:1px solid rgba(201,180,88,.4)}
+.badge-lose{background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.1)}
 
 .res-hero-title{
-  font-size:clamp(38px,9vw,60px);font-weight:900;letter-spacing:-2.5px;
-  line-height:1;margin-bottom:6px;position:relative;z-index:1;
+  font-size:clamp(42px,10vw,68px);font-weight:900;letter-spacing:-3px;
+  line-height:1;margin-bottom:8px;position:relative;z-index:1;
   animation:titleSlam .45s cubic-bezier(.16,1,.3,1) .1s both;
 }
-.res-hero-title.rt-win{color:#6aaa64;text-shadow:0 0 50px rgba(106,170,100,.4)}
-.res-hero-title.rt-lose{color:rgba(255,255,255,.85)}
+.res-hero-title.rt-win{
+  color:#fff;
+  text-shadow:0 0 60px rgba(106,170,100,.5),0 2px 0 rgba(0,0,0,.3);
+}
+.res-hero-title.rt-lose{color:rgba(255,255,255,.8)}
 
 .res-hero-sub{
-  font-size:13px;color:rgba(255,255,255,.4);
-  animation:fadeUp .4s ease .25s both;margin-bottom:20px;
+  font-size:13px;color:rgba(255,255,255,.38);
+  animation:fadeUp .4s ease .25s both;margin-bottom:18px;
   position:relative;z-index:1;
 }
 .res-hero-route{
   display:inline-flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
-  border-radius:99px;padding:6px 18px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);
+  border-radius:99px;padding:7px 20px;
   font-size:13px;font-weight:600;
   animation:fadeUp .4s ease .3s both;position:relative;z-index:1;
 }
-.rhr-from{color:#6aaa64}.rhr-to{color:#e06060}.rhr-arr{color:rgba(255,255,255,.2)}
+.rhr-from{color:#6aaa64}.rhr-to{color:#e06060}.rhr-arr{color:rgba(255,255,255,.18)}
 
 /* ── MY SCORE ── */
 .res-my-score{
   width:100%;max-width:560px;
-  background:var(--surface);border:1px solid var(--border);border-radius:14px;
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
   padding:0;overflow:hidden;
-  animation:fadeUp .4s ease .35s both;margin:16px auto 0;
+  animation:fadeUp .4s ease .32s both;margin:16px auto 0;
 }
-.rms-top{
-  padding:18px 20px;text-align:center;
-}
+.rms-top{padding:20px 20px 16px;text-align:center}
 .rms-pts{
-  font-size:clamp(56px,12vw,80px);font-weight:900;letter-spacing:-4px;
+  font-size:clamp(60px,14vw,88px);font-weight:900;letter-spacing:-5px;
   line-height:1;font-variant-numeric:tabular-nums;
   background:linear-gradient(135deg,#6aaa64 0%,#c9b458 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   animation:countUp .7s cubic-bezier(.16,1,.3,1) .4s both;
 }
-@keyframes countUp{from{opacity:0;transform:translateY(20px) scale(.7)}to{opacity:1;transform:none}}
-.rms-lbl{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ink4);margin-top:3px}
-.rms-stats{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  border-top:1px solid var(--border);
-}
-.rms-stat{padding:12px 8px;text-align:center;border-right:1px solid var(--border)}
+@keyframes countUp{from{opacity:0;transform:translateY(24px) scale(.6)}to{opacity:1;transform:none}}
+.rms-lbl{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ink4);margin-top:2px}
+.rms-stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border)}
+.rms-stat{padding:14px 8px;text-align:center;border-right:1px solid var(--border)}
 .rms-stat:last-child{border-right:none}
-.rms-sv{font-size:18px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
+.rms-sv{font-size:20px;font-weight:800;color:var(--ink);font-variant-numeric:tabular-nums}
 .rms-sl{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink4);margin-top:3px}
 
 /* ── RANKINGS ── */
-.res-rankings{
-  width:100%;max-width:560px;margin:16px auto 0;
-}
+.res-rankings{width:100%;max-width:560px;margin:16px auto 0}
 .res-rank-hdr{
   font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;
   color:var(--ink4);margin-bottom:8px;padding:0 2px;
 }
 .res-rank-card{
-  display:flex;align-items:center;gap:10px;
+  display:flex;align-items:center;gap:12px;
   background:var(--surface);border:1px solid var(--border);
-  border-radius:10px;padding:12px 14px;margin-bottom:6px;
-  animation:fadeUp .4s ease both;transition:transform .15s;
+  border-radius:12px;padding:14px 16px;margin-bottom:6px;
+  animation:fadeUp .4s ease both;
 }
 .res-rank-card.rrc-1st{
-  border-color:rgba(201,180,88,.5);
-  background:linear-gradient(90deg,rgba(201,180,88,.08),var(--surface));
+  border-color:rgba(201,180,88,.45);
+  background:linear-gradient(90deg,rgba(201,180,88,.07),var(--surface));
   border-left:3px solid #c9b458;
 }
 .res-rank-card.rrc-me{border-color:var(--green2);background:var(--green-bg);border-left:3px solid var(--green2)}
-.res-rank-card.rrc-1st.rrc-me{border-color:rgba(201,180,88,.6);background:linear-gradient(90deg,rgba(201,180,88,.12),var(--green-bg))}
-.rrc-pos{font-size:20px;font-weight:900;width:28px;text-align:center;flex-shrink:0}
+.res-rank-card.rrc-1st.rrc-me{border-color:rgba(201,180,88,.6);background:linear-gradient(90deg,rgba(201,180,88,.1),var(--green-bg))}
+.rrc-pos{font-size:22px;font-weight:900;width:30px;text-align:center;flex-shrink:0}
 .rrc-pos.rp1{color:#c9b458}.rrc-pos.rp2{color:#9ca3af}.rrc-pos.rp3{color:#cd853f}.rrc-pos.rpn{color:var(--ink4)}
-.rrc-av{width:36px;height:36px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff}
+.rrc-av{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff}
 .rrc-info{flex:1;min-width:0}
 .rrc-name{font-size:14px;font-weight:700;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;gap:6px;min-width:0}
 .rrc-you{font-size:9px;font-weight:800;background:var(--green-bg);color:var(--green2);padding:2px 6px;border-radius:3px;border:1px solid rgba(83,141,78,.3)}
-.rrc-meta{font-size:11px;color:var(--ink4);margin-top:2px}
+.rrc-meta{font-size:11px;color:var(--ink4);margin-top:3px}
 .rrc-right{text-align:right;flex-shrink:0}
-.rrc-score{font-size:18px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums}
+.rrc-score{font-size:20px;font-weight:900;color:var(--green);font-variant-numeric:tabular-nums}
 .rrc-time{font-size:10px;color:var(--ink4);margin-top:1px}
+/* Score bar inside rank card */
+.rrc-bar-wrap{height:3px;background:var(--border);border-radius:2px;margin-top:5px;overflow:hidden}
+.rrc-bar{height:3px;border-radius:2px;transition:width 1s ease .5s}
+
+/* ── COMPARISON SECTION ── */
+.res-compare{
+  width:100%;max-width:560px;margin:16px auto 0;
+  background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;
+  animation:fadeUp .4s ease .46s both;
+}
+.res-compare-hdr{
+  padding:12px 16px;background:var(--surface2);border-bottom:1px solid var(--border);
+  font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--ink4);
+  display:flex;align-items:center;gap:6px;
+}
+.res-compare-grid{
+  display:grid;padding:14px 16px;gap:10px;
+}
+.rcg-row{display:flex;align-items:center;gap:10px}
+.rcg-label{font-size:10px;font-weight:700;color:var(--ink4);width:64px;flex-shrink:0;text-align:right}
+.rcg-bars{flex:1;display:flex;flex-direction:column;gap:4px}
+.rcg-bar-wrap{display:flex;align-items:center;gap:8px}
+.rcg-av{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:800;color:#fff;flex-shrink:0}
+.rcg-bar-track{flex:1;height:8px;background:var(--surface2);border-radius:4px;overflow:hidden}
+.rcg-bar-fill{height:8px;border-radius:4px;transition:width 1.2s cubic-bezier(.16,1,.3,1) .6s;width:0}
+.rcg-val{font-size:11px;font-weight:700;color:var(--ink2);min-width:28px;text-align:right;font-variant-numeric:tabular-nums}
 
 /* ── PATHS ── */
-.res-paths-section{
-  width:100%;max-width:560px;margin:16px auto 0;
-}
+.res-paths-section{width:100%;max-width:560px;margin:16px auto 0}
 .rps-hdr{font-size:9px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--ink4);margin-bottom:8px}
 .rps-inner{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .rps-row{padding:14px 16px;border-bottom:1px solid var(--surface3)}
@@ -731,7 +794,6 @@ body{min-height:0!important;background:var(--bg)}
 .rps-who{display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .rps-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0}
 .rps-name{font-size:13px;font-weight:700;color:var(--ink2)}
-/* Timeline path */
 .rps-timeline{display:flex;flex-direction:column;gap:0}
 .rps-step{display:flex;align-items:center;gap:10px}
 .rps-step-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
@@ -746,25 +808,25 @@ body{min-height:0!important;background:var(--bg)}
 
 /* ── ACTIONS ── */
 .res-actions-section{
-  width:100%;max-width:560px;margin:16px auto 32px;
+  width:100%;max-width:560px;margin:16px auto 40px;
   display:flex;gap:8px;flex-wrap:wrap;
 }
 .res-act-p{
-  flex:2;min-width:140px;padding:15px;
-  background:var(--green);color:#fff;border:none;border-radius:10px;
+  flex:2;min-width:140px;padding:16px;
+  background:var(--green);color:#fff;border:none;border-radius:12px;
   font-size:15px;font-weight:700;cursor:pointer;font-family:var(--font);
   transition:all .15s;display:flex;align-items:center;justify-content:center;gap:8px;
-  box-shadow:0 4px 16px rgba(83,141,78,.3);
+  box-shadow:0 6px 20px rgba(83,141,78,.35);
 }
-.res-act-p:hover{background:var(--green2);transform:translateY(-1px)}
+.res-act-p:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(83,141,78,.4)}
 .res-act-s{
-  flex:1;min-width:90px;padding:15px;
+  flex:1;min-width:90px;padding:16px;
   background:var(--surface);color:var(--ink2);
-  border:1px solid var(--border);border-radius:10px;
+  border:1px solid var(--border);border-radius:12px;
   font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font);
   transition:all .15s;
 }
-.res-act-s:hover{border-color:var(--border2);color:var(--ink)}
+.res-act-s:hover{border-color:var(--border2);color:var(--ink);transform:translateY(-1px)}
 
 canvas#m-confetti{position:fixed;inset:0;pointer-events:none;z-index:1999;display:none}
 
@@ -1187,6 +1249,12 @@ body.dark .m-hint-panel{background:#1a1a1b;border-color:#3a3a3c}
     <div class="res-rankings" id="res-rankings-wrap">
       <div class="res-rank-hdr">Clasificación</div>
       <div id="res-rankings"></div>
+    </div>
+
+    <!-- COMPARISON -->
+    <div class="res-compare" id="res-compare" style="display:none">
+      <div class="res-compare-hdr">📊 Comparativa de jugadores</div>
+      <div class="res-compare-grid" id="res-compare-grid"></div>
     </div>
 
     <!-- PATHS -->
@@ -2301,13 +2369,26 @@ function showRivalOverlay(name, score, time){
   var ov = document.getElementById('rival-overlay');
   var roName = document.getElementById('ro-name');
   var roScore = document.getElementById('ro-score');
+  var roSub = document.getElementById('ro-sub');
   if(!ov) return;
   if(roName) roName.textContent = name;
   if(roScore) roScore.textContent = score + ' pts' + (time ? ' · ' + mFmtTime(time) : '');
+  // Can the current player still beat this score?
+  var myScore = G.score || 0;
+  var canWin = myScore > score;
+  if(roSub){
+    if(canWin){
+      roSub.innerHTML = '<span style="color:#6aaa64;font-weight:700">¡Tienes ' + myScore + ' pts — todavía puedes ganarles!</span>';
+    } else {
+      roSub.textContent = 'Llega al destino para completar la partida.';
+    }
+  }
+  // Update close button text
+  var roClose = ov.querySelector('.ro-close');
+  if(roClose) roClose.textContent = canWin ? '¡Voy a por ellos! →' : 'Seguir jugando →';
   ov.classList.add('show');
-  // Auto-close after 7s
   clearTimeout(ov._timer);
-  ov._timer = setTimeout(closeRivalOverlay, 7000);
+  ov._timer = setTimeout(closeRivalOverlay, canWin ? 5000 : 8000);
 }
 function closeRivalOverlay(){
   var ov = document.getElementById('rival-overlay');
@@ -2426,34 +2507,28 @@ function showResults(players){
   var animWrap = msc('res-anim-wrap');
   if(animWrap){
     if(amIWinner){
-      // Trophy with CSS star rays
       animWrap.innerHTML =
         '<div class="anim-trophy" style="position:relative">'+
           '<div class="trophy-glow"></div>'+
-          // Star rays
           [0,45,90,135,180,225,270,315].map(function(deg,i){
-            return '<div class="star-ray" style="transform:rotate('+deg+'deg) translateX(-50%);animation-delay:'+(i*0.04+0.3)+'s"></div>';
+            return '<div class="star-ray" style="transform:rotate('+deg+'deg) translateX(-50%);animation-delay:'+(i*0.05+0.3)+'s"></div>';
           }).join('')+
-          '<svg width="80" height="80" viewBox="0 0 40 40" fill="none">'+
-            '<path d="M10 3h20v10a10 10 0 01-20 0V3z" stroke="#c9b458" stroke-width="2.2" stroke-linejoin="round" fill="rgba(201,180,88,.15)"/>'+
-            '<path d="M10 8H5a4 4 0 000 8h5M30 8h5a4 4 0 010 8h-5" stroke="#c9b458" stroke-width="2.2" stroke-linecap="round"/>'+
-            '<path d="M20 23v8M13 35h14" stroke="#c9b458" stroke-width="2.2" stroke-linecap="round"/>'+
-            '<path d="M16 8l1.5 3.5 3.5.5-2.5 2.5.6 3.5L20 17l-3.1 1.5.6-3.5L15 12.5l3.5-.5z" fill="#c9b458" opacity=".9"/>'+
-            '<circle cx="20" cy="10" r="2.5" fill="#c9b458" opacity=".35"/>'+
-          '</svg>'+
-          // Floating emoji particles
-          '<div style="position:absolute;top:-10px;left:-25px;font-size:20px;animation:floatL 3s ease-in-out infinite">🎉</div>'+
-          '<div style="position:absolute;top:-15px;right:-25px;font-size:18px;animation:floatR 2.5s ease-in-out .5s infinite">🎊</div>'+
+          '<span class="trophy-emoji">🏆</span>'+
+          '<div class="trophy-shadow"></div>'+
+          '<div style="position:absolute;top:-14px;left:-28px;font-size:22px;animation:floatL 3s ease-in-out infinite;opacity:.9">🎉</div>'+
+          '<div style="position:absolute;top:-18px;right:-28px;font-size:20px;animation:floatR 2.5s ease-in-out .5s infinite;opacity:.9">🎊</div>'+
+          '<div style="position:absolute;bottom:-4px;right:-22px;font-size:18px;animation:floatL 3.5s ease-in-out 1s infinite;opacity:.8">⭐</div>'+
         '</div>';
     } else {
-      // Animated rank circle
+      // Loss emoji varies by rank
+      var lossEmojis = ['','😤','😅','😬','😐','😑','😶','🫠','😔'];
+      var lossEmoji = lossEmojis[myRank] || '😔';
       var rankColors = ['','#c9b458','#9ca3af','#cd853f'];
-      var rc = myRank<=3 ? rankColors[myRank] : '#555';
-      var rankEmojis = ['','🥇','🥈','🥉','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣'];
+      var rc = myRank<=3 ? rankColors[myRank] : 'rgba(255,255,255,.2)';
       animWrap.innerHTML =
         '<div class="anim-loss">'+
-          '<div style="width:76px;height:76px;border-radius:50%;border:3px solid '+rc+';display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04)">'+
-            '<span style="font-size:38px;font-weight:900;color:'+rc+'">'+myRank+'</span>'+
+          '<div class="rank-circle" style="border:3px solid '+rc+';color:'+rc+';background:rgba(255,255,255,.03)">'+
+            '<span class="loss-emoji">'+lossEmoji+'</span>'+
           '</div>'+
         '</div>';
     }
@@ -2511,6 +2586,7 @@ function showResults(players){
   if(rankEl){
     var posIcons=['①','②','③','④','⑤','⑥','⑦','⑧'];
     var posClasses=['rp1','rp2','rp3','rpn','rpn','rpn','rpn','rpn'];
+        var maxRankScore = pArr.length ? (pArr[0][1].score||1) : 1;
     rankEl.innerHTML = pArr.map(function(entry,i){
       var id=entry[0],p=entry[1];
       var isMe=id===ME.id;
@@ -2519,12 +2595,15 @@ function showResults(players){
       var delay=(i*0.07).toFixed(2)+'s';
       var is1st=i===0;
       var cardCls='res-rank-card'+(is1st?' rrc-1st':'')+(isMe?' rrc-me':'');
+      var scorePct=Math.round(((p.score||0)/maxRankScore)*100);
+      var barCol=is1st?'#c9b458':isMe?'var(--green2)':'var(--border2)';
       return '<div class="'+cardCls+'" style="animation-delay:'+delay+'">'+
         '<div class="rrc-pos '+posClasses[i]+'">'+(posIcons[i]||i+1)+'</div>'+
         '<div class="rrc-av" style="background:'+(p.color||'#538d4e')+'">'+initials+'</div>'+
         '<div class="rrc-info">'+
           '<div class="rrc-name">'+mEsc(p.name||'—')+(isMe?'<span class="rrc-you">TÚ</span>':'')+(p.isHost?'<span style="font-size:9px;color:#c9b458;background:rgba(201,180,88,.12);padding:1px 5px;border-radius:3px;margin-left:4px">HOST</span>':'')+'</div>'+
           '<div class="rrc-meta">'+hops+' saltos'+(p.finished?' · llegó':'')+'</div>'+
+          '<div class="rrc-bar-wrap"><div class="rrc-bar" style="width:0%;background:'+barCol+'" data-w="'+scorePct+'%"></div></div>'+
         '</div>'+
         '<div class="rrc-right">'+
           '<div class="rrc-score">'+(p.score||0)+'</div>'+
@@ -2532,6 +2611,50 @@ function showResults(players){
         '</div>'+
       '</div>';
     }).join('');
+    // Animate score bars
+    requestAnimationFrame(function(){
+      setTimeout(function(){
+        rankEl.querySelectorAll('.rrc-bar').forEach(function(b){b.style.width=b.getAttribute('data-w');});
+      }, 300);
+    });
+  }
+  // ── COMPARISON ──
+  var compareEl = document.getElementById('res-compare');
+  var compareGrid = document.getElementById('res-compare-grid');
+  if(compareEl && compareGrid && pArr.length >= 2){
+    compareEl.style.display = 'block';
+    var maxScore = Math.max.apply(null, pArr.map(function(e){return e[1].score||0;}));
+    var maxHops = Math.max.apply(null, pArr.map(function(e){return (e[1].path||[]).length||1;})) || 1;
+    var maxTime = Math.max.apply(null, pArr.map(function(e){return e[1].finishedAt||e[1].sec||0;})) || 1;
+    var metrics = [
+      {label:'Puntos', key:'score', max:maxScore, color:'#6aaa64', fmt:function(v){return v;}},
+      {label:'Saltos', key:'hops', max:maxHops, color:'#3b82f6', fmt:function(v){return v;}, invert:true},
+      {label:'Tiempo', key:'time', max:maxTime, color:'#c9b458', fmt:mFmtTime, invert:true}
+    ];
+    compareGrid.innerHTML = metrics.map(function(m){
+      var bars = pArr.slice(0,4).map(function(entry){
+        var p = entry[1];
+        var raw = m.key==='score'?(p.score||0):m.key==='hops'?((p.path||[]).length||p.hops||0):(p.finishedAt||p.sec||0);
+        var pct = m.max>0 ? Math.round((raw/m.max)*100) : 0;
+        if(m.invert) pct = raw>0 ? Math.round((m.max/raw)*100) : 0;
+        pct = Math.max(8, Math.min(100, pct));
+        var initials = (p.name||'?').slice(0,2).toUpperCase();
+        return '<div class="rcg-bar-wrap">'+
+          '<div class="rcg-av" style="background:'+(p.color||'#538d4e')+'">'+initials+'</div>'+
+          '<div class="rcg-bar-track"><div class="rcg-bar-fill" style="width:0%;background:'+m.color+'" data-w="'+pct+'%"></div></div>'+
+          '<span class="rcg-val">'+m.fmt(raw)+'</span>'+
+          '</div>';
+      }).join('');
+      return '<div class="rcg-row"><span class="rcg-label">'+m.label+'</span><div class="rcg-bars">'+bars+'</div></div>';
+    }).join('');
+    // Animate bars after render
+    requestAnimationFrame(function(){
+      setTimeout(function(){
+        compareGrid.querySelectorAll('.rcg-bar-fill').forEach(function(b){
+          b.style.width = b.getAttribute('data-w');
+        });
+      }, 200);
+    });
   }
 
   // ── PATHS ──
