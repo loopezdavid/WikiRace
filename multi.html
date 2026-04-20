@@ -1317,6 +1317,7 @@ var FB_CONFIG = {
    CONSTANTS & STATE
 ════════════════════════════════════════════════════════ */
 var S0=1000;
+var M_LANG = 'es';
 /* ─── ESCALABLE SCORING ─── */
 function mGetLinkPenalty(){return 10+(G.clicks||0)*5;}
 function mGetTimePenalty(){var interval=Math.floor((G.sec||0)/30);return 10+(interval)*10;}
@@ -2056,7 +2057,7 @@ function updateFB(){
 }
 
 /* ─── INTRO ─── */
-function getDailyPair(){var d=new Date();return DAILY_PAIRS[(d.getFullYear()*366+d.getMonth()*31+d.getDate())%DAILY_PAIRS.length];}
+function getDailyPair(){var d=new Date();var pool=typeof ALL_PAIRS_MULTI!=='undefined'?ALL_PAIRS_MULTI:[];return pool.length?pool[(d.getFullYear()*366+d.getMonth()*31+d.getDate())%pool.length]:{s:'Fútbol',e:'Segunda Guerra Mundial'};}
 (function initIntro(){
   var p=getDailyPair();
   var d=new Date();
@@ -2415,7 +2416,7 @@ var G_HINT_USED=false;
 
 /* ── GIF LOADER (solo) ── */
 var _gifCacheSolo={};
-function loadRandomGifSolo(folder,cb){
+function loadRandomGif(folder,cb){
   if(_gifCacheSolo[folder]!==undefined){
     var l=_gifCacheSolo[folder];
     cb(l.length?l[Math.floor(Math.random()*l.length)]:null);return;
@@ -2638,7 +2639,7 @@ function endGame(won){
   /* Try to load winner GIF for solo mode */
   var wtEl=$('wtrophy');
   if(won){
-    loadRandomGifSolo('gifs/winner/', function(gifUrl){
+    loadRandomGif('gifs/winner/', function(gifUrl){
       if(gifUrl && wtEl){
         wtEl.innerHTML='<div style="position:relative;display:inline-block;padding-top:16px">'+
           '<img src="'+gifUrl+'" style="display:block;height:110px;max-width:220px;object-fit:contain;border-radius:10px;box-shadow:0 0 30px rgba(106,170,100,.25)" alt="">'+
@@ -2967,7 +2968,7 @@ function applyCustomPair(){
 }
 
 /* ── HEADER LANG SWITCHER ── */
-var M_LANG = 'es';
+
 function toggleMLang(){
   var dd = document.getElementById('m-lang-dd');
   if(!dd) return;
