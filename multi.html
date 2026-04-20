@@ -2369,13 +2369,23 @@ function checkAllFinished(){
     if(!data || !data.players) return;
     var players = data.players;
     var allDone = Object.values(players).every(function(p){ return p.finished; });
-    if(!data.firstWinner){
-      var me = players[ME.id];
-      if(me && me.finished){
-        var othersFinished = Object.entries(players).filter(function(e){
-          return e[0]!==ME.id && e[1].finished;
+
+    // Record MY arrival — each player writes their own arrival entry
+    var me = players[ME.id];
+    if(me && me.finished){
+      var arrivals = data.arrivals || {};
+      if(!arrivals[ME.id]){
+        // Not yet recorded — write it now
+        var arrivalIdx = Object.keys(arrivals).length + 1; // position: 1st, 2nd, 3rd...
+        ROOM.ref.child('arrivals/' + ME.id).set({
+          name: ME.name,
+          score: G.score,
+          time: G.sec,
+          pos: arrivalIdx,
+          ts: firebase.database.ServerValue.TIMESTAMP
         });
-        if(!othersFinished.length){
+        // Also keep firstWinner for backwards compat
+        if(arrivalIdx === 1){
           ROOM.ref.update({
             firstWinner: ME.id,
             firstWinnerName: ME.name,
@@ -2385,6 +2395,7 @@ function checkAllFinished(){
         }
       }
     }
+
     if(ME.isHost && allDone){
       ROOM.ref.update({status:'finished'});
     }
@@ -2431,31 +2442,49 @@ function loadRandomGif(folder, cb){
 }
 
 /* ── RIVAL ARRIVAL OVERLAY ── */
-function showRivalOverlay(name, score, time){
-  console.log('[RIVAL OVERLAY] Showing for:', name, score, time);
+function showRivalOverlay(name, score, time, pos){
   var ov = document.getElementById('rival-overlay');
   var roName = document.getElementById('ro-name');
   var roScore = document.getElementById('ro-score');
   var roSub = document.getElementById('ro-sub');
+  var roLabel = document.getElementById('ro-label');
   if(!ov) return;
+
+  // Position label: 1º, 2º, 3º...
+  var posLabels = ['','¡LLEGÓ PRIMERO!','¡LLEGÓ SEGUNDO!','¡LLEGÓ TERCERO!','¡LLEGÓ!'];
+  var posLabel = posLabels[pos] || ('¡LLEGÓ EN '+pos+'º LUGAR!');
+  if(roLabel) roLabel.textContent = posLabel;
   if(roName) roName.textContent = name;
-  if(roScore) roScore.textContent = score + ' pts' + (time ? ' · ' + mFmtTime(time) : '');
-  // Can the current player still beat this score?
+  if(roScore) roScore.textContent = score + ' pts' + (time ? '  ·  ' + mFmtTime(time) : '');
+
+  // Can I still beat this?
   var myScore = G.score || 0;
-  var canWin = myScore > score;
+  var canWin = !G.done && myScore > score;
   if(roSub){
-    if(canWin){
-      roSub.innerHTML = '<span style="color:#6aaa64;font-weight:700">¡Tienes ' + myScore + ' pts — todavía puedes ganarles!</span>';
+    if(G.done){
+      roSub.textContent = 'Partida terminada.';
+    } else if(canWin){
+      roSub.innerHTML = '<span style="color:#6aaa64;font-weight:700">¡Tienes '+myScore+' pts — aún puedes ganarles!</span>';
     } else {
-      roSub.textContent = 'Llega al destino para completar la partida.';
+      roSub.textContent = 'Sigue — ¡aún puedes llegar!';
     }
   }
-  // Update close button text
   var roClose = ov.querySelector('.ro-close');
-  if(roClose) roClose.textContent = canWin ? '¡Voy a por ellos! →' : 'Seguir jugando →';
+  if(roClose) roClose.textContent = (G.done || !canWin) ? 'OK' : '¡Voy a por ellos! →';
+
+  // If overlay already showing, queue this one after a short delay
+  if(ov.classList.contains('show')){
+    clearTimeout(ov._nextTimer);
+    ov._nextTimer = setTimeout(function(){
+      ov.classList.remove('show');
+      setTimeout(function(){ showRivalOverlay(name, score, time, pos); }, 300);
+    }, 2500);
+    return;
+  }
+
   ov.classList.add('show');
   clearTimeout(ov._timer);
-  ov._timer = setTimeout(closeRivalOverlay, canWin ? 5000 : 8000);
+  ov._timer = setTimeout(closeRivalOverlay, canWin ? 5000 : 4000);
 }
 function closeRivalOverlay(){
   var ov = document.getElementById('rival-overlay');
@@ -2470,20 +2499,13 @@ function closeRivalOverlay(){
 /* Listen for first winner announcement */
 function listenForWinner(){
   if(!ROOM.ref) return;
-  ROOM.ref.child('firstWinner').on('value', function(snap){
-    var winnerId = snap.val();
-    if(!winnerId) return;
-    if(winnerId !== ME.id){
-      // Someone else won — show big animated overlay
-      ROOM.ref.once('value').then(function(snap){
-        var rd = snap.val()||{};
-        var winnerName = rd.firstWinnerName||'Alguien';
-        var winnerScore = rd.firstWinnerScore||0;
-        var winnerTime = rd.firstWinnerTime||0;
-        // Show overlay regardless of G.done - user wants to know who won
-        showRivalOverlay(winnerName, winnerScore, winnerTime);
-      });
-    }
+  // Listen to 'arrivals' — fires for EVERY player that finishes
+  ROOM.ref.child('arrivals').on('child_added', function(snap){
+    var arrival = snap.val();
+    var arriverId = snap.key;
+    if(!arrival || arriverId === ME.id) return; // Don't show overlay for yourself
+    // Show overlay for every other player arrival
+    showRivalOverlay(arrival.name||'Alguien', arrival.score||0, arrival.time||0, arrival.pos||1);
   });
 }
 
@@ -2856,6 +2878,7 @@ function playAgain(){
     });
     updates.firstWinner = null; updates.firstWinnerName = null;
     updates.firstWinnerScore = null; updates.firstWinnerTime = null;
+    updates.arrivals = null;
     return ROOM.ref.update(updates);
   }).then(function(){
     showMScreen('waiting');
