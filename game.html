@@ -1189,6 +1189,8 @@ var ALL_CA_E=['Adolf Hitler','Forat negre','Física quàntica','Segona Guerra Mu
 
 /* ── WIKIPEDIA RANDOM API ── */
 /* Fetches a truly random Wikipedia article title */
+/* ── WIKIPEDIA RANDOM API ── */
+// Fetch N random articles, optionally filtered by minimum length
 function getWikiRandom(lang, cb){
   var wiki = lang==='en'?'en':lang==='eu'?'eu':lang==='ca'?'ca':'es';
   var url = 'https://'+wiki+'.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=2&format=json&origin=*';
@@ -1197,6 +1199,66 @@ function getWikiRandom(lang, cb){
     .then(function(d){
       var pages = d.query.random;
       cb(pages[0].title, pages[1].title);
+    })
+    .catch(function(){ cb(null, null); });
+}
+
+// Fetch one random article that passes quality filters
+// Filters out: disambiguation pages, very short stubs, list articles
+function getWikiRandomQuality(lang, cb, _attempts){
+  _attempts = _attempts || 0;
+  if(_attempts > 6){ cb(null); return; } // give up after 6 tries
+  var wiki = lang==='en'?'en':lang==='eu'?'eu':lang==='ca'?'ca':'es';
+  // Request 5 at once, pick best one
+  var url = 'https://'+wiki+'.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=5&format=json&origin=*';
+  fetch(url)
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var pages = d.query.random;
+      // Filter out obviously bad articles
+      var good = pages.filter(function(p){
+        var t = p.title;
+        // Skip list articles, disambiguation, annexes
+        if(/^(Anexo:|Lista de|Listado de|List of|Appendix:|Index of)/i.test(t)) return false;
+        // Skip articles with parenthetical disambiguation hints that indicate niche topics
+        // Allow normal parenthetical like "Mercury (planet)"
+        return true;
+      });
+      if(good.length > 0){
+        // Pick random from good candidates
+        cb(good[Math.floor(Math.random()*good.length)].title);
+      } else {
+        // Retry
+        getWikiRandomQuality(lang, cb, _attempts+1);
+      }
+    })
+    .catch(function(){ cb(null); });
+}
+
+// Get a full random pair (start + end) from Wikipedia
+// Both are truly random — this is the "Option 1" implementation
+function getWikiRandomPair(lang, cb){
+  var wiki = lang==='en'?'en':lang==='eu'?'eu':lang==='ca'?'ca':'es';
+  // Request 6 articles at once, use first 2 good ones
+  var url = 'https://'+wiki+'.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=6&format=json&origin=*';
+  fetch(url)
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var pages = d.query.random;
+      var good = pages.filter(function(p){
+        var t = p.title;
+        return !/^(Anexo:|Lista de|Listado de|List of|Appendix:|Index of)/i.test(t);
+      });
+      if(good.length >= 2 && good[0].title !== good[1].title){
+        cb(good[0].title, good[1].title);
+      } else if(good.length >= 1){
+        // Fetch one more
+        getWikiRandomQuality(lang, function(t2){
+          cb(good[0].title, t2 || good[0].title + ' (2)');
+        });
+      } else {
+        cb(null, null);
+      }
     })
     .catch(function(){ cb(null, null); });
 }
@@ -1532,28 +1594,36 @@ function initFieldArrow(){
 }
 setTimeout(initFieldArrow, 100);
 
-function shufflePresets(){
-  curPresets=[getRandPair(),getRandPair()];
-  var g=$('pgrid');
+function renderPresets(){
+  var g=$('pgrid'); if(!g) return;
   var h='';
   for(var i=0;i<curPresets.length;i++){
     h+='<button class="sugg" data-i="'+i+'"><span class="sugg-from">'+esc(curPresets[i].s)+'</span><span class="sugg-arr">→</span><span class="sugg-to">'+esc(curPresets[i].e)+'</span></button>';
   }
   g.innerHTML=h;
   g.querySelectorAll('.sugg').forEach(function(b){b.addEventListener('click',function(){var i=parseInt(this.getAttribute('data-i'));fillP(curPresets[i].s,curPresets[i].e);});});
-  /* Also try fetching fresh Wikipedia randoms in background */
-  getWikiRandom(lang, function(t1, t2){
-    if(!t1||!t2||!curPresets||!curPresets.length) return;
-    /* Replace starts with truly random Wikipedia articles */
-    curPresets[0].s = t1;
-    if(curPresets.length>1) curPresets[1].s = t2;
-    /* Re-render suggestions */
-    var h='';
-    for(var i=0;i<curPresets.length;i++){
-      h+='<button class="sugg" data-i="'+i+'"><span class="sugg-from">'+esc(curPresets[i].s)+'</span><span class="sugg-arr">→</span><span class="sugg-to">'+esc(curPresets[i].e)+'</span></button>';
-    }
-    var pg=$('pgrid');if(pg)pg.innerHTML=h;
-  });
+}
+
+function shufflePresets(){
+  // Show local fallbacks instantly while Wikipedia loads
+  curPresets=[getRandPair(),getRandPair()];
+  renderPresets();
+
+  // Fetch 2 fully random pairs from Wikipedia (both start AND end)
+  var loaded=0;
+  function tryLoad(idx){
+    getWikiRandomPair(lang, function(s,e){
+      if(s && e && s!==e){
+        curPresets[idx]={s:s,e:e};
+        renderPresets();
+      }
+      loaded++;
+      // After both loaded, do one more render
+      if(loaded===2) renderPresets();
+    });
+  }
+  tryLoad(0);
+  tryLoad(1);
 }
 function fillP(s,e){
   acVal.s=s;acVal.e=e;

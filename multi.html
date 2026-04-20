@@ -1962,16 +1962,49 @@ document.addEventListener('click', function(e){
   }
 });
 
+/* ── WIKIPEDIA RANDOM PAIR for multi ── */
+function getWikiRandomPair(lang, cb){
+  var wiki = lang==='en'?'en':lang==='eu'?'eu':lang==='ca'?'ca':'es';
+  var url = 'https://'+wiki+'.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=6&format=json&origin=*';
+  fetch(url)
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var pages = d.query.random;
+      var good = pages.filter(function(p){
+        return !/^(Anexo:|Lista de|Listado de|List of|Appendix:|Index of)/i.test(p.title);
+      });
+      if(good.length >= 2 && good[0].title !== good[1].title){
+        cb(good[0].title, good[1].title);
+      } else {
+        cb(null, null);
+      }
+    })
+    .catch(function(){ cb(null, null); });
+}
+
 function randomizePair(){
   if(!ME.isHost) return;
-  var p = ALL_PAIRS_MULTI[Math.floor(Math.random()*ALL_PAIRS_MULTI.length)];
-  // Pre-fill inputs
+  var lang = M_LANG || 'es';
+
+  // Show loading state
   var fi = msc('rs-input-from'), ti = msc('rs-input-to');
-  if(fi) fi.value = p.s;
-  if(ti) ti.value = p.e;
-  rsAcVals = {from:p.s, to:p.e};
-  ROOM.ref.update({ start: p.s, end: p.e });
-  mToast(p.s + ' → ' + p.e, 'hop', 2000);
+  if(fi) fi.value = '…';
+  if(ti) ti.value = '…';
+  mToast('Buscando palabras en Wikipedia…', 'time', 2000);
+
+  getWikiRandomPair(lang, function(s, e){
+    if(!s || !e){
+      // Fallback to local pool
+      var pool = ALL_PAIRS_MULTI;
+      var p = pool[Math.floor(Math.random()*pool.length)];
+      s = p.s; e = p.e;
+    }
+    if(fi) fi.value = s;
+    if(ti) ti.value = e;
+    rsAcVals = {from:s, to:e};
+    ROOM.ref.update({ start: s, end: e });
+    mToast(s + ' → ' + e, 'hop', 3000);
+  });
 }
 function setDailyPair(){
   if(!ME.isHost) return;
