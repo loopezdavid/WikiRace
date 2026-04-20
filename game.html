@@ -1141,24 +1141,269 @@ body.dark .hint-item:hover{background:var(--green-bg)}
 <script>
 /* ─── DATA ─── */
 /* Large pool for random Wikipedia-based suggestions */
-var ALL_ES=['Pulpo','Barcelona','Fútbol','Tortilla española','Bilbao','Flamenco','Gazpacho','Real Madrid','Paella','Jamón ibérico','Antoni Gaudí','Sevilla','Don Quijote','Pelota vasca','Sangría','Sagrada Familia','Chorizo','La Rioja','Castellers','Pelé','Cervantes','Picasso','Flamenco','Almería','Córdoba','Granada','Málaga','Zaragoza','Toledo','Burgos','Segovia'];
-var ALL_ES_END=['Adolf Hitler','Agujero negro','Genghis Kan','Física cuántica','Dinosaurio','Segunda Guerra Mundial','Revolución francesa','Albert Einstein','Universo','Napoleón Bonaparte','Guerra Fría','Revolución rusa','Homo sapiens','Big Bang','Mecánica cuántica','Revolución industrial','Charles Darwin','Isaac Newton','Revolución americana','Primera Guerra Mundial'];
-var ALL_EN_S=['Banana','Football','London','Pizza','Chess','Tennis','Cheese','The Beatles','Sushi','Basketball','Coffee','Shakespeare','Opera','Golf','Swimming'];
-var ALL_EN_E=['Adolf Hitler','Black hole','Genghis Khan','Quantum mechanics','World War II','Outer space','French Revolution','Albert Einstein','Big Bang','Napoleon','General relativity'];
-var ALL_EU_S=['Euskal Herria','Bilbo','Futbola','Itsasoa','Donostia','Pilota'];
-var ALL_EU_E=['Adolf Hitler','Dinosauroa','Unibertso','Bigarren Mundu Gerra','Albert Einstein','Fisika kuantikoa'];
-var ALL_CA_S=['Barcelona','Futbol','Flamenc','Paella','Antoni Gaudí','Castellers'];
-var ALL_CA_E=['Adolf Hitler','Forat negre','Física quàntica','Segona Guerra Mundial','Albert Einstein','Revolució francesa'];
+/* ── WORD POOLS (fallback) ── */
+var ALL_ES=[
+  // Comida y bebida
+  'Pulpo','Tortilla española','Paella','Jamón ibérico','Gazpacho','Chorizo','Sangría','Cava','Sidra','Horchata','Churros','Cocido madrileño','Fabada asturiana','Gambas al ajillo','Calamares','Turrón','Polvorón','Morcilla','Pisto','Escalivada','Bacalao','Merluza','Aceite de oliva','Pan','Queso manchego','Sobrasada','Butifarra','Pintxo','Croqueta','Gazpachuelo','Salmorejo','Puchero','Escudella','Callos','Marmitako','Cochinillo','Lechazo','Patatas bravas','Tortilla de camarones','Espinacas con garbanzos',
+  // Deportes
+  'Fútbol','Pelota vasca','Béisbol','Baloncesto','Tenis','Golf','Ciclismo','Atletismo','Natación','Boxeo','Ajedrez','Surf','Esquí','Escalada','Vela','Balonmano','Voleibol','Rugby','Waterpolo','Esgrima','Judo','Karate','Taekwondo','Lucha libre','Maratón','Triatlón','Remo','Hípica','Polo','Petanca','Bolos','Pádel','Squash','Badminton','Hockey',
+  // Arte y cultura
+  'Flamenco','Castellers','Ópera','Cine','Ballet','Jazz','Guitarra','Pintura','Escultura','Arquitectura','Fotografía','Teatro','Poesía','Literatura','Cómic','Novela','Cine mudo','Impresionismo','Cubismo','Surrealismo','Barroco','Renacimiento','Arte gótico','Música clásica','Música rock','Hip hop','Reggae','Tango','Salsa','Merengue',
+  // Geografía española y mundial
+  'Bilbao','Barcelona','Sevilla','Valencia','Madrid','Zaragoza','Málaga','Córdoba','Granada','Toledo','Burgos','Segovia','Salamanca','Cádiz','Murcia','Alicante','Palma','Las Palmas','Donostia','Vitoria','Amazonas','Sahara','Siberia','Himalayas','Andes','Alpes','Pirineos','Sierra Nevada','Kilimanjaro','Mont Blanc','Gran Barrera de Coral',
+  // Naturaleza
+  'Montaña','Océano','Río','Desierto','Selva tropical','Glaciar','Volcán','Coral','Manglar','Pradera','Tundra','Sabana','Pantano','Arrecife','Cascada','Terremoto','Tsunami','Huracán','Tornado','Relámpago','Aurora boreal','Eclipse solar','Cometa','Meteorito','Lago','Delta','Estuario','Cañón','Meseta','Acantilado',
+  // Animales
+  'Delfín','Águila','Lobo','Lince ibérico','Oso pardo','Toro','Caballo','Medusa','Cigüeña','Atún','Sardina','Cangrejo','Tortuga','Elefante','Jirafa','León','Tigre','Gorila','Chimpancé','Orangután','Ballena azul','Tiburón blanco','Pulpo gigante','Calamar gigante','Mantarraya','Pez espada','Cóndor','Albatros','Flamenco','Pavo real','Quetzal','Panda gigante','Koala','Canguro','Ornitorrinco',
+  // Ciencia y tecnología
+  'Bacteria','Genética','Fotosíntesis','Átomo','Cristal','Telescopio','Microscopio','Vacuna','Antibiótico','Electricidad','Magnetismo','Ordenador','Internet','Robot','Láser','Nanotecnología','Inteligencia artificial','Energía solar','Energía nuclear','Energía eólica','Superconductor','ADN','Proteína','Célula','Neurona','Hormona','Enzima','Ecosistema','Biodiversidad','Cambio climático',
+  // Historia y personajes
+  'Cervantes','Picasso','Antoni Gaudí','Velázquez','Goya','Federico García Lorca','Salvador Dalí','Rafael Nadal','Francisco de Quevedo','Julio César','Cleopatra','Marco Polo','Cristóbal Colón','Hernán Cortés','Francisco Pizarro','El Cid','Felipe II','Carlos V','Isabel la Católica','Fernando el Católico',
+  // Objetos e inventos
+  'Paraguas','Reloj','Espejo','Linterna','Brújula','Termómetro','Calculadora','Libro','Periódico','Moneda','Imprenta','Rueda','Máquina de vapor','Locomotora','Automóvil','Avión','Barco','Submarino','Cohete','Satélite','Teléfono','Radio','Televisión','Telégrafo','Cinematógrafo'
+];
+var ALL_ES_END=[
+  // Física y astronomía
+  'Agujero negro','Física cuántica','Mecánica cuántica','Relatividad','Big Bang','Universo','Sistema solar','Electromagnetismo','Neutrino','Materia oscura','Energía oscura','Cosmología','Fusión nuclear','Fisión nuclear','Mecánica clásica','Termodinámica','Óptica','Acústica','Gravedad','Fuerza de Lorentz',
+  // Biología y ciencias naturales
+  'ADN','Evolución','Selección natural','Tectónica de placas','Extinción','Fotosíntesis','Genética','Epigenética','Ecosistema','Célula','Neurociencia','Inmunología','Virología','Microbiología','Biodiversidad','Cambio climático','Efecto invernadero','Deforestación','Contaminación','Ecología',
+  // Historia bélica y política
+  'Segunda Guerra Mundial','Primera Guerra Mundial','Guerra Fría','Revolución francesa','Revolución rusa','Revolución industrial','Conquista de América','Imperio Romano','Edad Media','Revolución científica','Revolución americana','Guerra de los Cien Años','Cruzadas','Inquisición española','Guerra de Independencia española','Guerra del Pacífico','Guerra de Vietnam','Guerra de Corea','Guerra del Golfo','Apartheid',
+  // Personajes históricos
+  'Adolf Hitler','Albert Einstein','Napoleón Bonaparte','Genghis Kan','Charles Darwin','Isaac Newton','Homo sapiens','Karl Marx','Sigmund Freud','Leonardo da Vinci','Galileo Galilei','Nikola Tesla','Marie Curie','Stephen Hawking','Alan Turing','Max Planck','Niels Bohr','Werner Heisenberg','Erwin Schrödinger','Richard Feynman',
+  // Filosofía y conceptos sociales
+  'Democracia','Capitalismo','Socialismo','Feudalismo','Imperialismo','Globalización','Colonialismo','Genocidio','Holocausto','Comunismo','Anarquismo','Fascismo','Liberalismo','Nacionalismo','Populismo','Totalitarismo','Monarquía absoluta','República','Estado del bienestar','Derechos humanos',
+  // Cultura y religión
+  'Islam','Budismo','Hinduismo','Judaísmo','Iglesia católica','Protestantismo','Mitología griega','Mitología nórdica','Mitología egipcia','Biblia','Corán','Talmud','Filosofía griega','Renacimiento','Ilustración','Romanticismo','Modernismo','Posmodernismo','Existencialismo','Nihilismo'
+];
+var ALL_EN_S=[
+  'Banana','Football','London','Pizza','Chess','Tennis','Cheese','The Beatles','Sushi','Basketball','Coffee','Shakespeare','Golf','Swimming','Chocolate','Jazz','Ballet','Cricket','Rugby','Skiing','Cycling','Painting','Poetry','Architecture','Bread','Wine','Beer','Whiskey','Volcano','Earthquake','Tornado','Hurricane','Tsunami','Rainbow','Eclipse','Comet','Meteor','Fossil','Coral reef','Rainforest','Glacier','Desert','Oasis','Waterfall','Cave','Island','Peninsula','Mountain','River','Lake','Ocean','Dolphin','Eagle','Wolf','Tiger','Elephant','Penguin','Giraffe','Kangaroo','Octopus','Jellyfish','Honey','Silk','Cotton','Marble','Copper','Diamond','Salt','Spice','Telescope','Compass','Calendar','Alphabet','Printing press','Steam engine','Electricity','Photography','Cinema','Radio','Television','Antibiotics','Vaccine','Microscope','Laser','Nuclear reactor','Computer','Satellite','Spaceship','Submarine','Locomotive'
+];
+var ALL_EN_E=[
+  'Adolf Hitler','Black hole','Genghis Khan','Quantum mechanics','World War II','Outer space','French Revolution','Albert Einstein','Big Bang','Napoleon','General relativity','DNA','Roman Empire','Middle Ages','Solar System','Evolution','Extinction','Industrial Revolution','American Revolution','Natural selection','Cold War','Russian Revolution','World War I','Nuclear weapon','Climate change','Capitalism','Democracy','Communism','Fossil fuel','Plate tectonics','Human genome','Artificial intelligence','Internet','Atomic bomb','Marie Curie','Isaac Newton','Charles Darwin','Sigmund Freud','Karl Marx','Leonardo da Vinci','Nikola Tesla','Alan Turing','Stephen Hawking','Galileo Galilei','Buddhism','Islam','Hinduism','Judaism','Catholic Church','Ancient Egypt','Ancient Greece','Byzantine Empire','Ottoman Empire','British Empire','Colonialism','Slavery','Apartheid','Holocaust','Genocide','Human rights','Liberalism','Fascism','Anarchism','Feudalism'
+];
+var ALL_EU_S=['Euskal Herria','Bilbo','Futbola','Itsasoa','Donostia','Pilota','Basoa','Mendia','Herria','Musika','Dantza','Sagardoa','Artzaina','Baserria','Portua','Harrijasotzailea','Txakoli','Pintxoa','Arrantzalea','Txalaparta','Izarra','Harria','Ura','Sua','Lurra','Elurra','Haizea','Argia','Iluna','Udaberria','Uda','Udazkena','Negua'];
+var ALL_EU_E=['Adolf Hitler','Dinosauroa','Unibertso','Bigarren Mundu Gerra','Albert Einstein','Fisika kuantikoa','Eboluzioa','Sistema eguzkitarra','Demokrazia','Klima aldaketa','ADN','Lehen Mundu Gerra','Iraultza frantsesa','Erdi Aroa','Inprimagailua','Kapitalismoa','Sozialismoa','Komunismoa','Erromatar Inperioa','Kolonialismoa'];
+var ALL_CA_S=['Barcelona','Futbol','Flamenc','Paella','Antoni Gaudí','Castellers','Montserrat','Sardana','Cava','Bolets','Calçots','Esqueixada','Pa amb tomàquet','Porrón','Tramuntana','Costa Brava','Empordà','Ribera del Ebre','Penedès','Delta de l'Ebre','Rambla','Port Olímpic','Tibidabo','Sagrada Família','Palau de la Música','Camp Nou','Barri Gòtic','Eixample','Gràcia','Poblenou'];
+var ALL_CA_E=['Adolf Hitler','Forat negre','Física quàntica','Segona Guerra Mundial','Albert Einstein','Revolució francesa','ADN','Sistema solar','Evolució','Guerra Freda','Revolució Industrial','Imperi Romà','Edat Mitjana','Genoma humà','Canvi climàtic','Karl Marx','Marie Curie','Isaac Newton','Comunisme','Capitalisme'];
+
+/* ── WIKIPEDIA RANDOM API ── */
+/* Fetches a truly random Wikipedia article title */
+function getWikiRandom(lang, cb){
+  var wiki = lang==='en'?'en':lang==='eu'?'eu':lang==='ca'?'ca':'es';
+  var url = 'https://'+wiki+'.wikipedia.org/w/api.php?action=query&list=random&rnnamespace=0&rnlimit=2&format=json&origin=*';
+  fetch(url)
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var pages = d.query.random;
+      cb(pages[0].title, pages[1].title);
+    })
+    .catch(function(){ cb(null, null); });
+}
 
 var DAILY_PAIRS=[
+  // Enero
   {s:'Pulpo',e:'Adolf Hitler'},{s:'Gazpacho',e:'Agujero negro'},{s:'Flamenco',e:'Albert Einstein'},
   {s:'Paella',e:'Segunda Guerra Mundial'},{s:'Sangría',e:'Universo'},{s:'Bilbao',e:'Mecánica cuántica'},
   {s:'Don Quijote',e:'Big Bang'},{s:'Antoni Gaudí',e:'Revolución francesa'},
-  {s:'Pelota vasca',e:'Darwin'},{s:'Jamón ibérico',e:'Napoleón Bonaparte'},
+  {s:'Pelota vasca',e:'Charles Darwin'},{s:'Jamón ibérico',e:'Napoleón Bonaparte'},
   {s:'Sagrada Familia',e:'Revolución industrial'},{s:'Córdoba',e:'Homo sapiens'},
-  {s:'Toledo',e:'Primera Guerra Mundial'},{s:'Burgos',e:'Isaac Newton'}
-];
-
+  {s:'Toledo',e:'Primera Guerra Mundial'},{s:'Burgos',e:'Isaac Newton'},
+  {s:'Delfín',e:'Física cuántica'},{s:'Volcán',e:'Extinción'},
+  {s:'Ajedrez',e:'Segunda Guerra Mundial'},{s:'Chocolate',e:'Imperio Romano'},
+  {s:'Guitarra',e:'ADN'},{s:'Coral',e:'Selección natural'},
+  {s:'Lince ibérico',e:'Genghis Kan'},{s:'Telescopio',e:'Relatividad'},
+  {s:'Cine',e:'Guerra Fría'},{s:'Ballet',e:'Revolución rusa'},
+  {s:'Toro',e:'Mecánica cuántica'},{s:'Glaciar',e:'Tectónica de placas'},
+  {s:'Sardina',e:'Universo'},{s:'Fútbol',e:'Holocausto'},
+  {s:'Ópera',e:'Karl Marx'},{s:'Castellers',e:'Sistema solar'},
+  {s:'Ciclismo',e:'ADN'},
+  // Febrero
+  {s:'Cervantes',e:'Agujero negro'},{s:'Picasso',e:'Primera Guerra Mundial'},
+  {s:'Vacuna',e:'Imperialismo'},{s:'Bacteria',e:'Conquista de América'},
+  {s:'Montaña',e:'Albert Einstein'},{s:'Tortilla española',e:'Democracia'},
+  {s:'Surf',e:'Energía oscura'},{s:'Atún',e:'Revolución francesa'},
+  {s:'Microscopio',e:'Genocidio'},{s:'Internet',e:'Feudalismo'},
+  {s:'Lobo',e:'Isaac Newton'},{s:'Desierto',e:'Homo sapiens'},
+  {s:'Esquí',e:'Mecánica cuántica'},{s:'Moneda',e:'Imperio Romano'},
+  {s:'Reloj',e:'Relatividad'},{s:'Paraguas',e:'Capitalismo'},
+  {s:'Águila',e:'Colonialismo'},{s:'Murcia',e:'Revolución industrial'},
+  {s:'Calamares',e:'Genghis Kan'},{s:'Brújula',e:'Conquista de América'},
+  {s:'Jazz',e:'Guerra Fría'},{s:'Cómic',e:'Segunda Guerra Mundial'},
+  {s:'Sidra',e:'Revolución francesa'},{s:'Baloncesto',e:'ADN'},
+  {s:'Morcilla',e:'Física cuántica'},{s:'Teatro',e:'Imperio Romano'},
+  {s:'Vela',e:'Sistema solar'},{s:'Poesía',e:'Karl Marx'},
+  // Marzo
+  {s:'Fotografía',e:'Selección natural'},{s:'Churros',e:'Universo'},
+  {s:'Atletismo',e:'Homo sapiens'},{s:'Tenis',e:'Big Bang'},
+  {s:'Escalada',e:'Albert Einstein'},{s:'Cocido madrileño',e:'Primera Guerra Mundial'},
+  {s:'Boxeo',e:'Revolución industrial'},{s:'Goya',e:'Segunda Guerra Mundial'},
+  {s:'Dalí',e:'Mecánica cuántica'},{s:'Elefante',e:'Capitalismo'},
+  {s:'Jirafa',e:'Evolución'},{s:'Gorila',e:'ADN'},
+  {s:'Ballena azul',e:'Extinción'},{s:'Tiburón blanco',e:'Selección natural'},
+  {s:'Nanotecnología',e:'Revolución industrial'},{s:'Inteligencia artificial',e:'Segunda Guerra Mundial'},
+  {s:'Energía solar',e:'Cambio climático'},{s:'Energía nuclear',e:'Física cuántica'},
+  {s:'Terremoto',e:'Tectónica de placas'},{s:'Aurora boreal',e:'Electromagnetismo'},
+  {s:'Eclipse solar',e:'Sistema solar'},{s:'Cometa',e:'Universo'},
+  {s:'Lago',e:'Tectónica de placas'},{s:'Cañón',e:'Geología'},
+  {s:'Amazonas',e:'Biodiversidad'},{s:'Sahara',e:'Cambio climático'},
+  {s:'Himalayas',e:'Tectónica de placas'},{s:'Andes',e:'Conquista de América'},
+  {s:'Pirineos',e:'Edad Media'},{s:'Panda gigante',e:'Extinción'},
+  {s:'Koala',e:'Evolución'},
+  // Abril
+  {s:'Kiwi',e:'Evolución'},{s:'Canguro',e:'Selección natural'},
+  {s:'Ornitorrinco',e:'ADN'},{s:'Quetzal',e:'Conquista de América'},
+  {s:'Pavo real',e:'Selección natural'},{s:'Cóndor',e:'Imperio Romano'},
+  {s:'Flamenco',e:'Ecosistema'},{s:'Maratón',e:'Grecia antigua'},
+  {s:'Esgrima',e:'Edad Media'},{s:'Judo',e:'Segunda Guerra Mundial'},
+  {s:'Karate',e:'Segunda Guerra Mundial'},{s:'Remo',e:'Imperio Romano'},
+  {s:'Hípica',e:'Genghis Kan'},{s:'Petanca',e:'Revolución francesa'},
+  {s:'Pádel',e:'Capitalismo'},{s:'Balonmano',e:'Primera Guerra Mundial'},
+  {s:'Voleibol',e:'Segunda Guerra Mundial'},{s:'Waterpolo',e:'Grecia antigua'},
+  {s:'Triatlón',e:'Sistema solar'},{s:'Cóndor',e:'Conquista de América'},
+  {s:'León',e:'Imperialismo'},{s:'Tigre',e:'Colonialismo'},
+  {s:'Bacalao',e:'Conquista de América'},{s:'Merluza',e:'Ecosistema'},
+  {s:'Aceite de oliva',e:'Imperio Romano'},{s:'Queso manchego',e:'Edad Media'},
+  {s:'Sobrasada',e:'Revolución francesa'},{s:'Pintxo',e:'Capitalismo'},
+  {s:'Croqueta',e:'Segunda Guerra Mundial'},{s:'Patatas bravas',e:'Conquista de América'},
+  {s:'Salmorejo',e:'Colonialismo'},
+  // Mayo
+  {s:'Espinacas con garbanzos',e:'Conquista de América'},{s:'Impresionismo',e:'Revolución francesa'},
+  {s:'Cubismo',e:'Primera Guerra Mundial'},{s:'Surrealismo',e:'Segunda Guerra Mundial'},
+  {s:'Barroco',e:'Revolución científica'},{s:'Renacimiento',e:'Leonardo da Vinci'},
+  {s:'Arte gótico',e:'Edad Media'},{s:'Música rock',e:'Segunda Guerra Mundial'},
+  {s:'Hip hop',e:'Capitalismo'},{s:'Reggae',e:'Colonialismo'},
+  {s:'Tango',e:'Primera Guerra Mundial'},{s:'Salsa',e:'Guerra Fría'},
+  {s:'Merengue',e:'Conquista de América'},{s:'Novela',e:'Revolución francesa'},
+  {s:'Julio César',e:'Imperio Romano'},{s:'Cleopatra',e:'Imperio Romano'},
+  {s:'Marco Polo',e:'Genghis Kan'},{s:'Cristóbal Colón',e:'Conquista de América'},
+  {s:'Hernán Cortés',e:'Conquista de América'},{s:'Francisco Pizarro',e:'Conquista de América'},
+  {s:'El Cid',e:'Cruzadas'},{s:'Felipe II',e:'Inquisición española'},
+  {s:'Carlos V',e:'Reforma protestante'},{s:'Isabel la Católica',e:'Conquista de América'},
+  {s:'Fernando el Católico',e:'Inquisición española'},{s:'Neuronas',e:'ADN'},
+  {s:'Hormona',e:'Genética'},{s:'Enzima',e:'Fotosíntesis'},
+  {s:'Proteína',e:'ADN'},{s:'Célula',e:'Evolución'},
+  {s:'Ecosistema',e:'Extinción'},
+  // Junio
+  {s:'Biodiversidad',e:'Selección natural'},{s:'Contaminación',e:'Cambio climático'},
+  {s:'Deforestación',e:'Biodiversidad'},{s:'Energía eólica',e:'Cambio climático'},
+  {s:'Superconductor',e:'Física cuántica'},{s:'Epigenética',e:'ADN'},
+  {s:'Inmunología',e:'Vacuna'},{s:'Virología',e:'Pandemia'},
+  {s:'Microbiología',e:'Bacteria'},{s:'Neurociencia',e:'Sigmund Freud'},
+  {s:'Rueda',e:'Revolución industrial'},{s:'Máquina de vapor',e:'Revolución industrial'},
+  {s:'Locomotora',e:'Revolución industrial'},{s:'Automóvil',e:'Segunda Guerra Mundial'},
+  {s:'Avión',e:'Primera Guerra Mundial'},{s:'Submarino',e:'Segunda Guerra Mundial'},
+  {s:'Cohete',e:'Guerra Fría'},{s:'Satélite',e:'Guerra Fría'},
+  {s:'Teléfono',e:'Primera Guerra Mundial'},{s:'Radio',e:'Segunda Guerra Mundial'},
+  {s:'Televisión',e:'Guerra Fría'},{s:'Telégrafo',e:'Primera Guerra Mundial'},
+  {s:'Cinematógrafo',e:'Segunda Guerra Mundial'},{s:'Imprenta',e:'Revolución científica'},
+  {s:'Manga',e:'Segunda Guerra Mundial'},{s:'Origami',e:'Segunda Guerra Mundial'},
+  {s:'Sushi',e:'Segunda Guerra Mundial'},{s:'Sake',e:'Segunda Guerra Mundial'},
+  {s:'Zen',e:'Budismo'},{s:'Kabuki',e:'Revolución industrial'},
+  {s:'Samurái',e:'Segunda Guerra Mundial'},
+  // Julio
+  {s:'Ninja',e:'Segunda Guerra Mundial'},{s:'Geisha',e:'Imperialismo'},
+  {s:'Shogun',e:'Feudalismo'},{s:'Pirámide',e:'Antiguo Egipto'},
+  {s:'Esfinge',e:'Antiguo Egipto'},{s:'Papiro',e:'Antiguo Egipto'},
+  {s:'Momia',e:'Antiguo Egipto'},{s:'Obelisco',e:'Imperio Romano'},
+  {s:'Gladiador',e:'Imperio Romano'},{s:'Coliseo',e:'Imperio Romano'},
+  {s:'Senado',e:'República romana'},{s:'Toga',e:'Imperio Romano'},
+  {s:'Filósofo',e:'Filosofía griega'},{s:'Olimpiadas',e:'Grecia antigua'},
+  {s:'Tragedia griega',e:'Democracia'},{s:'Ágora',e:'Democracia'},
+  {s:'Catedral',e:'Edad Media'},{s:'Castillo',e:'Feudalismo'},
+  {s:'Caballero',e:'Cruzadas'},{s:'Troubadour',e:'Edad Media'},
+  {s:'Vikingo',e:'Edad Media'},{s:'Longbow',e:'Guerra de los Cien Años'},
+  {s:'Pólvora',e:'Conquista de América'},{s:'Carabela',e:'Conquista de América'},
+  {s:'Astrolabio',e:'Conquista de América'},{s:'Mapa',e:'Conquista de América'},
+  {s:'Especias',e:'Conquista de América'},{s:'Seda',e:'Genghis Kan'},
+  {s:'Porcelana',e:'Revolución industrial'},{s:'Brújula',e:'Conquista de América'},
+  {s:'Papel',e:'Revolución científica'},
+  // Agosto
+  {s:'Algodón',e:'Revolución industrial'},{s:'Marfil',e:'Colonialismo'},
+  {s:'Diamante',e:'Apartheid'},{s:'Oro',e:'Conquista de América'},
+  {s:'Plata',e:'Conquista de América'},{s:'Cobre',e:'Revolución industrial'},
+  {s:'Hierro',e:'Revolución industrial'},{s:'Carbón',e:'Revolución industrial'},
+  {s:'Petróleo',e:'Segunda Guerra Mundial'},{s:'Gas natural',e:'Guerra Fría'},
+  {s:'Uranio',e:'Segunda Guerra Mundial'},{s:'Plutonio',e:'Guerra Fría'},
+  {s:'Acero',e:'Revolución industrial'},{s:'Hormigón',e:'Imperio Romano'},
+  {s:'Plástico',e:'Segunda Guerra Mundial'},{s:'Nylon',e:'Segunda Guerra Mundial'},
+  {s:'Silicio',e:'Revolución industrial'},{s:'Fibra óptica',e:'Segunda Guerra Mundial'},
+  {s:'Transistor',e:'Guerra Fría'},{s:'Microchip',e:'Guerra Fría'},
+  {s:'Wifi',e:'Capitalismo'},{s:'Blockchain',e:'Capitalismo'},
+  {s:'Criptomoneda',e:'Capitalismo'},{s:'Big data',e:'Capitalismo'},
+  {s:'Realidad virtual',e:'Segunda Guerra Mundial'},{s:'Dron',e:'Guerra de Vietnam'},
+  {s:'GPS',e:'Guerra Fría'},{s:'Radar',e:'Segunda Guerra Mundial'},
+  {s:'Sonar',e:'Segunda Guerra Mundial'},{s:'Láser',e:'Segunda Guerra Mundial'},
+  {s:'Fibra óptica',e:'Capitalismo'},
+  // Septiembre
+  {s:'Anfibio',e:'Evolución'},{s:'Reptil',e:'Extinción'},
+  {s:'Mamífero',e:'Selección natural'},{s:'Ave',e:'Evolución'},
+  {s:'Insecto',e:'Biodiversidad'},{s:'Araña',e:'Evolución'},
+  {s:'Bacteria',e:'Vacuna'},{s:'Hongo',e:'Ecosistema'},
+  {s:'Alga',e:'Fotosíntesis'},{s:'Musgo',e:'Evolución'},
+  {s:'Helecho',e:'Carbonífero'},{s:'Cactus',e:'Evolución'},
+  {s:'Secuoya',e:'Cambio climático'},{s:'Bambú',e:'Segunda Guerra Mundial'},
+  {s:'Trigo',e:'Revolución neolítica'},{s:'Maíz',e:'Conquista de América'},
+  {s:'Arroz',e:'Segunda Guerra Mundial'},{s:'Papa',e:'Conquista de América'},
+  {s:'Tomate',e:'Conquista de América'},{s:'Cacao',e:'Conquista de América'},
+  {s:'Vainilla',e:'Conquista de América'},{s:'Chile',e:'Conquista de América'},
+  {s:'Girasol',e:'Revolución industrial'},{s:'Algodón',e:'Revolución industrial'},
+  {s:'Caucho',e:'Revolución industrial'},{s:'Quina',e:'Conquista de América'},
+  {s:'Coca',e:'Conquista de América'},{s:'Tabaco',e:'Conquista de América'},
+  {s:'Café',e:'Imperio Otomano'},{s:'Té',e:'Imperio Chino'},
+  {s:'Azúcar',e:'Colonialismo'},
+  // Octubre
+  {s:'Canela',e:'Conquista de América'},{s:'Pimienta',e:'Conquista de América'},
+  {s:'Sal',e:'Imperio Romano'},{s:'Miel',e:'Prehistoria'},
+  {s:'Levadura',e:'Revolución industrial'},{s:'Queso',e:'Edad Media'},
+  {s:'Mantequilla',e:'Revolución industrial'},{s:'Nata',e:'Revolución francesa'},
+  {s:'Yogur',e:'Revolución industrial'},{s:'Vinagre',e:'Imperio Romano'},
+  {s:'Alcohol',e:'Primera Guerra Mundial'},{s:'Destilación',e:'Edad Media'},
+  {s:'Fermentación',e:'Revolución industrial'},{s:'Pasteurización',e:'Revolución industrial'},
+  {s:'Vitamina',e:'Segunda Guerra Mundial'},{s:'Proteína',e:'Revolución industrial'},
+  {s:'Carbohidrato',e:'Revolución industrial'},{s:'Grasa',e:'Revolución industrial'},
+  {s:'Fibra',e:'Revolución industrial'},{s:'Mineral',e:'Revolución industrial'},
+  {s:'Oxígeno',e:'Revolución industrial'},{s:'Nitrógeno',e:'Primera Guerra Mundial'},
+  {s:'Hidrógeno',e:'Segunda Guerra Mundial'},{s:'Carbono',e:'Cambio climático'},
+  {s:'Calcio',e:'Evolución'},{s:'Hierro',e:'Evolución'},
+  {s:'Sodio',e:'Revolución industrial'},{s:'Cloro',e:'Primera Guerra Mundial'},
+  {s:'Ácido',e:'Revolución industrial'},{s:'Base',e:'Revolución industrial'},
+  {s:'Sal',e:'Conquista de América'},
+  // Noviembre
+  {s:'Átomo',e:'Bomba atómica'},{s:'Electrón',e:'Segunda Guerra Mundial'},
+  {s:'Protón',e:'Segunda Guerra Mundial'},{s:'Neutrón',e:'Segunda Guerra Mundial'},
+  {s:'Fotón',e:'Relatividad'},{s:'Quark',e:'Física cuántica'},
+  {s:'Bosón de Higgs',e:'Big Bang'},{s:'Antimateria',e:'Universo'},
+  {s:'Agujero de gusano',e:'Relatividad'},{s:'Estrella de neutrones',e:'Universo'},
+  {s:'Supernova',e:'Universo'},{s:'Nebulosa',e:'Sistema solar'},
+  {s:'Galaxia',e:'Big Bang'},{s:'Vía Láctea',e:'Sistema solar'},
+  {s:'Andrómeda',e:'Big Bang'},{s:'Púlsar',e:'Relatividad'},
+  {s:'Cuásar',e:'Agujero negro'},{s:'Telescopio espacial Hubble',e:'Big Bang'},
+  {s:'Estación Espacial Internacional',e:'Guerra Fría'},{s:'Luna',e:'Sistema solar'},
+  {s:'Marte',e:'Sistema solar'},{s:'Saturno',e:'Sistema solar'},
+  {s:'Júpiter',e:'Sistema solar'},{s:'Venus',e:'Sistema solar'},
+  {s:'Mercurio',e:'Sistema solar'},{s:'Urano',e:'Sistema solar'},
+  {s:'Neptuno',e:'Sistema solar'},{s:'Plutón',e:'Sistema solar'},
+  {s:'Cinturón de asteroides',e:'Sistema solar'},{s:'Cinturón de Kuiper',e:'Sistema solar'},
+  {s:'Nube de Oort',e:'Sistema solar'},
+  // Diciembre
+  {s:'Pompeya',e:'Imperio Romano'},{s:'Atenas',e:'Democracia'},
+  {s:'Esparta',e:'Grecia antigua'},{s:'Troya',e:'Grecia antigua'},
+  {s:'Cartago',e:'Imperio Romano'},{s:'Alejandría',e:'Antiguo Egipto'},
+  {s:'Babilonia',e:'Antiguo Egipto'},{s:'Mesopotamia',e:'Escritura cuneiforme'},
+  {s:'Sumeria',e:'Revolución neolítica'},{s:'Persia',e:'Grecia antigua'},
+  {s:'Mongolia',e:'Genghis Kan'},{s:'China',e:'Segunda Guerra Mundial'},
+  {s:'Japón',e:'Segunda Guerra Mundial'},{s:'India',e:'Colonialismo'},
+  {s:'África',e:'Colonialismo'},{s:'América',e:'Conquista de América'},
+  {s:'Australia',e:'Colonialismo'},{s:'Antártida',e:'Cambio climático'},
+  {s:'Ártico',e:'Cambio climático'},{s:'Mediterráneo',e:'Imperio Romano'},
+  {s:'Atlántico',e:'Conquista de América'},{s:'Pacífico',e:'Segunda Guerra Mundial'},
+  {s:'Índico',e:'Conquista de América'},{s:'Ártico',e:'Cambio climático'},
+  {s:'Polo Norte',e:'Cambio climático'},{s:'Polo Sur',e:'Cambio climático'},
+  {s:'Ecuador',e:'Conquista de América'},{s:'Meridiano',e:'Conquista de América'},
+  {s:'Latitud',e:'Conquista de América'},{s:'Longitud',e:'Conquista de América'},
+  {s:'Proyección de Mercator',e:'Conquista de América'}
+]
 /* ─── STATE ─── */
 var lang='es',G={},acT={s:null,e:null},acVal={s:'',e:''},curPresets=[],isDaily=false;
 var S0=1000;
@@ -1296,6 +1541,19 @@ function shufflePresets(){
   }
   g.innerHTML=h;
   g.querySelectorAll('.sugg').forEach(function(b){b.addEventListener('click',function(){var i=parseInt(this.getAttribute('data-i'));fillP(curPresets[i].s,curPresets[i].e);});});
+  /* Also try fetching fresh Wikipedia randoms in background */
+  getWikiRandom(lang, function(t1, t2){
+    if(!t1||!t2||!curPresets||!curPresets.length) return;
+    /* Replace starts with truly random Wikipedia articles */
+    curPresets[0].s = t1;
+    if(curPresets.length>1) curPresets[1].s = t2;
+    /* Re-render suggestions */
+    var h='';
+    for(var i=0;i<curPresets.length;i++){
+      h+='<button class="sugg" data-i="'+i+'"><span class="sugg-from">'+esc(curPresets[i].s)+'</span><span class="sugg-arr">→</span><span class="sugg-to">'+esc(curPresets[i].e)+'</span></button>';
+    }
+    var pg=$('pgrid');if(pg)pg.innerHTML=h;
+  });
 }
 function fillP(s,e){
   acVal.s=s;acVal.e=e;
@@ -1421,6 +1679,8 @@ function startGame(daily){
   if(!s||!e){shake('btn-start');toast('Selecciona o escribe ambas entradas','pen');return;}
   isDaily=!!daily;clearInterval(G.timer);
   G={start:s,end:e,cur:s,path:[s],hist:[],clicks:0,backs:0,sec:0,score:S0,timer:null,done:false,replay:[{n:s,t:null,_abs:0}]};G_HINT_USED=false;G_HINT_COUNT=0;
+  // Preload winner GIF silently during gameplay for instant display at end
+  setTimeout(function(){ loadRandomGifSolo('gifs/winner/', function(url){ if(url) G._preloadedWinGif=url; }); }, 1500);
   $('trf').textContent=s;$('trt').textContent=e;
   $('sb-lb').textContent=lang.toUpperCase();
   $('score-num').textContent=S0;$('score-num').style.color='#6aaa64';
@@ -1779,7 +2039,7 @@ function endGame(won){
   /* Try to load winner GIF for solo mode */
   var wtEl=$('wtrophy');
   if(won){
-    loadRandomGifSolo('gifs/winner/', function(gifUrl){
+    var doShowSolo = function(gifUrl){
       if(gifUrl && wtEl){
         wtEl.innerHTML='<div style="position:relative;display:inline-block;padding-top:16px">'+
           '<img src="'+gifUrl+'" style="display:block;height:110px;max-width:220px;object-fit:contain;border-radius:10px;box-shadow:0 0 30px rgba(106,170,100,.25)" alt="">'+
@@ -1789,7 +2049,13 @@ function endGame(won){
       } else if(wtEl){
         wtEl.innerHTML='<span style="display:inline-flex;align-items:center;flex-shrink:0;color:#c9b458;font-size:52px;animation:trophyFloat 2s ease-in-out infinite">🏆</span>';
       }
-    });
+    };
+    // Use preloaded if available, otherwise fetch now
+    if(G._preloadedWinGif){
+      doShowSolo(G._preloadedWinGif);
+    } else {
+      loadRandomGifSolo('gifs/winner/', doShowSolo);
+    }
   } else if(wtEl){
     wtEl.innerHTML='<span style="display:inline-flex;align-items:center;flex-shrink:0;color:var(--red);"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="4" opacity=".3"/><path d="M14 14l12 12M26 14L14 26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span>';
   }
