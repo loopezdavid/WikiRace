@@ -2089,12 +2089,13 @@ function beginGame(start, end, lang){
 }
 
 function pushMyState(){
-  if(!ROOM.ref || !ME.id) return;
+  if(!ROOM.ref || !ME.id) return Promise.resolve();
   var ref = ROOM.ref.child('players/' + ME.id);
-  ref.update({
+  return ref.update({
     score:   G.score,
     hops:    Math.max(0, G.path.length - 1),
     backs:   G.backs,
+    clicks:  G.clicks || 0,
     current: G.cur,
     path:    G.path,
     finished:!!G.done,
@@ -2334,9 +2335,9 @@ function mGiveUp(){
   if(!confirm('¿Seguro que te rindes?')) return;
   G.done = true;
   clearInterval(G.timer);
-  pushMyState();
-  // Check if all done
-  checkAllFinished();
+  pushMyState().then(function(){
+    checkAllFinished();
+  });
 }
 
 function mCheckWin(title){
@@ -2349,12 +2350,15 @@ function mCheckWin(title){
   if(hit){
     G.done = true;
     clearInterval(G.timer);
-    pushMyState(); // push finished:true to Firebase
+    // Push finished state to Firebase FIRST, then check
+    pushMyState().then(function(){
+      checkAllFinished();
+    }).catch(function(){
+      setTimeout(checkAllFinished, 1000);
+    });
     mConfetti();
     mToast('¡Lo lograste! '+G.score+' pts','hop',3000);
     setTimeout(function(){ showWinOverlay(); }, 600);
-    // Host: check after Firebase propagates (give it 2s)
-    setTimeout(checkAllFinished, 1500);
   }
 }
 
@@ -2428,6 +2432,7 @@ function loadRandomGif(folder, cb){
 
 /* ── RIVAL ARRIVAL OVERLAY ── */
 function showRivalOverlay(name, score, time){
+  console.log('[RIVAL OVERLAY] Showing for:', name, score, time);
   var ov = document.getElementById('rival-overlay');
   var roName = document.getElementById('ro-name');
   var roScore = document.getElementById('ro-score');
@@ -2475,9 +2480,8 @@ function listenForWinner(){
         var winnerName = rd.firstWinnerName||'Alguien';
         var winnerScore = rd.firstWinnerScore||0;
         var winnerTime = rd.firstWinnerTime||0;
-        if(!G.done){
-          showRivalOverlay(winnerName, winnerScore, winnerTime);
-        }
+        // Show overlay regardless of G.done - user wants to know who won
+        showRivalOverlay(winnerName, winnerScore, winnerTime);
       });
     }
   });
@@ -2706,21 +2710,75 @@ function showResults(players){
   var compareGrid = document.getElementById('res-compare-grid');
   if(compareEl && compareGrid && pArr.length >= 2){
     compareEl.style.display = 'block';
-    var maxScore = Math.max.apply(null, pArr.map(function(e){return e[1].score||0;}));
-    var maxHops = Math.max.apply(null, pArr.map(function(e){return (e[1].path||[]).length||1;})) || 1;
-    var maxTime = Math.max.apply(null, pArr.map(function(e){return e[1].finishedAt||e[1].sec||0;})) || 1;
+
+    // Extract raw values - use multiple fallbacks for robustness
+    var scores = pArr.map(function(e){ return e[1].score||0; });
+    var hops   = pArr.map(function(e){
+      var p=e[1];
+      var pathLen=(p.path&&p.path.length>1)?p.path.length-1:0;
+      return pathLen || p.hops || p.clicks || 0;
+    });
+    var times  = pArr.map(function(e){
+      var p=e[1];
+      // finishedAt is G.sec at time of finish (seconds)
+      return p.finishedAt || p.sec || 0;
+    });
+
+    var maxScore = Math.max.apply(null,scores)||1;
+    var nonZeroHops = hops.filter(function(v){return v>0;});
+    var nonZeroTimes = times.filter(function(v){return v>0;});
+    var minHops = nonZeroHops.length ? Math.min.apply(null,nonZeroHops) : 1;
+    var maxHops = nonZeroHops.length ? Math.max.apply(null,nonZeroHops) : 1;
+    var minTime = nonZeroTimes.length ? Math.min.apply(null,nonZeroTimes) : 1;
+    var maxTime = nonZeroTimes.length ? Math.max.apply(null,nonZeroTimes) : 1;
+
     var metrics = [
-      {label:'Puntos', key:'score', max:maxScore, color:'#6aaa64', fmt:function(v){return v;}},
-      {label:'Saltos', key:'hops', max:maxHops, color:'#3b82f6', fmt:function(v){return v;}, invert:true},
-      {label:'Tiempo', key:'time', max:maxTime, color:'#c9b458', fmt:mFmtTime, invert:true}
+      {
+        label:'Puntos', color:'#6aaa64',
+        get: function(p){ return p.score||0; },
+        pct: function(v){
+          if(maxScore===0) return 50;
+          // Normalize: show real difference. If range is small, exaggerate it
+          var range = maxScore - Math.min.apply(null,scores);
+          if(range < 10) return Math.round(60 + (v - Math.min.apply(null,scores)) / Math.max(range,1) * 40);
+          return Math.round((v/maxScore)*100);
+        },
+        fmt: function(v){ return v+'pts'; }
+      },
+      {
+        label:'Saltos', color:'#3b82f6',
+        get: function(p){
+          var pathLen=(p.path&&p.path.length>1)?p.path.length-1:0;
+          return pathLen || p.hops || p.clicks || 0;
+        },
+        pct: function(v){
+          if(!v || maxHops===0) return 50;
+          if(minHops===maxHops) return 100; // all equal
+          // fewer hops = better = taller bar
+          // Scale: best (min) = 100%, worst (max) = 20%
+          return Math.round(20 + (1 - (v-minHops)/Math.max(maxHops-minHops,1)) * 80);
+        },
+        fmt: function(v){ return v+' saltos'; }
+      },
+      {
+        label:'Tiempo', color:'#c9b458',
+        get: function(p){ return p.finishedAt||p.sec||0; },
+        pct: function(v){
+          if(!v || maxTime===0) return 50;
+          if(minTime===maxTime) return 100; // all equal
+          // less time = better = taller bar
+          // Scale: best (min) = 100%, worst (max) = 20%
+          return Math.round(20 + (1 - (v-minTime)/Math.max(maxTime-minTime,1)) * 80);
+        },
+        fmt: mFmtTime
+      }
     ];
+
     compareGrid.innerHTML = metrics.map(function(m){
       var bars = pArr.slice(0,4).map(function(entry){
         var p = entry[1];
-        var raw = m.key==='score'?(p.score||0):m.key==='hops'?((p.path||[]).length||p.hops||0):(p.finishedAt||p.sec||0);
-        var pct = m.max>0 ? Math.round((raw/m.max)*100) : 0;
-        if(m.invert) pct = raw>0 ? Math.round((m.max/raw)*100) : 0;
-        pct = Math.max(8, Math.min(100, pct));
+        var raw = m.get(p);
+        var pct = Math.min(100, Math.max(10, m.pct(raw)));
         var initials = (p.name||'?').slice(0,2).toUpperCase();
         return '<div class="rcg-bar-wrap">'+
           '<div class="rcg-av" style="background:'+(p.color||'#538d4e')+'">'+initials+'</div>'+
@@ -2730,6 +2788,7 @@ function showResults(players){
       }).join('');
       return '<div class="rcg-row"><span class="rcg-label">'+m.label+'</span><div class="rcg-bars">'+bars+'</div></div>';
     }).join('');
+
     // Animate bars after render
     requestAnimationFrame(function(){
       setTimeout(function(){
